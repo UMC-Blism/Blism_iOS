@@ -1,12 +1,12 @@
 ---
-name: Bug Report
-about: 버그 발생 시 작성해주세요.
-title: "[Bug] #[issue number] [issue title]"
+name: Fix/Bug Report
+about: 오류/버그 발생 시 작성해주세요.
+title: "[Fix or Bug] #[issue number] [issue title]"
 labels: bug
 assignees: 
 ---
 
-## 1. Issue : 🐞 Bug
+## 1. Issue : 🐞 Fix / Bug
 발생한 문제에 대해 설명해주세요.
 
 ## 2. 원인 파악
