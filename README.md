@@ -59,9 +59,9 @@
             - ex) fix/#111-login
         - 리팩토링: `refactor/#[이슈번호]-title`
             - ex) refactor/#111-login
-3. **생성한 브랜치에서 작업 수행** 
-4. **원격 저장소에 작업 브랜치 푸시** 
-5. **Pull Request 생성**
+    3. **생성한 브랜치에서 작업 수행** 
+    4. **원격 저장소에 작업 브랜치 푸시** 
+    5. **Pull Request 생성**
     - `develop` 브랜치 대상으로 Pull Request 생성
     - 리뷰어의 리뷰를 받은 후 PR을 승인 받고 `develop` 브랜치에 병합 후 브랜치 삭제
 ---
