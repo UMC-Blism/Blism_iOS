@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    private let rootView = SampleView()
+    private let rootView = LoginView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
