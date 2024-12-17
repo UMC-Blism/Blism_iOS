@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SampleView: UIView {
+class HomeView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,9 +37,13 @@ class SampleView: UIView {
         
         return image
     }()
+    
+    public var doorCollectionView = BuildCollectionView(frame: .zero)
+    
     func setupView(){
         addSubview(backgroundImage)
         addSubview(mailboxImage)
+        addSubview(doorCollectionView)
         
         backgroundImage.snp.makeConstraints{
             $0.edges.equalToSuperview()
@@ -47,6 +51,12 @@ class SampleView: UIView {
         mailboxImage.snp.makeConstraints{
             $0.top.equalToSuperview().offset(99)
             $0.centerX.equalToSuperview()
+        }
+        doorCollectionView.snp.makeConstraints{
+            $0.top.equalTo(mailboxImage.snp.top).offset(137)
+            $0.centerX.equalTo(mailboxImage)
+            $0.bottom.equalTo(mailboxImage.snp.bottom).offset(-65)
+            $0.width.equalTo(286)
         }
     }
 }
