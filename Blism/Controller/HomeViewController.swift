@@ -14,6 +14,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = rootView
+        rootView.doorCollectionView.dataSource = self
     }
 
 
@@ -21,11 +22,17 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
+       return MailBoxCollectionViewModel.Dummy().count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        guard let MailBoxCell = rootView.doorCollectionView.dequeueReusableCell(withReuseIdentifier: MailBoxCollectionViewCell.identifier, for: indexPath) as? MailBoxCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        let Dummy = MailBoxCollectionViewModel.Dummy()
+        MailBoxCell.doorImage.image = Dummy[indexPath.row].doorImage
+        
+        return MailBoxCell
     }
     
     

@@ -8,7 +8,7 @@
 import UIKit
 
 class MailBoxCollectionViewCell: UICollectionViewCell {
-    static let identifier = "MailBoxCollectionView"
+    static let identifier = "doorCollectionView"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,7 +26,9 @@ class MailBoxCollectionViewCell: UICollectionViewCell {
         addSubview(doorImage)
         
         doorImage.snp.makeConstraints{
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.width.equalTo(46)
+            $0.height.equalTo(86)
         }
     }
 }
