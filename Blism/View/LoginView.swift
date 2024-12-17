@@ -77,6 +77,8 @@ class LoginView : UIView {
         btn.setTitle("블리즘 시작하기", for: .normal)
         btn.setTitleColor( UIColor(hex: "#FFF8EF"), for: .normal)
         btn.backgroundColor = UIColor(hex: "#6C8FC6")
+        btn.layer.cornerRadius = 10
+        btn.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFont.Weight(600))
     }
     
     override init(frame: CGRect) {
@@ -188,13 +190,13 @@ class LoginView : UIView {
         // 중복 확인 버튼
         checkIdButton.snp.makeConstraints { make in
             make.trailing.bottom.equalToSuperview()
-            make.width.equalTo(97)
+            make.width.equalTo(100)
             make.height.equalTo(20)
         }
         
         // 비밀번호 그룹
         passwordGroupView.snp.makeConstraints { make in
-            make.top.equalTo(loginGroupView.snp.bottom).offset(29)
+            make.top.equalTo(idGroupView.snp.bottom).offset(29)
             make.horizontalEdges.equalToSuperview().inset(24)
             make.bottom.equalToSuperview().inset(17)
         }
