@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EA6492CA2D11544D0097E866 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = EA6492C92D11544D0097E866 /* SnapKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		CBB64F3F2D1015BA0084FADB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA6492CA2D11544D0097E866 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = Blism;
 			packageProductDependencies = (
+				EA6492C92D11544D0097E866 /* SnapKit */,
 			);
 			productName = Blism;
 			productReference = CBB64F282D1015B90084FADB /* Blism.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = CBB64F1F2D1015B90084FADB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				EA6492C82D11544D0097E866 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CBB64F292D1015B90084FADB /* Products */;
 			projectDirPath = "";
@@ -567,6 +576,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EA6492C82D11544D0097E866 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EA6492C92D11544D0097E866 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EA6492C82D11544D0097E866 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CBB64F202D1015B90084FADB /* Project object */;
 }

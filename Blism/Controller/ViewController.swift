@@ -9,9 +9,11 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    private let rootView = SampleView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view = rootView
     }
 
 
