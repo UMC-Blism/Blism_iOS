@@ -10,6 +10,12 @@ import Then
 import SnapKit
 
 class LoginView : UIView {
+    // 백그라운드 이미지 뷰
+    private let backgroundImageView = UIImageView().then { view in
+        view.image = .whiteBackground
+        view.contentMode = .scaleAspectFill
+    }
+    
     // 로고 + 로그인 뷰 그룹
     private let groupView = UIView()
     
@@ -75,7 +81,6 @@ class LoginView : UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setSubView()
         setUI()
     }
@@ -112,10 +117,19 @@ class LoginView : UIView {
             loginGroupView // 로그인 그룹
         ].forEach{groupView.addSubview($0)} // 로고 + 로그인 그룹
         
-        self.addSubview(groupView)
+        [
+            backgroundImageView,
+            groupView
+        ].forEach{self.addSubview($0)}
+        
     }
     
     private func setUI(){
+        
+        // 백그라운드 이미지
+        backgroundImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         // 전체 그룹
         groupView.snp.makeConstraints { make in
