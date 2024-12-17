@@ -2,8 +2,6 @@
 
 # 🍎 Blism_iOS 🍎
 
-```![]() 로고
-```
 ### 가천대학교 UMC 7기 장기해커톤 B팀 Blism iOS 레포지토리입니다.
 #### [B팀 노션 링크](https://makeus-challenge.notion.site/B-b2b1ba8361ff437fb353d5d36f4cb37a?pvs=4)
 
@@ -13,7 +11,7 @@
 |[이수현 (Soo)](https://github.com/LeeeeSuHyeon)|[송재곤 (Azin)](https://github.com/worhs02)|[이재혁 (Ham)](https://github.com/hamgui-2022)|
 |팀장 👑|팀원 👨🏻‍💻|팀원 👨🏻‍💻|
 |내 밑으로 다 꿇어라.|굽신굽신...🙇🏻|다섯 살은 집에 두고 왔습니다.5️⃣|
-|`어쩌고화면`<br/>`어쩌고화면`<br/>|`어쩌고화면`<br/>`어쩌고화면`<br/>|`어쩌고화면`<br/>`어쩌고화면`<br/>
+|`스플래쉬`<br/>`온보딩`<br/>`마이페이지`<br/>|`홈화면`<br/>`메시지확인`<br/>|`편지 작성`<br/>`검색창`<br/>
 
 </div>
 <br/>
@@ -33,10 +31,10 @@
 ## 📚 Libraries 📚
 | Name         | Version  |  Description        |
 | ------------ |  :-----: |  ------------ |
-| [Then](https://github.com/devxoul/Then) | `버전` | 간결하고 직관적인 방식으로 객체를 설정할 수 있게 도와준다. |
-| [SnapKit](https://github.com/SnapKit/SnapKit) | `버전` | Auto Layout을 코드로 작성할 때 간단하게 가독성을 높일 수 있다. |
-| [Moya](https://github.com/Moya/Moya) |  `버전`  | 네트워크 요청을 관리하는 데 도움을 주는 Alamofire 기반의 네트워크 추상화 라이브러리.|
-| [Kingfisher](https://github.com/onevcat/Kingfisher) | `버전` | URL 기반의 이미지를 효율적으로 다운로드 및 캐싱할 수 있다. |
+| [Then](https://github.com/devxoul/Then) | `3.0.0` | 간결하고 직관적인 방식으로 객체를 설정할 수 있게 도와준다. |
+| [SnapKit](https://github.com/SnapKit/SnapKit) | `5.7.1` | Auto Layout을 코드로 작성할 때 간단하게 가독성을 높일 수 있다. |
+| [Moya](https://github.com/Moya/Moya) |  `15.0.3`  | 네트워크 요청을 관리하는 데 도움을 주는 Alamofire 기반의 네트워크 추상화 라이브러리.|
+| [Kingfisher](https://github.com/onevcat/Kingfisher) | `8.1.2` | URL 기반의 이미지를 효율적으로 다운로드 및 캐싱할 수 있다. |
 
 
 ## 💻 Convention 💻
