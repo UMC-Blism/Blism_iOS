@@ -46,6 +46,15 @@ class MyPageView : UIView {
         lbl.textAlignment = .center
     }
     
+    // 테이블 뷰
+    public let tableView = UITableView(frame: .zero).then { view in
+        view.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.id)
+        view.separatorStyle = .none
+        view.backgroundColor = .clear
+        view.showsVerticalScrollIndicator = false
+        view.sectionHeaderTopPadding = 0 // 헤더 패딩 제거
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
@@ -67,6 +76,7 @@ class MyPageView : UIView {
         [
             backgroundImageView,
             infoGroupView,
+            tableView
         ].forEach{self.addSubview($0)}
     }
     
@@ -102,6 +112,13 @@ class MyPageView : UIView {
             make.top.equalTo(dayDescriptionLabel.snp.bottom).offset(8)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview().inset(12.5)
+        }
+        
+        // tableView
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(infoGroupView.snp.bottom).offset(61)
+            make.horizontalEdges.equalToSuperview().inset(15)
+            make.bottom.equalToSuperview().inset(10)
         }
     }
 }

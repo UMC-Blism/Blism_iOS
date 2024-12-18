@@ -23,6 +23,7 @@ class MyPageTableViewCell : UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setCell()
         setSubView()
         setUI()
     }
@@ -35,7 +36,14 @@ class MyPageTableViewCell : UITableViewCell {
         [titleLabel, selectButton].forEach{self.addSubview($0)}
     }
     
+    private func setCell(){
+        self.backgroundColor = .white
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
+    }
+    
     private func setUI(){
+        
         // 타이틀 라벨
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(20)
