@@ -10,11 +10,11 @@ import UIKit
 class LetterListTableViewCell : UITableViewCell {
     static let id = "LetterListTableViewCell"
     
-    // 날짜
+    // 날짜 -> 셀 헤더 뷰로 빼도 됨
     private let dateLabel = UILabel().then { lbl in
+        lbl.backgroundColor = .clear
         lbl.text = "2024⋅12⋅12⋅목요일"
         lbl.font = .customFont(font: .PretendardLight, ofSize: 15)
-        lbl.textColor = .blismBlack
     }
     
     // 편지 그룹
@@ -22,8 +22,8 @@ class LetterListTableViewCell : UITableViewCell {
         view.layer.cornerRadius = 10
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 0.2
-        view.layer.shadowOpacity = 4
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.2
         view.layer.masksToBounds = false
     }
     
@@ -41,7 +41,7 @@ class LetterListTableViewCell : UITableViewCell {
     
     // 편지 내용
     private let contentLabel = UILabel().then { lbl in
-        lbl.text = "편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용"
+        lbl.text = "편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용편지내용"
         lbl.font = .customFont(font: .PretendardLight, ofSize: 15)
         lbl.tintColor = .blismBlack
         lbl.numberOfLines = 3
@@ -55,6 +55,7 @@ class LetterListTableViewCell : UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .clear
         setSubView()
         setUI()
     }
@@ -87,28 +88,37 @@ class LetterListTableViewCell : UITableViewCell {
         
         // 편지 그룹 뷰
         letterGroupView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(19)
-            make.trailing.equalToSuperview().inset(22)
+            make.horizontalEdges.bottom.equalToSuperview()
             make.top.equalTo(dateLabel.snp.bottom).offset(6)
-            make.height.equalTo(151)
+        }
+        
+        // 편지 뷰 배경 이미지
+        letterBackgroundImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
         // 받을 사람
         receivedNicknameLabel.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview().inset(17)
+            make.height.equalTo(18)
         }
         
         // 편지 본문
         contentLabel.snp.makeConstraints { make in
             make.top.equalTo(receivedNicknameLabel.snp.bottom).offset(10)
-            make.bottom.equalTo(sentNicknameLabel.snp.bottom).offset(10)
             make.leading.equalToSuperview().inset(17)
             make.trailing.equalToSuperview().inset(13)
+            make.height.equalTo(60)
         }
         // 보낸 사람
         sentNicknameLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(17)
             make.trailing.equalToSuperview().inset(13)
+            make.height.equalTo(18)
         }
+    }
+    
+    public func config(type : LetterListType) {
+        dateLabel.textColor = type == .receivedLetter ? .base2 : .blismBlack
     }
 }
