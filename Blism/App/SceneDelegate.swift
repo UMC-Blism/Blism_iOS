@@ -28,9 +28,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let rootVC = LoginViewController()
         
         // 스플래시 화면 2초 노출
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.8){
             let navigationController = UINavigationController(rootViewController: rootVC)
-            self.window?.rootViewController = navigationController
+            
+            // 화면 전환에 애니메이션 추가
+            UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                self.window?.rootViewController = navigationController
+            }, completion: nil)
         }
     }
 
