@@ -31,8 +31,8 @@ class LoginView : UIView {
     // 로고 라벨
     private let logoLabel = UILabel().then { lbl in
         lbl.text = "소중한 사람에게 편지를 전달해요."
-//        lbl.font = .systemFont(ofSize: 12, weight: UIFont.Weight(300))
-        lbl.font = UIFont(name: "Pretendard-SemiBold", size: 12)
+        lbl.font = .customFont(font: .PretendardLight, ofSize: 12)
+        lbl.tintColor = UIColor(hex: "#1A274F")
         lbl.textAlignment = .center
     }
     
