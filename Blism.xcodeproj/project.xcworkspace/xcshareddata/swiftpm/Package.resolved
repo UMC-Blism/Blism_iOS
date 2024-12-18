@@ -1,9 +1,6 @@
 {
-<<<<<<< HEAD
-  "originHash" : "a33fc211d3e1d3a7fbf825eb746f29ca39abad4695e8f9a59eaee327217e4e09",
-=======
-  "originHash" : "829fb709cbffabb1d16b01fa6ab1481659bd4e897d56637527fe4868075aa039",
->>>>>>> 9f788cd07f3d86b698c62ae79599d4a9ddde7b78
+  "originHash" : "ab215a9a804f9c560cef2f00361584bf994a74da661942b35574f474a7b3f4ee",
+
   "pins" : [
     {
       "identity" : "alamofire",
@@ -17,7 +14,7 @@
     {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/onevcat/Kingfisher",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
         "revision" : "623e1595526a2034dc49eda264a4d174e90dac64",
         "version" : "8.1.2"
@@ -62,7 +59,7 @@
     {
       "identity" : "then",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/devxoul/Then",
+      "location" : "https://github.com/devxoul/Then.git",
       "state" : {
         "revision" : "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
         "version" : "3.0.0"
