@@ -25,7 +25,6 @@ final class BackGroundImageView : UIImageView {
     }
     
     private func setImageView(type : BackGroundImageType){
-        self.contentMode = .scaleAspectFill
         switch type {
         case .white:
             self.image = .whiteBackground

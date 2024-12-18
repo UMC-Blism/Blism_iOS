@@ -55,7 +55,7 @@ class LoginView : UIView {
         lbl.font = .customFont(font: .PretendardRegular, ofSize: 15)
         
         let attributedText = NSMutableAttributedString(string: text)
-        attributedText.addAttribute(.foregroundColor, value: UIColor(hex: "#314B9E") ?? .black, range: (text as NSString).range(of: login))
+        attributedText.addAttribute(.foregroundColor, value: UIColor.blue1 ?? .black, range: (text as NSString).range(of: login))
         attributedText.addAttribute(.font, value: UIFont.customFont(font: .PretendardBold, ofSize: 15), range: (text as NSString).range(of: login))
         lbl.attributedText = attributedText
     }
