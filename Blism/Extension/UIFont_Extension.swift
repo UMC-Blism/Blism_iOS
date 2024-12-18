@@ -17,6 +17,7 @@ public enum CustomFont {
     case PretendardMedium
     case PretendardBold
     case PretendardSemiBold
+    case Inter
 }
 
 
@@ -42,6 +43,8 @@ extension UIFont {
             return UIFont(name: "Pretendard-Light", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .light)
         case .SejongGeulggot:
             return UIFont(name: "SejongGeulggot", size: fontSize) ?? .systemFont(ofSize: fontSize)
+        case .Inter:
+            return UIFont(name: "InterVariable-Italic", size: fontSize) ?? .systemFont(ofSize: fontSize)
         }
     }
 }
