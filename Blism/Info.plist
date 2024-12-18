@@ -4,6 +4,7 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>SejongGeulggot.otf</string>
 		<string>GangwonEduAll-OTFBold.otf</string>
 		<string>GangwonEduAll-OTFLight.otf</string>
 		<string>KyoboHandwriting2021sjy.otf</string>
