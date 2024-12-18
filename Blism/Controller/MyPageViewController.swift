@@ -14,13 +14,28 @@ class MyPageViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = myPageView
-        
+        setNavigationBar()
         setProtocol()
     }
     
     private func setProtocol(){
         myPageView.tableView.dataSource = self
         myPageView.tableView.delegate = self
+    }
+    
+    private func setNavigationBar(){
+        // 뒤로 가기 버튼
+        let leftBarButton = UIBarButtonItem(image: .navigationBarLeftItem, style: .plain, target: self, action: #selector(popAction))
+        leftBarButton.tintColor = .black
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+        
+        // 타이틀
+        self.navigationItem.titleView = NavigationTitleView(title: "마이페이지")
+    }
+    
+    @objc
+    private func popAction(){
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

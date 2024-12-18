@@ -133,17 +133,11 @@ class LoginView : UIView {
             loginButton
         ].forEach{loginGroupView.addSubview($0)} // 로그인 그룹
         
-//        [
-//            logoGroupView, // 로고 그룹
-//            loginGroupView // 로그인 그룹
-//        ].forEach{groupView.addSubview($0)} // 로고 + 로그인 그룹
-        
         [
             backgroundImageView,
             logoGroupView, // 로고 그룹
             loginGroupView // 로그인 그룹
         ].forEach{self.addSubview($0)}
-        
     }
     
     private func setUI(){
@@ -153,23 +147,13 @@ class LoginView : UIView {
             make.edges.equalToSuperview()
         }
         
-//        // 전체 그룹
-//        groupView.snp.makeConstraints { make in
-//            make.top.equalTo(safeAreaLayoutGuide).inset(70)
-//            make.centerX.equalToSuperview()
-//            make.width.equalTo(306)
-//            make.height.equalTo(590)
-//        }
-        
         // 로고 그룹
         logoGroupView.snp.makeConstraints { make in
             print(UIScreen.main.bounds.height) // 874, 667
             let inset = UIScreen.main.bounds.height > 700 ? 65 : 30 // 16pro height : 874, se : 667
             make.top.equalTo(safeAreaLayoutGuide).inset(inset)
             make.centerX.equalToSuperview()
-//            make.width.equalTo(192)
         }
-        
         
         // 로고 이미지 뷰
         logoImageView.snp.makeConstraints { make in
@@ -182,24 +166,21 @@ class LoginView : UIView {
         logoLabel.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(14)
             make.horizontalEdges.bottom.equalToSuperview()
-//            make..equalToSuperview()
         }
 
         
         // 로그인 그룹 뷰
         loginGroupView.snp.makeConstraints { make in
+            let height = UIScreen.main.bounds.height > 700 ? 400 : 350 // 16pro height : 874, se : 667
             make.top.equalTo(logoGroupView.snp.bottom).offset(45)
-//            make.horizontalEdges.bottom.equalToSuperview()
-//            make.centerX.equalToSuperview()
             make.horizontalEdges.equalToSuperview().inset(35)
-            make.height.equalTo(400)
+            make.height.equalTo(height)
         }
         
         // 아이디 그룹 뷰
         idGroupView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(35)
             make.horizontalEdges.equalToSuperview().inset(18)
-//            make.height.equalTo(97)
         }
         
         // 아이디 라벨
@@ -228,7 +209,6 @@ class LoginView : UIView {
         passwordGroupView.snp.makeConstraints { make in
             make.top.equalTo(idGroupView.snp.bottom).offset(40)
             make.horizontalEdges.equalToSuperview().inset(18)
-//            make.height.equalTo(135)
         }
         
         // 비밀번호 라벨
@@ -264,7 +244,6 @@ class LoginView : UIView {
         loginButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(18)
             make.bottom.equalToSuperview().inset(32)
-//            make.top.equalTo(codeDesriptionLabel.snp.bottom).offset(20).priority(.high)
             make.height.equalTo(45)
             make.width.equalTo(122)
         }
