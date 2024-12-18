@@ -8,6 +8,7 @@
 import UIKit
 
 public enum CustomFont {
+    case SejongGeulggot
     case GanwonEduBold
     case GanwonEduLight
     case KyoboHandWriting
@@ -39,6 +40,8 @@ extension UIFont {
             return UIFont(name: "Pretendard-SemiBold", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .semibold)
         case .PretendardLight:
             return UIFont(name: "Pretendard-Light", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .light)
+        case .SejongGeulggot:
+            return UIFont(name: "SejongGeulggot", size: fontSize) ?? .systemFont(ofSize: fontSize)
         }
     }
 }
