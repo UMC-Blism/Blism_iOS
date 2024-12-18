@@ -31,7 +31,7 @@ final class LoginTextField : UITextField {
         self.leftViewMode = .always
         self.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
         self.layer.cornerRadius = 20
-        self.placeholder = self.type == .id ? "아이디를 입력해주세요" : "비밀번호를 입력해주세요"
+        self.placeholder = self.type == .id ? "아이디를 입력해주세요." : "비밀번호를 입력해주세요."
 
     }
 }

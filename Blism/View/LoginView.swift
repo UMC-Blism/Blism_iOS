@@ -55,24 +55,32 @@ class LoginView : UIView {
     // 아이디 텍스트 필드
     private let idTextField = LoginTextField(type: .id)
     
-    public let checkIdButton = UIButton().then { btn in
-        btn.setTitle("아이디 중복 확인하기", for: .normal)
-        btn.setTitleColor(UIColor(hex: "#314B9E"), for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 12, weight: UIFont.Weight(300))
-    }
+    // 중복 확인 버튼
+    public let checkIdButton = LoginViewButton(type: .checkId)
     
     // 비밀번호 그룹
     private let passwordGroupView = UIView()
     
     // 비밀번호 라벨
     private let passwordLabel = UILabel().then { lbl in
-        lbl.text = "비밀번호"
-        lbl.font = .systemFont(ofSize: 15, weight: UIFont.Weight(rawValue: 300))
+        lbl.text = "확인코드 생성"
+        lbl.font = .customFont(font: .PretendardRegular, ofSize: 15)
         lbl.tintColor = UIColor(hex: "#1A274F")
     }
     
     // 비밀번호 텍스트 필드
     private let passwordTextField = LoginTextField(type: .id)
+    
+    // 생성하기 버튼
+    public let createCodeButton = LoginViewButton(type: .createCode)
+    
+    // 확인코드 설명 라벨
+    private let codeDesriptionLabel = UILabel().then { lbl in
+        lbl.text = "생성된 코드로 다른 사름의 우체통에 접속하거나 \n내 우체통에 초대가 가능해요."
+        lbl.font = .customFont(font: .PretendardBold, ofSize: 10)
+        lbl.numberOfLines = 2
+        lbl.tintColor = UIColor(hex: "#1A274F")
+    }
     
     public let loginButton = UIButton().then {btn in
         btn.setTitle("블리즘 시작하기", for: .normal)
@@ -107,22 +115,25 @@ class LoginView : UIView {
         [
             passwordLabel,
             passwordTextField,
-            loginButton
+            createCodeButton,
         ].forEach{passwordGroupView.addSubview($0)} // 비밀번호 그룹
         
         [
             idGroupView,
             passwordGroupView,
+            codeDesriptionLabel,
+            loginButton
         ].forEach{loginGroupView.addSubview($0)} // 로그인 그룹
         
-        [
-            logoGroupView, // 로고 그룹
-            loginGroupView // 로그인 그룹
-        ].forEach{groupView.addSubview($0)} // 로고 + 로그인 그룹
+//        [
+//            logoGroupView, // 로고 그룹
+//            loginGroupView // 로그인 그룹
+//        ].forEach{groupView.addSubview($0)} // 로고 + 로그인 그룹
         
         [
             backgroundImageView,
-            groupView
+            logoGroupView, // 로고 그룹
+            loginGroupView // 로그인 그룹
         ].forEach{self.addSubview($0)}
         
     }
@@ -134,89 +145,118 @@ class LoginView : UIView {
             make.edges.equalToSuperview()
         }
         
-        // 전체 그룹
-        groupView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(105)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(306)
-            make.height.equalTo(561)
-        }
+//        // 전체 그룹
+//        groupView.snp.makeConstraints { make in
+//            make.top.equalTo(safeAreaLayoutGuide).inset(70)
+//            make.centerX.equalToSuperview()
+//            make.width.equalTo(306)
+//            make.height.equalTo(590)
+//        }
         
         // 로고 그룹
         logoGroupView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            print(UIScreen.main.bounds.height) // 874, 667
+            let inset = UIScreen.main.bounds.height > 700 ? 65 : 30 // 16pro height : 874, se : 667
+            make.top.equalTo(safeAreaLayoutGuide).inset(inset)
             make.centerX.equalToSuperview()
-            make.width.equalTo(192)
-            make.height.equalTo(144)
+//            make.width.equalTo(192)
         }
         
-        // 로고 라벨
-        logoLabel.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(14)
-        }
         
         // 로고 이미지 뷰
         logoImageView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(logoLabel.snp.top).offset(14)
+            make.width.equalTo(192)
+            make.height.equalTo(120)
         }
+        
+        // 로고 라벨
+        logoLabel.snp.makeConstraints { make in
+            make.top.equalTo(logoImageView.snp.bottom).offset(14)
+            make.horizontalEdges.bottom.equalToSuperview()
+//            make..equalToSuperview()
+        }
+
         
         // 로그인 그룹 뷰
         loginGroupView.snp.makeConstraints { make in
             make.top.equalTo(logoGroupView.snp.bottom).offset(45)
-            make.horizontalEdges.bottom.equalToSuperview()
+//            make.horizontalEdges.bottom.equalToSuperview()
+//            make.centerX.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(35)
+            make.height.equalTo(400)
         }
         
         // 아이디 그룹 뷰
         idGroupView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(73)
-            make.horizontalEdges.equalToSuperview().inset(24)
-            make.height.equalTo(97)
+            make.top.equalToSuperview().inset(35)
+            make.horizontalEdges.equalToSuperview().inset(18)
+//            make.height.equalTo(97)
         }
         
         // 아이디 라벨
         idLabel.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(5)
+            make.height.equalTo(20)
         }
         
         // 아이디 텍스트 필드
         idTextField.snp.makeConstraints { make in
             make.top.equalTo(idLabel.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(44)
+            make.leading.bottom.equalToSuperview()
         }
         
         // 중복 확인 버튼
         checkIdButton.snp.makeConstraints { make in
+            make.top.equalTo(idLabel.snp.bottom).offset(10)
             make.trailing.bottom.equalToSuperview()
-            make.width.equalTo(100)
-            make.height.equalTo(20)
+            make.leading.equalTo(idTextField.snp.trailing).offset(16)
+            make.width.equalTo(85)
+            make.height.equalTo(45)
         }
         
         // 비밀번호 그룹
         passwordGroupView.snp.makeConstraints { make in
-            make.top.equalTo(idGroupView.snp.bottom).offset(29)
-            make.horizontalEdges.equalToSuperview().inset(24)
-            make.bottom.equalToSuperview().inset(17)
+            make.top.equalTo(idGroupView.snp.bottom).offset(40)
+            make.horizontalEdges.equalToSuperview().inset(18)
+//            make.height.equalTo(135)
         }
         
         // 비밀번호 라벨
         passwordLabel.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalToSuperview()
+            make.top.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(5)
+            make.height.equalTo(20)
         }
         
         // 비밀번호 텍스트 필드
         passwordTextField.snp.makeConstraints { make in
             make.top.equalTo(passwordLabel.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(44)
+            make.leading.bottom.equalToSuperview()
+        }
+        
+        // 생성하기 버튼
+        createCodeButton.snp.makeConstraints { make in
+            make.top.equalTo(passwordLabel.snp.bottom).offset(10)
+            make.trailing.bottom.equalToSuperview()
+            make.leading.equalTo(passwordTextField.snp.trailing).offset(16)
+            make.width.equalTo(85)
+            make.height.equalTo(45)
+        }
+        
+        // 코드 설명
+        codeDesriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(passwordGroupView.snp.bottom).offset(10)
+            make.leading.equalTo(passwordGroupView).offset(5)
+            make.trailing.equalTo(passwordGroupView)
         }
         
         // 로그인 버튼
         loginButton.snp.makeConstraints { make in
-            make.trailing.bottom.equalToSuperview()
+            make.trailing.equalToSuperview().inset(18)
+            make.bottom.equalToSuperview().inset(32)
+//            make.top.equalTo(codeDesriptionLabel.snp.bottom).offset(20).priority(.high)
             make.height.equalTo(45)
             make.width.equalTo(122)
         }
