@@ -15,6 +15,7 @@ class WriteLetterViewController: UIViewController {
         super.viewDidLoad()
         
         view = writeView
+        self.navigationItem.titleView = NavigationTitleView(title: "편지 작성하기", titleColor: .blismBlack)
     }
     
 }

@@ -31,11 +31,11 @@ class WriteLetterView: UIView {
         $0.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
     }
     
-    // 폰트 옵션 버튼들 -> 폰트 바꿔야함
-    public let fontOption1Button: UIButton = createFontOptionButton(font: .systemFont(ofSize: 15, weight: UIFont.Weight(400)), title: "1번 폰트")
-    public let fontOption2Button: UIButton = createFontOptionButton(font: .systemFont(ofSize: 15, weight: UIFont.Weight(400)), title: "2번 폰트")
-    public let fontOption3Button: UIButton = createFontOptionButton(font: .systemFont(ofSize: 15, weight: UIFont.Weight(400)), title: "3번 폰트")
-    public let fontOption4Button: UIButton = createFontOptionButton(font: .systemFont(ofSize: 15, weight: UIFont.Weight(400)), title: "4번 폰트")
+    // 폰트 옵션 버튼들
+    public let fontOption1Button: UIButton = createFontOptionButton(font: .customFont(font: .SejongGeulggot, ofSize: 15), title: "1번 폰트")
+    public let fontOption2Button: UIButton = createFontOptionButton(font: .customFont(font: .KyoboHandWriting, ofSize: 15), title: "2번 폰트")
+    public let fontOption3Button: UIButton = createFontOptionButton(font: .customFont(font: .GanwonEduLight, ofSize: 15), title: "3번 폰트")
+    public let fontOption4Button: UIButton = createFontOptionButton(font: .customFont(font: .PretendardRegular, ofSize: 15), title: "4번 폰트")
     
     // 받는 사람 그룹
     private let receiverGroupView: UIView = createSenderReceiverGroupView()
@@ -198,7 +198,7 @@ class WriteLetterView: UIView {
         
         // 이미지 첨부 뷰
         imageAttachView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).inset(89.5)
+            $0.top.equalTo(safeAreaLayoutGuide).inset(45.5)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(319)
         }
