@@ -44,7 +44,7 @@ extension UIFont {
         case .SejongGeulggot:
             return UIFont(name: "SejongGeulggot", size: fontSize) ?? .systemFont(ofSize: fontSize)
         case .Inter:
-            return UIFont(name: "InterVariable-Italic", size: fontSize) ?? .systemFont(ofSize: fontSize)
+            return UIFont(name: "InterVariableItalic-Thin", size: fontSize) ?? .systemFont(ofSize: fontSize)
         }
     }
 }

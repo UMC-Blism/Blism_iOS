@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SplashView : UIView {
+final class SplashView : UIView {
     
     // 배경
     private let backgroundImageView = UIImageView().then { view in
@@ -38,8 +38,9 @@ class SplashView : UIView {
     // 설명
     private let descriptionLabel = UILabel().then { lbl in
         lbl.text = "파랑새가 편지를 물어오고 있어요.\n잠시만 기다려주세요"
-        lbl.font = .customFont(font: .PretendardRegular, ofSize: 15)
-        lbl.textColor = .blismBlue
+        lbl.font = .customFont(font: .PretendardLight, ofSize: 15)
+        lbl.textColor = .blismBlack
+        lbl.numberOfLines = 2
         lbl.textAlignment = .center
     }
     
@@ -69,7 +70,8 @@ class SplashView : UIView {
         }
         
         logoImageView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(0.7)
+            make.centerX.equalToSuperview()
             make.width.equalTo(109)
             make.height.equalTo(116)
         }
