@@ -9,16 +9,18 @@ import UIKit
 
 class NavigationTitleView : UIView {
     private let title : String
+    private let titleColor : UIColor?
     
     private lazy var titleLabel = UILabel().then { lbl in
         lbl.text = title
         lbl.font = .customFont(font: .PretendardLight, ofSize: 24)
-        lbl.tintColor = .blismBlack
+        lbl.textColor = titleColor
         lbl.textAlignment = .center
     }
     
-    init(title : String){
+    init(title : String, titleColor : UIColor?){
         self.title = title
+        self.titleColor = titleColor
         super.init(frame: .zero)
         setSubView()
         setUI()
