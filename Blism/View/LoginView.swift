@@ -11,10 +11,7 @@ import SnapKit
 
 class LoginView : UIView {
     // 백그라운드 이미지 뷰
-    private let backgroundImageView = UIImageView().then { view in
-        view.image = .whiteBackground
-        view.contentMode = .scaleAspectFill
-    }
+    private let backgroundImageView = BackGroundImageView(type: .white)
     
     // 로고 + 로그인 뷰 그룹
     private let groupView = UIView()
