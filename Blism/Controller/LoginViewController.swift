@@ -14,8 +14,17 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = loginView
+        setAction()
     }
-
-
+    
+    private func setAction(){
+        loginView.loginButton.addTarget(self, action: #selector(touchUpInsideLoginButton), for: .touchUpInside)
+    }
+    
+    @objc
+    private func touchUpInsideLoginButton(){
+        let nextVC = MyPageViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
 }
 

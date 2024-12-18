@@ -28,6 +28,7 @@ extension UIColor {
 }
 
 extension UIColor {
+    static let blue1 = UIColor(hex: "#314B9E") 
     static let blismBlue = UIColor(hex: "#6C8FC6")
     static let base2 = UIColor(hex: "#FFF8EF")
     static let blismBlack = UIColor(hex: "#1A274F")
