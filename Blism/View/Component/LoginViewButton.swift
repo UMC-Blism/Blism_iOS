@@ -26,9 +26,9 @@ final class LoginViewButton : UIButton {
     
     private func setButton(){
         self.setTitle(type == .checkId ? "중복확인" : "생성하기", for: .normal)
-        self.setTitleColor(UIColor(hex: "##FFF8EF"), for: .normal)
+        self.setTitleColor(.base2, for: .normal)
         self.titleLabel?.font = .customFont(font: .PretendardMedium, ofSize: 15)
-        self.backgroundColor = UIColor(hex: "#6C8FC6")
+        self.backgroundColor = .blismBlue
         self.layer.cornerRadius = 20
         self.clipsToBounds = true
     }

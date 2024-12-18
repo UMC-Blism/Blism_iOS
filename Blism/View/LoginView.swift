@@ -32,7 +32,7 @@ class LoginView : UIView {
     private let logoLabel = UILabel().then { lbl in
         lbl.text = "소중한 사람에게 편지를 전달해요."
         lbl.font = .customFont(font: .PretendardLight, ofSize: 12)
-        lbl.tintColor = UIColor(hex: "#1A274F")
+        lbl.tintColor = .blismBlack
         lbl.textAlignment = .center
     }
     
@@ -41,6 +41,11 @@ class LoginView : UIView {
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
         // shadow 설정
+        view.layer.shadowColor = UIColor.black.cgColor          // 그림자 색상: #000000
+        view.layer.shadowOpacity = 0.2                          // 그림자 불투명도 (0.0 ~ 1.0)
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)   // X:0 , Y: 4
+        view.layer.shadowRadius = 4                             // Blur: 4
+        view.layer.masksToBounds = false                        // 그림자가 뷰 바깥으로 잘리지 않도록 설정
     }
     
     // 아이디 그룹
@@ -48,8 +53,14 @@ class LoginView : UIView {
     
     // 아이디 라벨
     private let idLabel = UILabel().then { lbl in
-        lbl.text = "로그인 할 닉네임 (아이디)" // attributed로 변경해야 함
-        lbl.font = .systemFont(ofSize: 15, weight: UIFont.Weight(600))
+        let login = "로그인"
+        let text = "\(login) 할 닉네임 (아이디)"
+        lbl.font = .customFont(font: .PretendardRegular, ofSize: 15)
+        
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttribute(.foregroundColor, value: UIColor(hex: "#314B9E") ?? .black, range: (text as NSString).range(of: login))
+        attributedText.addAttribute(.font, value: UIFont.customFont(font: .PretendardBold, ofSize: 15), range: (text as NSString).range(of: login))
+        lbl.attributedText = attributedText
     }
     
     // 아이디 텍스트 필드
@@ -65,11 +76,11 @@ class LoginView : UIView {
     private let passwordLabel = UILabel().then { lbl in
         lbl.text = "확인코드 생성"
         lbl.font = .customFont(font: .PretendardRegular, ofSize: 15)
-        lbl.tintColor = UIColor(hex: "#1A274F")
+        lbl.tintColor = .blismBlack
     }
     
     // 비밀번호 텍스트 필드
-    private let passwordTextField = LoginTextField(type: .id)
+    private let passwordTextField = LoginTextField(type: .password)
     
     // 생성하기 버튼
     public let createCodeButton = LoginViewButton(type: .createCode)
@@ -77,17 +88,17 @@ class LoginView : UIView {
     // 확인코드 설명 라벨
     private let codeDesriptionLabel = UILabel().then { lbl in
         lbl.text = "생성된 코드로 다른 사름의 우체통에 접속하거나 \n내 우체통에 초대가 가능해요."
-        lbl.font = .customFont(font: .PretendardBold, ofSize: 10)
+        lbl.font = .customFont(font: .PretendardSemiBold, ofSize: 10)
         lbl.numberOfLines = 2
-        lbl.tintColor = UIColor(hex: "#1A274F")
+        lbl.tintColor = .blismBlack
     }
     
     public let loginButton = UIButton().then {btn in
         btn.setTitle("블리즘 시작하기", for: .normal)
-        btn.setTitleColor( UIColor(hex: "#FFF8EF"), for: .normal)
-        btn.backgroundColor = UIColor(hex: "#6C8FC6")
+        btn.setTitleColor(.base2, for: .normal)
+        btn.backgroundColor = .blismBlue
         btn.layer.cornerRadius = 10
-        btn.titleLabel?.font = .systemFont(ofSize: 15, weight: UIFont.Weight(600))
+        btn.titleLabel?.font = .customFont(font: .PretendardMedium, ofSize: 15)
     }
     
     override init(frame: CGRect) {

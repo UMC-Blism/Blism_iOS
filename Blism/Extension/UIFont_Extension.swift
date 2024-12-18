@@ -15,7 +15,7 @@ public enum CustomFont {
     case PretendardRegular
     case PretendardMedium
     case PretendardBold
-    case PretendardBoldSemiBold
+    case PretendardSemiBold
 }
 
 
@@ -35,7 +35,7 @@ extension UIFont {
             return UIFont(name: "Pretendard-Medium", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .medium)
         case .PretendardRegular:
             return UIFont(name: "Pretendard-Regular", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .regular)
-        case .PretendardBoldSemiBold:
+        case .PretendardSemiBold:
             return UIFont(name: "Pretendard-SemiBold", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .semibold)
         case .PretendardLight:
             return UIFont(name: "Pretendard-Light", size: fontSize) ?? .systemFont(ofSize: fontSize, weight: .light)
