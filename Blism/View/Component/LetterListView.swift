@@ -7,10 +7,10 @@
 
 import UIKit
 
-public enum LetterListType {
-    case receivedLetter     // 내가 받은 답장
-    case sentReplyLetter   // 내가 보낸 답장
-    case writingLetter        // 내가 보낸 편지
+public enum LetterListType: String {
+    case receivedLetter = "내가 받은 답장"
+    case sentReplyLetter = "내가 보낸 답장"
+    case writingLetter = "내가 보낸 편지"
 }
 
 

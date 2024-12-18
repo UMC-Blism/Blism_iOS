@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "navigationBarLeftItem.png",
+      "filename" : "popIcon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "navigationBarLeftItem@2x.png",
+      "filename" : "popIcon@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "navigationBarLeftItem@3x.png",
+      "filename" : "popIcon@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
