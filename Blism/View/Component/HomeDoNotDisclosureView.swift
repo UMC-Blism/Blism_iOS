@@ -1,5 +1,5 @@
 //
-//  HomeDateAlertView.swift
+//  HomeDoNotDisclosureView.swift
 //  Blism
 //
 //  Created by 송재곤 on 12/19/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeDateAlertView: UIView {
+class HomeDoNotDisclosureView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,23 +27,26 @@ class HomeDateAlertView: UIView {
     public var alertTitle : UILabel = {
         let label = UILabel()
         
-        label.text = "12월 0일에 열람할수 있어요!"
+        label.text = "비공개 우체통이에요."
         
-        label.textColor = UIColor.blismBlue
-        label.font = .customFont(font: .PretendardSemiBold, ofSize: 16)
+        label.textColor = UIColor.blismBlack
+        label.font = .customFont(font: .PretendardRegular, ofSize: 15)
+        label.textAlignment = .center
+        label.numberOfLines = 2
         
         return label
     }()
+    
     
     func setupView(){
         addSubview(alert)
         addSubview(alertTitle)
         
         alert.snp.makeConstraints{
-            $0.top.equalTo(safeAreaLayoutGuide).offset(328)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(323.5)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(272)
-            $0.height.equalTo(163)
+            $0.height.equalTo(166)
         }
         
         alertTitle.snp.makeConstraints{

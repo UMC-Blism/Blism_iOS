@@ -22,10 +22,20 @@ class VisiterHomeView: UIView {
         fatalError("init")
     }
     
+    public let backButton: UIButton = {
+        let btn = UIButton()
+        
+        btn.setImage(UIImage(named: "popIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn.tintColor = UIColor.white
+        btn.layer.masksToBounds = true
+        
+        return btn
+    }()
+    
     private let backgroundImage : UIImageView = {
         let image = UIImageView()
         
-        image.image = UIImage(named: "Homebackground")
+        image.image = UIImage(named: "blackBackground")
         
         return image
     }()
@@ -45,7 +55,7 @@ class VisiterHomeView: UIView {
         
         label.text = "지수님의 우체통"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 24)
+        label.font = .customFont(font: .PretendardRegular, ofSize: 24)
         
         return label
     }()
@@ -55,7 +65,7 @@ class VisiterHomeView: UIView {
         
         label.text = "편지를 작성해보세요."
         label.textColor = .white
-        label.font = .systemFont(ofSize: 12)
+        label.font = .customFont(font: .PretendardRegular, ofSize: 12)
         
         return label
     }()
@@ -64,9 +74,9 @@ class VisiterHomeView: UIView {
         let btn = UIButton()
         
         btn.setTitle("편지 쓰기", for: .normal)
-        btn.backgroundColor = .blue
+        btn.backgroundColor = UIColor.blismBlue
         btn.titleLabel?.textColor = .white
-        btn.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
+        btn.titleLabel?.font = .customFont(font: .PretendardSemiBold, ofSize: 15)
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
         
@@ -78,6 +88,7 @@ class VisiterHomeView: UIView {
     
     func setupView(){
         addSubview(backgroundImage)
+        addSubview(backButton)
         addSubview(mailboxImage)
         addSubview(doorCollectionView)
         addSubview(mailboxOwner)
@@ -88,13 +99,19 @@ class VisiterHomeView: UIView {
         backgroundImage.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
-        mailboxOwner.snp.makeConstraints{
+        backButton.snp.makeConstraints{
             $0.top.equalTo(safeAreaLayoutGuide).offset(44)
             $0.leading.equalTo(safeAreaLayoutGuide).offset(16)
+            $0.width.equalTo(16)
+            $0.height.equalTo(32)
+        }
+        mailboxOwner.snp.makeConstraints{
+            $0.top.equalTo(safeAreaLayoutGuide).offset(44)
+            $0.leading.equalTo(backButton.snp.trailing).offset(71.5)
         }
         mailBoxSubTitle.snp.makeConstraints{
             $0.top.equalTo(mailboxOwner.snp.bottom).offset(3)
-            $0.leading.equalTo(safeAreaLayoutGuide).offset(16)
+            $0.centerX.equalTo(mailboxOwner.snp.centerX)
         }
     
         mailboxImage.snp.makeConstraints{

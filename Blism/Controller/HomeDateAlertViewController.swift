@@ -14,9 +14,14 @@ class HomeDateAlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = rootView
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
         
         tapGesture()
         
+        textSetting()
+    }
+    
+    func textSetting(){
         let updatedText = rootView.alertTitle.text?.replacingOccurrences(of: "0", with: String(readLetterPosibleDateReceiver!))
 
         let attributedText = NSMutableAttributedString(string: updatedText ?? "")
@@ -39,6 +44,7 @@ class HomeDateAlertViewController: UIViewController {
         self.view.addGestureRecognizer(tapGesture)
     }
     @objc func goBackToHome(){
+        view.backgroundColor = UIColor.black.withAlphaComponent(0) //투명도 100
         dismiss(animated: true, completion: nil)
     }
 }

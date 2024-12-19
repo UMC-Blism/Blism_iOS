@@ -24,14 +24,13 @@ class HomeViewController: UIViewController {
         nicknameChange(nickname: "아진") //이부분은 로그인할때 받아옴
         tapRecognizer()
         
+        
+        viewController.modalPresentationStyle = .overFullScreen
+//        viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
+        present(viewController, animated: false)
+        
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // 모달을 표시하는 코드
-        present(viewController, animated: false)
-    }
 
     
     func nicknameChange(nickname: String){
@@ -95,15 +94,15 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             let viewController = ReadLetterViewController()
             
-            viewController.view.backgroundColor = .clear
+//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
             viewController.modalPresentationStyle = .overFullScreen
-            present(viewController, animated: true)
+            present(viewController, animated: false)
         }else{
             
             let viewController = HomeDateAlertViewController()
             
             viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
-            viewController.view.backgroundColor = .clear
+//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
             viewController.modalPresentationStyle = .overFullScreen
             present(viewController, animated: false)
             

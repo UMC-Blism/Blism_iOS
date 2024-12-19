@@ -23,8 +23,9 @@ class LoginViewController: UIViewController {
     
     @objc
     private func touchUpInsideLoginButton(){
-        let nextVC = MyPageViewController()
+        let nextVC = HomeViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
+
 
