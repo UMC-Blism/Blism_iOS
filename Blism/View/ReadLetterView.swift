@@ -95,7 +95,7 @@ class ReadLetterView: UIView {
         return label
     }()
 
-    private lazy var replyButton: UIButton = {
+    public lazy var replyButton: UIButton = {
         
         let btn = UIButton()
         
@@ -103,6 +103,20 @@ class ReadLetterView: UIView {
         btn.titleLabel?.font = .customFont(font: .PretendardRegular, ofSize: 15)
         btn.backgroundColor = UIColor.blismBlue
         btn.titleLabel?.textColor = .white
+        btn.layer.cornerRadius = 10
+        btn.layer.masksToBounds = true
+        
+        return btn
+    }()
+    
+    public lazy var backButton: UIButton = {
+        
+        let btn = UIButton()
+        
+        btn.setTitle("이전", for: .normal)
+        btn.setTitleColor(.blismBlack, for: .normal)
+        btn.titleLabel?.font = .customFont(font: .PretendardRegular, ofSize: 15)
+        btn.backgroundColor = .white
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
         
@@ -117,6 +131,7 @@ class ReadLetterView: UIView {
         addSubview(letterReceiver)
         addSubview(whenLetterWrite)
         addSubview(replyButton)
+        addSubview(backButton)
         
         backgroundImageView.snp.makeConstraints{
             $0.top.equalTo(safeAreaLayoutGuide).offset(45)
@@ -155,6 +170,25 @@ class ReadLetterView: UIView {
             $0.width.equalTo(128)
             $0.height.equalTo(45)
         }
+        
+        backButton.snp.makeConstraints{
+            $0.top.equalTo(letterSender.snp.bottom).offset(20)
+            $0.leading.equalTo(letterContent.snp.leading)
+            $0.width.equalTo(128)
+            $0.height.equalTo(45)
+        }
     }
     
+    public func setButton(type: LetterListType){
+        switch type {
+        case .receivedLetter:
+            replyButton.isHidden = true
+        case .sentReplyLetter:
+            replyButton.isHidden = true
+        case .writingLetter:
+            replyButton.setTitle("수정하기", for: .normal)
+        case .home:
+            backButton.isHidden = true
+        }
+    }
 }

@@ -83,32 +83,32 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-        let todayDate = Date()
-        let calendar = Calendar.current
-        
-        // 오늘 날짜의 '일(day)' 추출
-        let day = calendar.component(.day, from: todayDate)
-        
-        let readLetterPosibleDate = indexPath.row + 1
-            
-        if (day >= readLetterPosibleDate){
-            
-            let viewController = ReadLetterViewController()
-            
-            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
-            viewController.modalPresentationStyle = .overFullScreen
-            present(viewController, animated: true)
-        }else{
-            
-            let viewController = HomeDateAlertViewController()
-            
-            viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
-            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
-            viewController.modalPresentationStyle = .overFullScreen
-            present(viewController, animated: false)
-            
-
-        }
+//        let todayDate = Date()
+//        let calendar = Calendar.current
+//        
+//        // 오늘 날짜의 '일(day)' 추출
+//        let day = calendar.component(.day, from: todayDate)
+//        
+//        let readLetterPosibleDate = indexPath.row + 1
+//            
+//        if (day >= readLetterPosibleDate){
+//            
+//            let viewController = ReadLetterViewController()
+//            
+//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
+//            viewController.modalPresentationStyle = .overFullScreen
+//            present(viewController, animated: true)
+//        }else{
+//            
+//            let viewController = HomeDateAlertViewController()
+//            
+//            viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
+//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
+//            viewController.modalPresentationStyle = .overFullScreen
+//            present(viewController, animated: false)
+//        }
+        let nextVC = WriteLetterViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
         
     }
    

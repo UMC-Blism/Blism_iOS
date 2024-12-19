@@ -19,7 +19,7 @@ class HomeViewController: UIViewController {
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
         
-        navigationController?.setNavigationBarHidden(true, animated: true)
+//        navigationController?.setNavigationBarHidden(true, animated: true)
         
         nicknameChange(nickname: "아진") //이부분은 로그인할때 받아옴
         tapRecognizer()
@@ -31,7 +31,15 @@ class HomeViewController: UIViewController {
         
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        // 화면 이동 후 돌아올 때 뒤로가기 버튼이 나옴 '수정필요!'
+        self.navigationItem.leftBarButtonItems = .none
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+    }
     
     func nicknameChange(nickname: String){
         
@@ -52,7 +60,6 @@ class HomeViewController: UIViewController {
     
     @objc func goToSearch(){
         //nav 추가
-        print("검색")
         let viewController = VisiterHomeViewController()
         
         navigationController?.pushViewController(viewController, animated: true)
@@ -61,7 +68,8 @@ class HomeViewController: UIViewController {
     
     @objc func goToMenu(){
         //nav 추가
-        print("메뉴")
+        let nextVC = MyPageViewController()
+        navigationController?.pushViewController(nextVC, animated: true)
     }
     
 }
@@ -92,7 +100,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
         if (day >= readLetterPosibleDate){
             
-            let viewController = ReadLetterViewController()
+            let viewController = ReadLetterViewController(type: .home)
             
 //            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
             viewController.modalPresentationStyle = .overFullScreen

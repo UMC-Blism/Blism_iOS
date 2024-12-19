@@ -24,6 +24,7 @@ class LoginViewController: UIViewController {
     @objc
     private func touchUpInsideLoginButton(){
         let nextVC = HomeViewController()
+        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
