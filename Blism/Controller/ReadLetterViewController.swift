@@ -13,9 +13,30 @@ class ReadLetterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = rootView
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
         
         tapGesture()
+        textSetting()
         
+        
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startAnimation()
+    }
+    
+    private func startAnimation(){
+        self.rootView.alpha = 0
+        // 화면 띄우는 애니메이션
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
+               // 동작할 애니메이션에 대한 코드
+            self.rootView.alpha = 1 // 점진적으로 투명도가 1이 됩니다.
+        }, completion: nil)
+    }
+    
+    func textSetting(){
         let updatedTextReceiver = rootView.letterReceiver.text
         let updatedTextSender = rootView.letterSender.text
 
@@ -46,7 +67,6 @@ class ReadLetterViewController: UIViewController {
         // 결과적으로 attributedText를 UILabel에 설정
         rootView.letterReceiver.attributedText = attributedText1
         rootView.letterSender.attributedText = attributedText2
-        
     }
     func tapGesture(){
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBackToHome))
@@ -54,6 +74,10 @@ class ReadLetterViewController: UIViewController {
         rootView.backgroundImageView.isUserInteractionEnabled = false
     }
     @objc func goBackToHome(){
-        dismiss(animated: true, completion: nil)
+        UIView.animate(withDuration: 0.1, animations: {
+               self.view.alpha = 0 // 투명도 0으로 설정
+           }) { _ in
+               self.dismiss(animated: false, completion: nil)
+           }
     }
 }

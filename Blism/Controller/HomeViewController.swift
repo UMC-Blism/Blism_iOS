@@ -25,7 +25,7 @@ class HomeViewController: UIViewController {
         
         
         viewController.modalPresentationStyle = .overFullScreen
-        viewController.view.backgroundColor = .clear
+//        viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
         present(viewController, animated: false)
         
     }
@@ -93,15 +93,15 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             let viewController = ReadLetterViewController()
             
-            viewController.view.backgroundColor = .clear
+//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
             viewController.modalPresentationStyle = .overFullScreen
-            present(viewController, animated: true)
+            present(viewController, animated: false)
         }else{
             
             let viewController = HomeDateAlertViewController()
             
             viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
-            viewController.view.backgroundColor = .clear
+//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
             viewController.modalPresentationStyle = .overFullScreen
             present(viewController, animated: false)
             

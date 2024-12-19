@@ -22,6 +22,16 @@ class VisiterHomeView: UIView {
         fatalError("init")
     }
     
+    public let backButton: UIButton = {
+        let btn = UIButton()
+        
+        btn.setImage(UIImage(named: "popIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn.tintColor = UIColor.white
+        btn.layer.masksToBounds = true
+        
+        return btn
+    }()
+    
     private let backgroundImage : UIImageView = {
         let image = UIImageView()
         
@@ -78,6 +88,7 @@ class VisiterHomeView: UIView {
     
     func setupView(){
         addSubview(backgroundImage)
+        addSubview(backButton)
         addSubview(mailboxImage)
         addSubview(doorCollectionView)
         addSubview(mailboxOwner)
@@ -88,13 +99,19 @@ class VisiterHomeView: UIView {
         backgroundImage.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
-        mailboxOwner.snp.makeConstraints{
+        backButton.snp.makeConstraints{
             $0.top.equalTo(safeAreaLayoutGuide).offset(44)
             $0.leading.equalTo(safeAreaLayoutGuide).offset(16)
+            $0.width.equalTo(16)
+            $0.height.equalTo(32)
+        }
+        mailboxOwner.snp.makeConstraints{
+            $0.top.equalTo(safeAreaLayoutGuide).offset(44)
+            $0.leading.equalTo(backButton.snp.trailing).offset(71.5)
         }
         mailBoxSubTitle.snp.makeConstraints{
             $0.top.equalTo(mailboxOwner.snp.bottom).offset(3)
-            $0.leading.equalTo(safeAreaLayoutGuide).offset(16)
+            $0.centerX.equalTo(mailboxOwner.snp.centerX)
         }
     
         mailboxImage.snp.makeConstraints{

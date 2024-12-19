@@ -24,21 +24,27 @@ class VisiterHomeViewController: UIViewController {
         
     }
 
-    func nicknameChange(nickname: String){
+    private func nicknameChange(nickname: String){
         
         let updatedText = rootView.mailboxOwner.text?.replacingOccurrences(of: "지수", with: nickname)
         
         rootView.mailboxOwner.text = updatedText
     }
     
-    func tapRecognizer(){
+    private func tapRecognizer(){
         let writeLetterTapGesture = UITapGestureRecognizer(target: self, action: #selector(goToWriteLetter))
         rootView.writeLetter.addGestureRecognizer(writeLetterTapGesture)
         rootView.writeLetter.isUserInteractionEnabled = true
         
+        rootView.backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        
     }
     
-    @objc func goToWriteLetter(){
+    @objc private func goBack(){
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func goToWriteLetter(){
         //nav 추가
         print("작성")
     }
@@ -73,7 +79,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
             
             let viewController = ReadLetterViewController()
             
-            viewController.view.backgroundColor = .clear
+            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
             viewController.modalPresentationStyle = .overFullScreen
             present(viewController, animated: true)
         }else{
@@ -81,7 +87,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
             let viewController = HomeDateAlertViewController()
             
             viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
-            viewController.view.backgroundColor = .clear
+            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
             viewController.modalPresentationStyle = .overFullScreen
             present(viewController, animated: false)
             

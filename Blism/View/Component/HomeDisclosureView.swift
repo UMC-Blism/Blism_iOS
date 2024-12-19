@@ -27,7 +27,7 @@ class HomeDisclosureView: UIView {
     public var alertTitle : UILabel = {
         let label = UILabel()
         
-        label.text = "다른사람에게 메시지 내용을\n공개할까요?"
+        label.text = "다른사람에게 우체통을\n공개할까요?"
         
         label.textColor = UIColor.blismBlack
         label.font = .systemFont(ofSize: 16, weight: .regular)
