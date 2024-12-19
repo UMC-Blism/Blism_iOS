@@ -27,12 +27,12 @@ class HomeDisclosureView: UIView {
     public var alertTitle : UILabel = {
         let label = UILabel()
         
-        label.text = "다른사람에게 메시지 내용을 공개할까요?"
+        label.text = "다른사람에게 메시지 내용을\n공개할까요?"
         
-        label.textColor = .blue
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.textColor = UIColor.blismBlack
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textAlignment = .center
         label.numberOfLines = 2
-        label.lineBreakMode = .byWordWrapping
         
         return label
     }()
@@ -42,7 +42,8 @@ class HomeDisclosureView: UIView {
         let btn = UIButton()
         
         btn.setTitle("네", for: .normal)
-        btn.backgroundColor = .blue
+        btn.setTitleColor(UIColor.blismBlack, for: .normal)
+        btn.backgroundColor = UIColor.alertButtonSkyBlue
         btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
@@ -55,7 +56,8 @@ class HomeDisclosureView: UIView {
         let btn = UIButton()
         
         btn.setTitle("아니오", for: .normal)
-        btn.backgroundColor = .blue
+        btn.setTitleColor(UIColor.blismBlack, for: .normal)
+        btn.backgroundColor = UIColor.alertButtonSkyBlue
         btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
@@ -82,13 +84,13 @@ class HomeDisclosureView: UIView {
         }
         yesButton.snp.makeConstraints{
             $0.top.equalTo(alertTitle.snp.bottom).offset(25)
-            $0.leading.equalTo(alertTitle.snp.leading)
+            $0.leading.equalTo(alert.snp.leading).offset(30)
             $0.width.equalTo(80)
             $0.height.equalTo(45)
         }
         noButton.snp.makeConstraints{
             $0.top.equalTo(alertTitle.snp.bottom).offset(25)
-            $0.trailing.equalTo(alertTitle.snp.trailing)
+            $0.trailing.equalTo(alert.snp.trailing).offset(-30)
             $0.width.equalTo(80)
             $0.height.equalTo(45)
         }

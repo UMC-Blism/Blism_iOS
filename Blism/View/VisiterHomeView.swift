@@ -25,7 +25,7 @@ class VisiterHomeView: UIView {
     private let backgroundImage : UIImageView = {
         let image = UIImageView()
         
-        image.image = UIImage(named: "Homebackground")
+        image.image = UIImage(named: "blackBackground")
         
         return image
     }()
@@ -64,7 +64,7 @@ class VisiterHomeView: UIView {
         let btn = UIButton()
         
         btn.setTitle("편지 쓰기", for: .normal)
-        btn.backgroundColor = .blue
+        btn.backgroundColor = UIColor.blismBlue
         btn.titleLabel?.textColor = .white
         btn.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
         btn.layer.cornerRadius = 10

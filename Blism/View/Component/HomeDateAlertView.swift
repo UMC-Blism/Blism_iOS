@@ -29,7 +29,7 @@ class HomeDateAlertView: UIView {
         
         label.text = "12월 0일에 열람할수 있어요!"
         
-        label.textColor = .blue
+        label.textColor = UIColor.blismBlue
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         
         return label

@@ -25,7 +25,7 @@ class HomeView: UIView {
     private let backgroundImage : UIImageView = {
         let image = UIImageView()
         
-        image.image = UIImage(named: "Homebackground")
+        image.image = UIImage(named: "blackBackground")
         
         return image
     }()

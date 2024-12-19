@@ -23,14 +23,13 @@ class HomeViewController: UIViewController {
         nicknameChange(nickname: "아진") //이부분은 로그인할때 받아옴
         tapRecognizer()
         
+        
+        viewController.modalPresentationStyle = .overFullScreen
+        viewController.view.backgroundColor = .clear
+        present(viewController, animated: false)
+        
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // 모달을 표시하는 코드
-        present(viewController, animated: false)
-    }
 
     
     func nicknameChange(nickname: String){
