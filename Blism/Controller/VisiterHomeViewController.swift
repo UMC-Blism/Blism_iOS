@@ -24,7 +24,7 @@ class VisiterHomeViewController: UIViewController {
         tapRecognizer()
         setNavigationBar()
         
-        navigationController?.setNavigationBarHidden(false, animated: true)
+//        navigationController?.setNavigationBarHidden(false, animated: true)
         
     }
     
@@ -32,7 +32,7 @@ class VisiterHomeViewController: UIViewController {
         // 뒤로 가기 버튼
         let leftBarButton = UIBarButtonItem(image: .popIcon, style: .plain, target: self, action: #selector(goBack))
         leftBarButton.tintColor = .white
-        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: false)
         
         
         self.navigationItem.titleView = navTitle
@@ -56,7 +56,7 @@ class VisiterHomeViewController: UIViewController {
     }
     
     @objc private func goBack(){
-        navigationController?.setNavigationBarHidden(true, animated: false)
+//        navigationController?.setNavigationBarHidden(true, animated: false)
         self.navigationController?.popViewController(animated: true)
     }
     
