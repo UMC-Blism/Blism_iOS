@@ -1,15 +1,14 @@
 //
-//  ViewController.swift
+//  VisiterHomeViewController.swift
 //  Blism
 //
-//  Created by 이수현 on 12/16/24.
+//  Created by 송재곤 on 12/19/24.
 //
-
 import UIKit
 
-class HomeViewController: UIViewController {
+class VisiterHomeViewController: UIViewController {
     
-    private let rootView = HomeView()
+    private let rootView = VisiterHomeView()
     let viewController = HomeDisclosureViewController()
     
     override func viewDidLoad() {
@@ -18,21 +17,13 @@ class HomeViewController: UIViewController {
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
         
-        navigationController?.setNavigationBarHidden(true, animated: true)
-        
         nicknameChange(nickname: "아진") //이부분은 로그인할때 받아옴
+        
         tapRecognizer()
         
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
-        // 모달을 표시하는 코드
-        present(viewController, animated: false)
     }
 
-    
     func nicknameChange(nickname: String){
         
         let updatedText = rootView.mailboxOwner.text?.replacingOccurrences(of: "지수", with: nickname)
@@ -41,32 +32,20 @@ class HomeViewController: UIViewController {
     }
     
     func tapRecognizer(){
-        let searchTapGesture = UITapGestureRecognizer(target: self, action: #selector(goToSearch))
-        rootView.searchButton.addGestureRecognizer(searchTapGesture)
-        rootView.searchButton.isUserInteractionEnabled = true
-        
-        let menuTapGesture = UITapGestureRecognizer(target: self, action: #selector(goToMenu))
-        rootView.menuButton.addGestureRecognizer(menuTapGesture)
-        rootView.menuButton.isUserInteractionEnabled = true
-    }
-    
-    @objc func goToSearch(){
-        //nav 추가
-        print("검색")
-        let viewController = VisiterHomeViewController()
-        
-        navigationController?.pushViewController(viewController, animated: true)
+        let writeLetterTapGesture = UITapGestureRecognizer(target: self, action: #selector(goToWriteLetter))
+        rootView.writeLetter.addGestureRecognizer(writeLetterTapGesture)
+        rootView.writeLetter.isUserInteractionEnabled = true
         
     }
     
-    @objc func goToMenu(){
+    @objc func goToWriteLetter(){
         //nav 추가
-        print("메뉴")
+        print("작성")
     }
     
 }
 
-extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        return MailBoxCollectionViewModel.Dummy().count
     }

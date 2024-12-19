@@ -1,14 +1,14 @@
 //
-//  SampleView.swift
+//  VisiterHomeView.swift
 //  Blism
 //
-//  Created by 이수현 on 12/16/24.
+//  Created by 송재곤 on 12/19/24.
 //
 
 import UIKit
 import SnapKit
 
-class HomeView: UIView {
+class VisiterHomeView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,31 +50,29 @@ class HomeView: UIView {
         return label
     }()
     
-    public var numberOfMail : UILabel = {
+    public var mailBoxSubTitle : UILabel = {
         let label = UILabel()
         
-        label.text = "n개의 둥지가 완성됐어요!"
+        label.text = "편지를 작성해보세요."
         label.textColor = .white
         label.font = .systemFont(ofSize: 12)
         
         return label
     }()
     
-    public let searchButton: UIImageView = {
-        let btn = UIImageView()
+    public let writeLetter: UIButton = {
+        let btn = UIButton()
         
-        btn.image = UIImage(named: "search")
+        btn.setTitle("편지 쓰기", for: .normal)
+        btn.backgroundColor = .blue
+        btn.titleLabel?.textColor = .white
+        btn.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
+        btn.layer.cornerRadius = 10
+        btn.layer.masksToBounds = true
         
         return btn
     }()
     
-    public let menuButton: UIImageView = {
-        let btn = UIImageView()
-        
-        btn.image = UIImage(named: "menu")
-        
-        return btn
-    }()
     
    
     
@@ -83,9 +81,9 @@ class HomeView: UIView {
         addSubview(mailboxImage)
         addSubview(doorCollectionView)
         addSubview(mailboxOwner)
-        addSubview(numberOfMail)
-        addSubview(searchButton)
-        addSubview(menuButton)
+        addSubview(mailBoxSubTitle)
+        addSubview(writeLetter)
+
         
         backgroundImage.snp.makeConstraints{
             $0.edges.equalToSuperview()
@@ -94,20 +92,11 @@ class HomeView: UIView {
             $0.top.equalTo(safeAreaLayoutGuide).offset(44)
             $0.leading.equalTo(safeAreaLayoutGuide).offset(16)
         }
-        numberOfMail.snp.makeConstraints{
+        mailBoxSubTitle.snp.makeConstraints{
             $0.top.equalTo(mailboxOwner.snp.bottom).offset(3)
             $0.leading.equalTo(safeAreaLayoutGuide).offset(16)
         }
-        searchButton.snp.makeConstraints{
-            $0.top.equalTo(safeAreaLayoutGuide).offset(52)
-            $0.trailing.equalTo(menuButton.snp.leading).offset(-20)
-            $0.width.height.equalTo(32)
-        }
-        menuButton.snp.makeConstraints{
-            $0.width.height.equalTo(32)
-            $0.top.equalTo(safeAreaLayoutGuide).offset(52)
-            $0.trailing.equalTo(safeAreaLayoutGuide).offset(-16)
-        }
+    
         mailboxImage.snp.makeConstraints{
             $0.top.equalTo(mailboxOwner.snp.bottom).offset(25)
             $0.centerX.equalToSuperview()
@@ -119,6 +108,11 @@ class HomeView: UIView {
             $0.bottom.equalTo(mailboxImage.snp.bottom).offset(-65)
             $0.width.equalTo(286)
         }
+        writeLetter.snp.makeConstraints{
+            $0.top.equalTo(doorCollectionView.snp.bottom).offset(18)
+            $0.centerX.equalTo(doorCollectionView.snp.centerX)
+            $0.width.equalTo(111)
+            $0.height.equalTo(45)
+        }
     }
 }
-
