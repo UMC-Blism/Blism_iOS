@@ -10,6 +10,7 @@ class VisiterHomeViewController: UIViewController {
     
     private let rootView = VisiterHomeView()
     let viewController = HomeDisclosureViewController()
+    private let dummy = MailBoxCollectionViewModel.Dummy()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,13 +52,13 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let MailBoxCell = rootView.doorCollectionView.dequeueReusableCell(withReuseIdentifier: MailBoxCollectionViewCell.identifier, for: indexPath) as? MailBoxCollectionViewCell else {
+        guard let mailBoxCell = rootView.doorCollectionView.dequeueReusableCell(withReuseIdentifier: MailBoxCollectionViewCell.identifier, for: indexPath) as? MailBoxCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let Dummy = MailBoxCollectionViewModel.Dummy()
-        MailBoxCell.doorImage.image = Dummy[indexPath.row].doorImage
         
-        return MailBoxCell
+        mailBoxCell.config(image: dummy[indexPath.row].doorImage)
+        
+        return mailBoxCell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
