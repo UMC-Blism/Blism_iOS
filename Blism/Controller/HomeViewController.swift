@@ -37,6 +37,10 @@ class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
     func nicknameChange(nickname: String){
         
         let updatedText = rootView.mailboxOwner.text?.replacingOccurrences(of: "지수", with: nickname)
@@ -56,7 +60,6 @@ class HomeViewController: UIViewController {
     
     @objc func goToSearch(){
         //nav 추가
-        print("검색")
         let viewController = VisiterHomeViewController()
         
         navigationController?.pushViewController(viewController, animated: true)
@@ -65,7 +68,6 @@ class HomeViewController: UIViewController {
     
     @objc func goToMenu(){
         //nav 추가
-        print("메뉴")
         let nextVC = MyPageViewController()
         navigationController?.pushViewController(nextVC, animated: true)
     }
