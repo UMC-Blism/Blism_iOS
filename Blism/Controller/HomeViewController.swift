@@ -11,6 +11,7 @@ class HomeViewController: UIViewController {
     
     private let rootView = HomeView()
     let viewController = HomeDisclosureViewController()
+    private let dummyData = MailBoxCollectionViewModel.Dummy()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,13 +73,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let MailBoxCell = rootView.doorCollectionView.dequeueReusableCell(withReuseIdentifier: MailBoxCollectionViewCell.identifier, for: indexPath) as? MailBoxCollectionViewCell else {
+        guard let mailBoxCell = rootView.doorCollectionView.dequeueReusableCell(withReuseIdentifier: MailBoxCollectionViewCell.identifier, for: indexPath) as? MailBoxCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let Dummy = MailBoxCollectionViewModel.Dummy()
-        MailBoxCell.doorImage.image = Dummy[indexPath.row].doorImage
+
+        mailBoxCell.config(image: dummyData[indexPath.row].doorImage)
         
-        return MailBoxCell
+        return mailBoxCell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
