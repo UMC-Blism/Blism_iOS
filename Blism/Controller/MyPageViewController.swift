@@ -93,7 +93,11 @@ extension MyPageViewController : UITableViewDelegate {
         case 0: nextVC = LetterListViewController(type: .receivedLetter)    // 내가 받은 답장
         case 1: nextVC = LetterListViewController(type: .sentReplyLetter)        // 내가 보낸 답장
         case 2: nextVC = LetterListViewController(type: .writingLetter)           // 내가 보낸 편지
-        case 3: nextVC = PrevMailBoxViewController()    // 이전 메일함
+        case 3:
+            let dummyData = [
+                ["2020", 10], ["2021", 20], ["2022", 30], ["2023", 15], ["2024", 23],
+            ]
+            nextVC = PrevMailBoxViewController(data: dummyData)    // 이전 메일함
         case 4: nextVC = CheckNicknameViewController()    // 닉네임 변경
         default : break
         }
