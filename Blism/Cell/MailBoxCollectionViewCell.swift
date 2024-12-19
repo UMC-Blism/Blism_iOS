@@ -19,10 +19,11 @@ class MailBoxCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var doorImage = UIImageView().then{
+    private let doorImage = UIImageView().then{
         $0.contentMode = .scaleAspectFill
     }
-    func setComponent(){
+    
+    private func setComponent(){
         addSubview(doorImage)
         
         doorImage.snp.makeConstraints{
@@ -31,4 +32,9 @@ class MailBoxCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(86)
         }
     }
+    
+    public func config(image: UIImage){
+        doorImage.image = image
+    }
+    
 }
