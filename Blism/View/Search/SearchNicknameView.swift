@@ -53,14 +53,14 @@ class SearchNicknameView: UIView {
     }
     
     // 최근 검색한 우체통 라벨
-    private let recentSearchLabel = UILabel().then {
+    let recentSearchLabel = UILabel().then {
         $0.text = "최근 검색한 우체통"
         $0.font = .customFont(font: .PretendardLight, ofSize: 12)
         $0.textColor = UIColor(hex: "#575A61")
     }
     
     // 검색 기록 삭제하기 라벨
-    private let deleteSearchHistoryLabel = UILabel().then {
+    let deleteSearchHistoryLabel = UILabel().then {
         $0.text = "검색 기록 삭제하기"
         $0.font = .customFont(font: .PretendardLight, ofSize: 12)
         $0.textColor = UIColor(hex: "#575A61")

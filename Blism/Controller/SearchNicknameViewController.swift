@@ -22,9 +22,36 @@ class SearchNicknameViewController: UIViewController {
 
         view = searchNicknameView
         self.navigationController?.isNavigationBarHidden = true
+        
+        setupAction()
+    }
+
+    private func setupAction() {
+        searchNicknameView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        searchNicknameView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
-
+    @objc
+    private func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func searchButtonTapped() {
+        if searchNicknameView.searchTextField.text?.isEmpty ?? true {
+            searchNicknameView.searchHistoryTableView.isHidden = true
+            searchNicknameView.searchResultTableView.isHidden = true
+            searchNicknameView.noResultView.isHidden = false
+            searchNicknameView.recentSearchLabel.isHidden = true
+            searchNicknameView.deleteSearchHistoryLabel.isHidden = true
+        } else {
+            searchNicknameView.searchHistoryTableView.isHidden = true
+            searchNicknameView.searchResultTableView.isHidden = false
+            searchNicknameView.recentSearchLabel.isHidden = true
+            searchNicknameView.noResultView.isHidden = true
+            searchNicknameView.deleteSearchHistoryLabel.isHidden = true
+        }
+    }
 }
 
 extension SearchNicknameViewController: UITableViewDelegate, UITableViewDataSource {
