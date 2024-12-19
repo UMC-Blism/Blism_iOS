@@ -10,6 +10,7 @@ class VisiterHomeViewController: UIViewController {
     
     private let rootView = VisiterHomeView()
     let viewController = HomeDisclosureViewController()
+    let navTitle = NavTitleStackView()
     private let dummy = MailBoxCollectionViewModel.Dummy()
     
     override func viewDidLoad() {
@@ -21,8 +22,20 @@ class VisiterHomeViewController: UIViewController {
         nicknameChange(nickname: "아진") //이부분은 로그인할때 받아옴
         
         tapRecognizer()
+        setNavigationBar()
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+    }
+    
+    private func setNavigationBar(){
+        // 뒤로 가기 버튼
+        let leftBarButton = UIBarButtonItem(image: .popIcon, style: .plain, target: self, action: #selector(goBack))
+        leftBarButton.tintColor = .white
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
         
         
+        self.navigationItem.titleView = navTitle
     }
 
     private func nicknameChange(nickname: String){
@@ -30,6 +43,8 @@ class VisiterHomeViewController: UIViewController {
         let updatedText = rootView.mailboxOwner.text?.replacingOccurrences(of: "지수", with: nickname)
         
         rootView.mailboxOwner.text = updatedText
+        navTitle.mailboxOwner.text = updatedText
+        
     }
     
     private func tapRecognizer(){
@@ -38,10 +53,10 @@ class VisiterHomeViewController: UIViewController {
         rootView.writeLetter.isUserInteractionEnabled = true
         
         rootView.backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        
     }
     
     @objc private func goBack(){
+        navigationController?.setNavigationBarHidden(true, animated: false)
         self.navigationController?.popViewController(animated: true)
     }
     

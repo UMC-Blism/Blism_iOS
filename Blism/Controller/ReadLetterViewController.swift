@@ -82,6 +82,7 @@ class ReadLetterViewController: UIViewController {
         rootView.letterReceiver.attributedText = attributedText1
         rootView.letterSender.attributedText = attributedText2
     }
+    
     func tapGesture(){
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBackToHome))
         self.view.addGestureRecognizer(tapGesture)
