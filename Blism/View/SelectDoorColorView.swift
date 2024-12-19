@@ -1,5 +1,5 @@
 //
-//  SelectDoorDesignView.swift
+//  SelectDoorColorView.swift
 //  Blism
 //
 //  Created by 이재혁 on 12/19/24.
@@ -7,13 +7,14 @@
 
 import UIKit
 
-class SelectDoorDesignView: UIView {
+class SelectDoorColorView: UIView {
+
     // 백그라운드 이미지 뷰
     private let backgroundImageView = BackGroundImageView(type: .white)
     
     // 설명 라벨
     private let descriptionLabel = UILabel().then {
-        $0.text = "지수님에게 보낼 문을 골라주세요."
+        $0.text = "색상을 선택해주세요."
         $0.font = .customFont(font: .PretendardRegular, ofSize: 15)
         $0.textColor = .blismBlack
     }
@@ -22,20 +23,16 @@ class SelectDoorDesignView: UIView {
     private let frameView = UIImageView().then {
         $0.image = .selectDesginFrame
         $0.contentMode = .scaleAspectFill
-        $0.isUserInteractionEnabled = true
     }
     
     // 문 디자인 컬렉션 뷰
-    public var selectDoorDesignCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
+    let selectDoorColorCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
         $0.estimatedItemSize = .init(width: 111, height: 133)
         $0.minimumInteritemSpacing = 48
         $0.minimumLineSpacing = 23
     }).then {
         $0.backgroundColor = .clear
         $0.isScrollEnabled = false
-        $0.isUserInteractionEnabled = true
-        $0.allowsMultipleSelection = false
-        $0.allowsSelection = true
         $0.register(DoorDesignCollectionViewCell.self, forCellWithReuseIdentifier: DoorDesignCollectionViewCell.identifier)
     }
     
@@ -89,7 +86,7 @@ class SelectDoorDesignView: UIView {
         ].forEach { addSubview($0) }
         
         [
-            selectDoorDesignCollectionView
+            selectDoorColorCollectionView
         ].forEach { frameView.addSubview($0) }
         
         [
@@ -99,7 +96,7 @@ class SelectDoorDesignView: UIView {
     }
     
     private func setUI() {
-        selectDoorDesignCollectionView.snp.makeConstraints {
+        selectDoorColorCollectionView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalTo(270)
             $0.height.equalTo(289)
@@ -139,5 +136,6 @@ class SelectDoorDesignView: UIView {
             $0.height.equalTo(45)
         }
     }
+
 
 }
