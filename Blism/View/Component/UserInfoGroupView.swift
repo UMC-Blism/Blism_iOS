@@ -20,7 +20,7 @@ class UserInfoGroupView : UIView {
     }
     
     // 텍스트 필드
-    private lazy var textField = LoginTextField(type: type)
+    public lazy var textField = LoginTextField(type: type)
     
     // 에러 라벨
     private lazy var errMessageLabel = UILabel().then { lbl in
@@ -57,7 +57,8 @@ class UserInfoGroupView : UIView {
         }
         
         textField.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.width.equalTo(270)
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.height.equalTo(45)
         }
