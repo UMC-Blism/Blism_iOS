@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let rootVC = LoginViewController()
         
         // 스플래시 화면 2초 노출
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2){
             let navigationController = UINavigationController(rootViewController: rootVC)
             self.window?.rootViewController = navigationController
         }

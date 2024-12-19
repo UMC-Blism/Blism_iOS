@@ -36,7 +36,10 @@ class VisiterCheckView: UIView {
     }
     
     // 닉네임 텍스트 필드
-    private let nicknameTextField = LoginTextField(type: .visitMailBox)
+    private let nicknameTextField = LoginTextField(type: .visitMailBox).then { txt in
+        txt.text = "햄"
+        txt.isUserInteractionEnabled = false
+    }
     
     
     // 확인코드 그룹
