@@ -88,34 +88,18 @@ class VisiterHomeView: UIView {
     
     func setupView(){
         addSubview(backgroundImage)
-        addSubview(backButton)
         addSubview(mailboxImage)
         addSubview(doorCollectionView)
-        addSubview(mailboxOwner)
-        addSubview(mailBoxSubTitle)
         addSubview(writeLetter)
 
         
         backgroundImage.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
-        backButton.snp.makeConstraints{
-            $0.top.equalTo(safeAreaLayoutGuide).offset(44)
-            $0.leading.equalTo(safeAreaLayoutGuide).offset(16)
-            $0.width.equalTo(16)
-            $0.height.equalTo(32)
-        }
-        mailboxOwner.snp.makeConstraints{
-            $0.top.equalTo(safeAreaLayoutGuide).offset(44)
-            $0.leading.equalTo(backButton.snp.trailing).offset(71.5)
-        }
-        mailBoxSubTitle.snp.makeConstraints{
-            $0.top.equalTo(mailboxOwner.snp.bottom).offset(3)
-            $0.centerX.equalTo(mailboxOwner.snp.centerX)
-        }
+
     
         mailboxImage.snp.makeConstraints{
-            $0.top.equalTo(mailboxOwner.snp.bottom).offset(25)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(25)
             $0.centerX.equalToSuperview()
         }
         
