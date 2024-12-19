@@ -15,10 +15,10 @@ struct DoorDesignModel {
 extension DoorDesignModel {
     static func doorDesigns() -> [DoorDesignModel] {
         return [
-            DoorDesignModel(image: .doorA1, tag: 1),
-            DoorDesignModel(image: .doorB1, tag: 2),
-            DoorDesignModel(image: .doorC1, tag: 3),
-            DoorDesignModel(image: .doorD1, tag: 4)
+            DoorDesignModel(image: .doorABlank, tag: 1),
+            DoorDesignModel(image: .doorBBlank, tag: 2),
+            DoorDesignModel(image: .doorCBlank, tag: 3),
+            DoorDesignModel(image: .doorDBlank, tag: 4)
         ]
     }
     
@@ -55,6 +55,15 @@ extension DoorDesignModel {
             DoorDesignModel(image: .doorD2, tag: 2),
             DoorDesignModel(image: .doorD3, tag: 3),
             DoorDesignModel(image: .doorD4, tag: 4)
+        ]
+    }
+    
+    static func doorOrnaments() -> [DoorDesignModel] {
+        return [
+            DoorDesignModel(image: .flower, tag: 1),
+            DoorDesignModel(image: .ribbon, tag: 2),
+            DoorDesignModel(image: .leece, tag: 3),
+            DoorDesignModel(image: .bell, tag: 4)
         ]
     }
 }
