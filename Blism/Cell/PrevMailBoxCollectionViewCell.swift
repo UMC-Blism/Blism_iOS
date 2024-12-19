@@ -43,7 +43,7 @@ class PrevMailBoxCollectionViewCell: UICollectionViewCell{
         }
         
         yearLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+            make.centerX.equalToSuperview().multipliedBy(0.95)
             make.centerY.equalToSuperview().multipliedBy(1.1)
         }
     }
