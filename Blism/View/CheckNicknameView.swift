@@ -1,5 +1,5 @@
 //
-//  ChangeNicknameView.swift
+//  CheckNicknameView.swift
 //  Blism
 //
 //  Created by 이수현 on 12/19/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChangeNicknameView : UIView {
+class CheckNicknameView : UIView {
     // 배경
     private let backgroundImageView = BackGroundImageView(type: .white)
     
