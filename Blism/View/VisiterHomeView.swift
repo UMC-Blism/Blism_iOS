@@ -70,27 +70,11 @@ class VisiterHomeView: UIView {
         return label
     }()
     
-    public let writeLetter: UIButton = {
-        let btn = UIButton()
-        
-        btn.setTitle("편지 쓰기", for: .normal)
-        btn.backgroundColor = UIColor.blismBlue
-        btn.titleLabel?.textColor = .white
-        btn.titleLabel?.font = .customFont(font: .PretendardSemiBold, ofSize: 15)
-        btn.layer.cornerRadius = 10
-        btn.layer.masksToBounds = true
-        
-        return btn
-    }()
-    
-    
-   
     
     func setupView(){
         addSubview(backgroundImage)
         addSubview(mailboxImage)
         addSubview(doorCollectionView)
-        addSubview(writeLetter)
 
         
         backgroundImage.snp.makeConstraints{
@@ -108,12 +92,6 @@ class VisiterHomeView: UIView {
             $0.centerX.equalTo(mailboxImage)
             $0.bottom.equalTo(mailboxImage.snp.bottom).offset(-65)
             $0.width.equalTo(286)
-        }
-        writeLetter.snp.makeConstraints{
-            $0.top.equalTo(doorCollectionView.snp.bottom).offset(18)
-            $0.centerX.equalTo(doorCollectionView.snp.centerX)
-            $0.width.equalTo(111)
-            $0.height.equalTo(45)
         }
     }
 }

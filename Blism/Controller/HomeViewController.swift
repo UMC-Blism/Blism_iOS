@@ -37,9 +37,6 @@ class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = false
-    }
     
     func nicknameChange(nickname: String){
         

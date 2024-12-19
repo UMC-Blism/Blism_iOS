@@ -59,20 +59,8 @@ class NavTitleStackView: UIView {
         
         
         titleStackView.snp.makeConstraints{
-
-            $0.top.equalToSuperview()
-            $0.centerX.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         
-       mailboxOwner.snp.makeConstraints {
-           $0.top.equalToSuperview()
-           $0.height.equalTo(29)
-       }
-       
-       mailBoxSubTitle.snp.makeConstraints {
-           $0.height.equalTo(14)
-           $0.top.equalTo(mailboxOwner.snp.bottom)
-           $0.centerX.equalTo(mailboxOwner.snp.centerX)
-       }
     }
 }
