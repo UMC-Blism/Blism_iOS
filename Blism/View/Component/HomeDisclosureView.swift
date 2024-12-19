@@ -44,7 +44,7 @@ class HomeDisclosureView: UIView {
         btn.setTitle("네", for: .normal)
         btn.setTitleColor(UIColor.blismBlack, for: .normal)
         btn.backgroundColor = UIColor.alertButtonSkyBlue
-        btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        btn.titleLabel?.font = .customFont(font: .PretendardSemiBold, ofSize: 16)
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
         
@@ -58,7 +58,7 @@ class HomeDisclosureView: UIView {
         btn.setTitle("아니오", for: .normal)
         btn.setTitleColor(UIColor.blismBlack, for: .normal)
         btn.backgroundColor = UIColor.alertButtonSkyBlue
-        btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        btn.titleLabel?.font = .customFont(font: .PretendardSemiBold, ofSize: 16)
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
         

@@ -30,7 +30,7 @@ class HomeDoNotDisclosureView: UIView {
         label.text = "비공개 우체통이에요."
         
         label.textColor = UIColor.blismBlack
-        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.font = .customFont(font: .PretendardRegular, ofSize: 15)
         label.textAlignment = .center
         label.numberOfLines = 2
         

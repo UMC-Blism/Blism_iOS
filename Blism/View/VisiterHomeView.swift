@@ -55,7 +55,7 @@ class VisiterHomeView: UIView {
         
         label.text = "지수님의 우체통"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 24)
+        label.font = .customFont(font: .PretendardRegular, ofSize: 24)
         
         return label
     }()
@@ -65,7 +65,7 @@ class VisiterHomeView: UIView {
         
         label.text = "편지를 작성해보세요."
         label.textColor = .white
-        label.font = .systemFont(ofSize: 12)
+        label.font = .customFont(font: .PretendardRegular, ofSize: 12)
         
         return label
     }()
@@ -76,7 +76,7 @@ class VisiterHomeView: UIView {
         btn.setTitle("편지 쓰기", for: .normal)
         btn.backgroundColor = UIColor.blismBlue
         btn.titleLabel?.textColor = .white
-        btn.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
+        btn.titleLabel?.font = .customFont(font: .PretendardSemiBold, ofSize: 15)
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
         

@@ -45,7 +45,7 @@ class HomeView: UIView {
         
         label.text = "지수님의 우체통"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 24)
+        label.font = .customFont(font: .PretendardRegular, ofSize: 24)
         
         return label
     }()
@@ -55,7 +55,7 @@ class HomeView: UIView {
         
         label.text = "n개의 둥지가 완성됐어요!"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 12)
+        label.font = .customFont(font: .PretendardRegular, ofSize: 12)
         
         return label
     }()

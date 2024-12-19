@@ -67,7 +67,7 @@ class ReadLetterView: UIView {
         label.text = "편지내용이 들어갑니다편지내용이 들어갑니다.편지내용이 들어갑니다.편지내용이 들어갑니다.편지내용이 들어갑니다편지내용이 들어갑니다.편지내용이 들어갑니다.편지내용이 들어갑니다.편지내용이 들어갑니다편지내용이 들어갑니다.편지내용이 들어갑니다.편지내용이 들어갑니다.편지내용이 들어 "
         
         label.textColor = UIColor.blismBlue
-        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.font = .customFont(font: .SejongGeulggot, ofSize: 15)
         label.layer.cornerRadius = 10
         label.layer.borderWidth = 1
         label.layer.borderColor = UIColor.lightGray.cgColor
@@ -100,9 +100,9 @@ class ReadLetterView: UIView {
         let btn = UIButton()
         
         btn.setTitle("답장하기", for: .normal)
+        btn.titleLabel?.font = .customFont(font: .PretendardRegular, ofSize: 15)
         btn.backgroundColor = UIColor.blismBlue
         btn.titleLabel?.textColor = .white
-        btn.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
         btn.layer.cornerRadius = 10
         btn.layer.masksToBounds = true
         
