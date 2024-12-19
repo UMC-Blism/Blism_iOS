@@ -46,6 +46,26 @@ class MyPageView : UIView {
         lbl.textAlignment = .center
     }
     
+    // 우체통 공개 그룹 뷰
+    private let openMailBoxGroupView = UIView().then { view in
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 10
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 4)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.2
+    }
+    
+    private let openMailBoxLabel = UILabel().then { lbl in
+        lbl.text = "내 우체통 공개하기"
+        lbl.font = .customFont(font: .PretendardLight, ofSize: 15)
+        lbl.textColor = .blismBlack
+    }
+    
+    public let openMailBoxToggle = UISwitch().then { sw in
+        sw.onTintColor = .blismBlue
+    }
+    
     // 테이블 뷰
     public let tableView = UITableView(frame: .zero).then { view in
         view.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.id)
@@ -68,6 +88,10 @@ class MyPageView : UIView {
     
     private func setSubView(){
         [
+            openMailBoxLabel,
+            openMailBoxToggle
+        ].forEach{openMailBoxGroupView.addSubview($0)}
+        [
             nicknameLabel,
             dayDescriptionLabel,
             dayLabel
@@ -76,6 +100,7 @@ class MyPageView : UIView {
         [
             backgroundImageView,
             infoGroupView,
+            openMailBoxGroupView,
             tableView
         ].forEach{self.addSubview($0)}
     }
@@ -114,9 +139,30 @@ class MyPageView : UIView {
             make.bottom.equalToSuperview().inset(12.5)
         }
         
+        // 우체통 공개 여부 그룹
+        openMailBoxGroupView.snp.makeConstraints { make in
+            make.top.equalTo(infoGroupView.snp.bottom).offset(22)
+            make.width.equalTo(232)
+            make.height.equalTo(53)
+            make.centerX.equalToSuperview()
+        }
+        
+        openMailBoxLabel.snp.makeConstraints { make in
+            make.leading.equalTo(19)
+            make.centerY.equalToSuperview()
+            make.trailing.equalTo(openMailBoxToggle.snp.leading)
+        }
+        
+        openMailBoxToggle.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(19)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(63)
+            make.height.equalTo(31)
+        }
+        
         // tableView
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(infoGroupView.snp.bottom).offset(61)
+            make.top.equalTo(openMailBoxGroupView.snp.bottom).offset(50)
             make.horizontalEdges.equalToSuperview().inset(15)
             make.bottom.equalToSuperview().inset(10)
         }
