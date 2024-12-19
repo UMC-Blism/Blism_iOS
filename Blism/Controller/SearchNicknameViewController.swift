@@ -21,9 +21,17 @@ class SearchNicknameViewController: UIViewController {
         super.viewDidLoad()
 
         view = searchNicknameView
-        self.navigationController?.isNavigationBarHidden = true
+        
         
         setupAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
     }
 
     private func setupAction() {
@@ -54,7 +62,7 @@ class SearchNicknameViewController: UIViewController {
     }
 }
 
-extension SearchNicknameViewController: UITableViewDelegate, UITableViewDataSource {
+extension SearchNicknameViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == searchNicknameView.searchHistoryTableView {
             return 4
@@ -106,5 +114,17 @@ extension SearchNicknameViewController: UITableViewDelegate, UITableViewDataSour
             return 20
         }
         return 0
+    }
+}
+
+extension SearchNicknameViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch tableView {
+        case searchNicknameView.searchResultTableView:
+            let nextVC = VisiterCheckViewController()
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        default:
+            return
+        }
     }
 }
