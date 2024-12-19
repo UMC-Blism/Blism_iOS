@@ -95,7 +95,7 @@ class ReadLetterView: UIView {
         return label
     }()
 
-    private lazy var replyButton: UIButton = {
+    public lazy var replyButton: UIButton = {
         
         let btn = UIButton()
         
@@ -109,7 +109,7 @@ class ReadLetterView: UIView {
         return btn
     }()
     
-    private lazy var backButton: UIButton = {
+    public lazy var backButton: UIButton = {
         
         let btn = UIButton()
         
