@@ -10,6 +10,7 @@ import UIKit
 public enum LoginTextFieldType {
     case id
     case password
+    case checkCode
 }
 
 final class LoginTextField : UITextField {
@@ -31,7 +32,15 @@ final class LoginTextField : UITextField {
         self.leftViewMode = .always
         self.font = .customFont(font: .PretendardRegular, ofSize: 12)
         self.layer.cornerRadius = 20
-        self.placeholder = self.type == .id ? "아이디를 입력해주세요." : "확인코드를 기억해주세요."
+        
+        switch type {
+        case .id:
+            self.placeholder = "아이디를 입력해주세요."
+        case .password:
+            self.placeholder = "확인코드를 기억해주세요."
+        case .checkCode:
+            self.placeholder = "확인코드를 입력해주세요.."
+        }
 
     }
 }
