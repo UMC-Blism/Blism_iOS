@@ -57,7 +57,7 @@ class HomeViewController: UIViewController {
     
     @objc func goToSearch(){
         //nav 추가
-        let viewController = VisiterHomeViewController()
+        let viewController = SearchNicknameViewController()
         
         navigationController?.pushViewController(viewController, animated: true)
         

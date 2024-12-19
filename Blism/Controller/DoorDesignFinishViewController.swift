@@ -18,13 +18,28 @@ class DoorDesignFinishViewController: UIViewController {
         super.viewDidLoad()
 
         view = doorDesignFinishView
-        self.navigationItem.titleView = NavigationTitleView(title: "둥지 완성", titleColor: .blismBlack)
         
         print("design: \(selectedDoorDesignTag)")
         print("color: \(selectedDoorColorTag)")
         print("ornament: \(selectedDoorOrnamentTag)")
         setupDoor()
         setupAction()
+        setNavigationBar()
+    }
+    
+    private func setNavigationBar(){
+        // 뒤로 가기 버튼
+        let leftBarButton = UIBarButtonItem(image: .popIcon, style: .plain, target: self, action: #selector(popAction))
+        leftBarButton.tintColor = .blismBlack
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+        
+        // 타이틀
+        self.navigationItem.titleView = NavigationTitleView(title: "둥지 완성", titleColor: .blismBlack)
+    }
+    
+    @objc
+    private func popAction(){
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func setupDoor() {
