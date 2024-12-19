@@ -29,6 +29,7 @@ class WriteLetterView: UIView {
     private let fontOptionLabel = UILabel().then {
         $0.text = "폰트 옵션"
         $0.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
+        $0.textColor = .blismBlack
     }
     
     // 폰트 옵션 버튼들
@@ -61,6 +62,7 @@ class WriteLetterView: UIView {
     
     private var toggleSwitch = UISwitch().then {
         $0.isOn = false
+        $0.onTintColor = .blismBlue
     }
     
     // 편지 작성 텍스트뷰
@@ -99,7 +101,7 @@ class WriteLetterView: UIView {
         $0.textColor = UIColor(hex: "#6C8FC6")
     }
     
-    private let sendButton = UIButton().then {
+    let sendButton = UIButton().then {
         var configuration = UIButton.Configuration.filled()
         configuration.baseBackgroundColor = UIColor(hex: "#6C8FC6")
         
