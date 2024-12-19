@@ -72,7 +72,28 @@ class DoorDesignFinishViewController: UIViewController {
 
     @objc
     private func nextButtonAction() {
-        
+        guard let navigationController = navigationController else { return }
+
+        // VisiterHomeViewController를 스택에서 찾기
+        if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is VisiterHomeViewController }) {
+            // VisiterHomeViewController까지의 스택만 유지
+            let newStack = Array(navigationController.viewControllers[...targetIndex])
+            navigationController.setViewControllers(newStack, animated: true)
+        }
     }
 
 }
+
+/*
+ var presentingVC = self.presentingViewController
+  
+  // 특정 ViewController를 찾을 때까지 presentingViewController를 따라 올라감
+  while let parent = presentingVC {
+      if parent is TabBarController { // 원하는 뷰 컨트롤러 타입 체크
+          parent.dismiss(animated: true) // 특정 뷰를 찾으면 모든 모달 닫기
+          return
+      }
+      presentingVC = parent.presentingViewController
+      
+  }
+ */
