@@ -8,8 +8,23 @@
 import UIKit
 
 class ReadLetterViewController: UIViewController {
+
     private let rootView = ReadLetterView()
     private var isFirstAppear = true
+    
+    private let type: LetterListType
+    private let rootView : ReadLetterView
+    
+    init(type: LetterListType) {
+        self.type = type
+        rootView = ReadLetterView()
+        rootView.setButton(type: type)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
 
     override func viewDidLoad() {
@@ -22,6 +37,8 @@ class ReadLetterViewController: UIViewController {
         
         goToReply()
         
+
+        addAction()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,6 +57,10 @@ class ReadLetterViewController: UIViewController {
                // 동작할 애니메이션에 대한 코드
             self.rootView.alpha = 1 // 점진적으로 투명도가 1이 됩니다.
         }, completion: nil)
+    }
+    
+    private func addAction(){
+        rootView.backButton.addTarget(self, action: #selector(goBackToHome), for: .touchUpInside)
     }
     
     func textSetting(){

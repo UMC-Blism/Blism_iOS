@@ -24,7 +24,7 @@ class VisiterHomeViewController: UIViewController {
         tapRecognizer()
         setNavigationBar()
         
-        navigationController?.setNavigationBarHidden(false, animated: true)
+//        navigationController?.setNavigationBarHidden(false, animated: true)
         
     }
     
@@ -32,7 +32,7 @@ class VisiterHomeViewController: UIViewController {
         // 뒤로 가기 버튼
         let leftBarButton = UIBarButtonItem(image: .popIcon, style: .plain, target: self, action: #selector(goBack))
         leftBarButton.tintColor = .white
-        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: false)
         
         
         self.navigationItem.titleView = navTitle
@@ -56,7 +56,7 @@ class VisiterHomeViewController: UIViewController {
     }
     
     @objc private func goBack(){
-        navigationController?.setNavigationBarHidden(true, animated: false)
+//        navigationController?.setNavigationBarHidden(true, animated: false)
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -83,32 +83,32 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-        let todayDate = Date()
-        let calendar = Calendar.current
-        
-        // 오늘 날짜의 '일(day)' 추출
-        let day = calendar.component(.day, from: todayDate)
-        
-        let readLetterPosibleDate = indexPath.row + 1
-            
-        if (day >= readLetterPosibleDate){
-            
-            let viewController = ReadLetterViewController()
-            
-            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
-            viewController.modalPresentationStyle = .overFullScreen
-            present(viewController, animated: true)
-        }else{
-            
-            let viewController = HomeDateAlertViewController()
-            
-            viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
-            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
-            viewController.modalPresentationStyle = .overFullScreen
-            present(viewController, animated: false)
-            
-
-        }
+//        let todayDate = Date()
+//        let calendar = Calendar.current
+//        
+//        // 오늘 날짜의 '일(day)' 추출
+//        let day = calendar.component(.day, from: todayDate)
+//        
+//        let readLetterPosibleDate = indexPath.row + 1
+//            
+//        if (day >= readLetterPosibleDate){
+//            
+//            let viewController = ReadLetterViewController()
+//            
+//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
+//            viewController.modalPresentationStyle = .overFullScreen
+//            present(viewController, animated: true)
+//        }else{
+//            
+//            let viewController = HomeDateAlertViewController()
+//            
+//            viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
+//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
+//            viewController.modalPresentationStyle = .overFullScreen
+//            present(viewController, animated: false)
+//        }
+        let nextVC = WriteLetterViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
         
     }
    

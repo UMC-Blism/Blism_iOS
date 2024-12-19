@@ -32,6 +32,10 @@ class MyPageViewController : UIViewController {
         setProtocol()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
     private func setProtocol(){
         myPageView.tableView.dataSource = self
         myPageView.tableView.delegate = self

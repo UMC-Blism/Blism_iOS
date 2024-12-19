@@ -84,5 +84,20 @@ extension LetterListViewController : UITableViewDataSource {
 
 
 extension LetterListViewController : UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // 인덱스에 따라 연결
+        
+        var nextVC = ReadLetterViewController(type: .receivedLetter)
+        
+        switch type {
+        case .receivedLetter: nextVC = ReadLetterViewController(type: .receivedLetter)
+        case .sentReplyLetter: nextVC = ReadLetterViewController(type: .sentReplyLetter)
+        case .writingLetter: nextVC = ReadLetterViewController(type: .writingLetter)
+        default:
+            return
+        }
+        nextVC.modalPresentationStyle = .overFullScreen
+        present(nextVC, animated: false)
+        
+    }
 }
