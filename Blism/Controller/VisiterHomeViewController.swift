@@ -18,13 +18,14 @@ class VisiterHomeViewController: UIViewController {
         view = rootView
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
+        self.navigationController?.navigationBar.isHidden = false
+        
         
         nicknameChange(nickname: "아진") //이부분은 로그인할때 받아옴
         
         tapRecognizer()
         setNavigationBar()
         
-//        navigationController?.setNavigationBarHidden(false, animated: true)
         
     }
     
@@ -32,7 +33,7 @@ class VisiterHomeViewController: UIViewController {
         // 뒤로 가기 버튼
         let leftBarButton = UIBarButtonItem(image: .popIcon, style: .plain, target: self, action: #selector(goBack))
         leftBarButton.tintColor = .white
-        self.navigationItem.setLeftBarButton(leftBarButton, animated: false)
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
         
         
         self.navigationItem.titleView = navTitle
@@ -53,7 +54,6 @@ class VisiterHomeViewController: UIViewController {
     }
     
     @objc private func goBack(){
-//        navigationController?.setNavigationBarHidden(true, animated: false)
         self.navigationController?.popViewController(animated: true)
     }
     
