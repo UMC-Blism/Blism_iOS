@@ -48,9 +48,6 @@ class VisiterHomeViewController: UIViewController {
     }
     
     private func tapRecognizer(){
-        let writeLetterTapGesture = UITapGestureRecognizer(target: self, action: #selector(goToWriteLetter))
-        rootView.writeLetter.addGestureRecognizer(writeLetterTapGesture)
-        rootView.writeLetter.isUserInteractionEnabled = true
         
         rootView.backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
     }

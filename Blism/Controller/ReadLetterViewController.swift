@@ -9,7 +9,6 @@ import UIKit
 
 class ReadLetterViewController: UIViewController {
 
-    private let rootView = ReadLetterView()
     private var isFirstAppear = true
     
     private let type: LetterListType
