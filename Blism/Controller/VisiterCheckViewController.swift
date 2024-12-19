@@ -13,6 +13,7 @@ class VisiterCheckViewController : UIViewController {
         super.viewDidLoad()
         self.view = visiterCheckView
         setNavigationBar()
+        setAction()
     }
     
     private func setNavigationBar(){
@@ -28,5 +29,15 @@ class VisiterCheckViewController : UIViewController {
     @objc
     private func popAction(){
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func setAction(){
+        visiterCheckView.visitButton.addTarget(self, action: #selector(touchUpVisiteButton), for: .touchUpInside)
+    }
+    
+    @objc
+    func touchUpVisiteButton(){
+        let nextVC = VisiterHomeViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
