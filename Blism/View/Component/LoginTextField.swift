@@ -11,6 +11,7 @@ public enum LoginTextFieldType {
     case id
     case password
     case checkCode
+    case visitMailBox
 }
 
 final class LoginTextField : UITextField {
@@ -39,7 +40,9 @@ final class LoginTextField : UITextField {
         case .password:
             self.placeholder = "확인코드를 기억해주세요."
         case .checkCode:
-            self.placeholder = "확인코드를 입력해주세요.."
+            self.placeholder = "확인코드를 입력해주세요."
+        case .visitMailBox:
+            self.placeholder = "방문할 우체통의 아이디를 입력해주세요."
         }
 
     }
