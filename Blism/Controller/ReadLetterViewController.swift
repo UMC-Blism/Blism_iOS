@@ -8,6 +8,10 @@
 import UIKit
 
 class ReadLetterViewController: UIViewController {
+
+    private let rootView = ReadLetterView()
+    private var isFirstAppear = true
+    
     private let type: LetterListType
     private let rootView : ReadLetterView
     
@@ -22,6 +26,7 @@ class ReadLetterViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view = rootView
@@ -29,12 +34,20 @@ class ReadLetterViewController: UIViewController {
         
         tapGesture()
         textSetting()
+        
+        goToReply()
+        
+
         addAction()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        startAnimation()
+        
+        if isFirstAppear {  // 첫 번째 호출일 때만 실행
+            startAnimation()
+            isFirstAppear = false  // 이후에는 애니메이션을 실행하지 않음
+        }
     }
     
     private func startAnimation(){
@@ -87,7 +100,11 @@ class ReadLetterViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goBackToHome))
         self.view.addGestureRecognizer(tapGesture)
         rootView.backgroundImageView.isUserInteractionEnabled = false
+        
+        rootView.replyButton.addTarget(self, action: #selector(goToReply), for: .touchUpInside)
+        rootView.replyButton.isUserInteractionEnabled = true
     }
+    
     @objc func goBackToHome(){
         UIView.animate(withDuration: 0.1, animations: {
                self.view.alpha = 0 // 투명도 0으로 설정
@@ -95,4 +112,22 @@ class ReadLetterViewController: UIViewController {
                self.dismiss(animated: false, completion: nil)
            }
     }
+    
+    @objc func goToReply(){
+        
+        let replyViewController = ReplyLetterViewController()
+        
+        // 내비게이션 컨트롤러가 있을 경우 처리
+           if let navigationController = self.navigationController {
+               navigationController.pushViewController(replyViewController, animated: true)
+           } else {
+               // 내비게이션 컨트롤러가 없으면 새로 만들어서 모달로 띄우기
+               let navController = UINavigationController(rootViewController: replyViewController)
+               navController.modalPresentationStyle = .fullScreen // 전체 화면으로 표시
+               self.present(navController, animated: true, completion: nil)
+           }
+        
+        print("1")
+    }
+    
 }
