@@ -10,7 +10,9 @@ import UIKit
 class PrevMailBoxViewController: UIViewController {
     private let prevMailBoxView = PrevMailBoxView()
     
-    private let dummyData = ["2020", "2021", "2022", "2023", "2021", "2022", "2023"]
+    private let dummyData = [
+        ["2020", 10], ["2021", 20], ["2022", 30], ["2023", 15], ["2024", 23],
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +52,7 @@ extension PrevMailBoxViewController: UICollectionViewDataSource{
             return UICollectionViewCell()
         }
         
-        cell.config(year: dummyData[indexPath.row])
+        cell.config(year: dummyData[indexPath.row][0] as? String ?? "")
         return cell
     }
 }
@@ -58,7 +60,9 @@ extension PrevMailBoxViewController: UICollectionViewDataSource{
 extension PrevMailBoxViewController: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // API 연결
-        let nextVC = PrevMailBoxDetailViewController()
+        let year = dummyData[indexPath.row][0] as? String ?? ""
+        let count = dummyData[indexPath.row][1] as? Int ?? 0
+        let nextVC = PrevMailBoxDetailViewController(year: year, mailCount: count)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

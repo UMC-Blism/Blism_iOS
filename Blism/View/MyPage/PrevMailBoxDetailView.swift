@@ -10,9 +10,10 @@ import UIKit
 class PrevMailBoxDetailView: UIView{
     
     private let backgroundImageView = BackGroundImageView(type: .black)
+    private let title : String
     
-    private let titleLabel = UILabel().then { lbl in
-        lbl.text = "2024년에는 21통의 편지를 받았어요."
+    private lazy var titleLabel = UILabel().then { lbl in
+        lbl.text = title
         lbl.font = .customFont(font: .PretendardLight, ofSize: 15)
         lbl.textColor = .base2
         lbl.textAlignment = .center
@@ -26,11 +27,14 @@ class PrevMailBoxDetailView: UIView{
         
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(year: String, count: Int){
+        title = "\(year)년에는 \(count)통의 편지를 받았어요."
+        super.init(frame: .zero)
+        
         setSubView()
         setUI()
     }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
