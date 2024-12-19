@@ -21,6 +21,7 @@ class PrevMailBoxViewController: UIViewController {
     }
     private func setProtocol(){
         prevMailBoxView.collectionView.dataSource = self
+        prevMailBoxView.collectionView.delegate = self
     }
     
     private func setNavigationBar(){
@@ -52,6 +53,12 @@ extension PrevMailBoxViewController: UICollectionViewDataSource{
         cell.config(year: dummyData[indexPath.row])
         return cell
     }
-    
-    
+}
+
+extension PrevMailBoxViewController: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // API 연결
+        let nextVC = PrevMailBoxDetailViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
 }

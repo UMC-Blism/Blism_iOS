@@ -9,6 +9,8 @@ import UIKit
 
 class PrevMailBoxDetailView: UIView{
     
+    private let backgroundImageView = BackGroundImageView(type: .black)
+    
     private let titleLabel = UILabel().then { lbl in
         lbl.text = "2024년에는 21통의 편지를 받았어요."
         lbl.font = .customFont(font: .PretendardLight, ofSize: 15)
@@ -20,6 +22,7 @@ class PrevMailBoxDetailView: UIView{
         view.backgroundColor = UIColor(hex: "#EDEFF4")
         view.layer.cornerRadius = 8
         view.clipsToBounds = true
+        view.contentInset = UIEdgeInsets(top: 22, left: 21, bottom: 22, right: 21)
         
     }
     
@@ -35,12 +38,17 @@ class PrevMailBoxDetailView: UIView{
     
     private func setSubView(){
         [
+            backgroundImageView,
             titleLabel,
             collectionView
         ].forEach{self.addSubview($0)}
     }
     
     private func setUI(){
+        backgroundImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).inset(48)
             make.centerX.equalToSuperview()
@@ -49,7 +57,7 @@ class PrevMailBoxDetailView: UIView{
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(27)
             make.centerX.equalToSuperview()
-            make.width.equalTo(238)
+            make.width.equalTo(328)
             make.height.equalTo(522)
         }
     }
