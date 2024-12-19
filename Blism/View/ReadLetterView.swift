@@ -95,7 +95,7 @@ class ReadLetterView: UIView {
         return label
     }()
 
-    private lazy var replyButton: UIButton = {
+    public lazy var replyButton: UIButton = {
         
         let btn = UIButton()
         
