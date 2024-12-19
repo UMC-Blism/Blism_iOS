@@ -40,7 +40,17 @@ class SelectDoorOrnamentViewController: UIViewController {
 
     @objc
     private func nextButtonAction() {
+        guard let selectedIndexPath = selectOrnamentView.selectDoorOrnamentCollectionView.indexPathsForSelectedItems?.first else { return }
         
+        // 선택된 셀 태그 가져오기
+        let selectedDoorOrnamentTag = DoorDesignModel.doorOrnaments()[selectedIndexPath.row].tag
+        
+        // 완성 화면에 문 정보 전부 전달
+        let nextVC = DoorDesignFinishViewController()
+        nextVC.selectedDoorDesignTag = selectedDoorDesignTag
+        nextVC.selectedDoorColorTag = selectedDoorColorTag
+        nextVC.selectedDoorOrnamentTag = selectedDoorOrnamentTag
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
