@@ -100,7 +100,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
         if (day >= readLetterPosibleDate){
             
-            let viewController = ReadLetterViewController()
+            let viewController = ReadLetterViewController(type: .home)
             
 //            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
             viewController.modalPresentationStyle = .overFullScreen

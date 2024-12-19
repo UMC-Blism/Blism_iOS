@@ -8,8 +8,20 @@
 import UIKit
 
 class ReadLetterViewController: UIViewController {
-    private let rootView = ReadLetterView()
-
+    private let type: LetterListType
+    private let rootView : ReadLetterView
+    
+    init(type: LetterListType) {
+        self.type = type
+        rootView = ReadLetterView()
+        rootView.setButton(type: type)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view = rootView
@@ -17,9 +29,6 @@ class ReadLetterViewController: UIViewController {
         
         tapGesture()
         textSetting()
-        
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
