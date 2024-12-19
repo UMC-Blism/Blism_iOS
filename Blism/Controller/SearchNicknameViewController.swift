@@ -21,9 +21,13 @@ class SearchNicknameViewController: UIViewController {
         super.viewDidLoad()
 
         view = searchNicknameView
-        self.navigationController?.isNavigationBarHidden = true
+        
         
         setupAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
