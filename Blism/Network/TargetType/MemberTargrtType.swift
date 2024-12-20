@@ -63,16 +63,7 @@ extension MemberTargrtType: TargetType {
     }
     
     public var headers: [String : String]? {
-        switch self {
-        case .signUp:
-            return ["Content-Type": "application/json"]
-        case .duplicateId:
-            return [:]
-        case .changeId:
-            return [:]
-        case .searchNickcname:
-            return [:]
-        }
+        return ["Content-Type": "application/json"]
     }
     
     
