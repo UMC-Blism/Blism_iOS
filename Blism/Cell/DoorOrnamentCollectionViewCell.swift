@@ -49,8 +49,8 @@ class DoorOrnamentCollectionViewCell: UICollectionViewCell {
     private func setupConstraints() {
         doorOrnamentImageView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(70)
-            $0.height.equalTo(70)
+            $0.width.equalTo(63)
+            $0.height.equalTo(63)
         }
     }
 }
