@@ -59,9 +59,16 @@ class LoginView : UIView {
         attributedText.addAttribute(.font, value: UIFont.customFont(font: .PretendardBold, ofSize: 15), range: (text as NSString).range(of: login))
         lbl.attributedText = attributedText
     }
+    // 닉네임 그룹
+    private let sameNicknameExisted = UILabel().then { lbl in
+        lbl.text = "이미 존재하는 닉네임입니다."
+        lbl.font = .customFont(font: .PretendardRegular, ofSize: 10)
+        lbl.textColor = UIColor.errorRed
+    }
     
     // 아이디 텍스트 필드
-    private let idTextField = LoginTextField(type: .id)
+    public let idTextField = LoginTextField(type: .id)
+    
     
     // 중복 확인 버튼
     public let checkIdButton = LoginViewButton(type: .checkId)
@@ -77,7 +84,7 @@ class LoginView : UIView {
     }
     
     // 비밀번호 텍스트 필드
-    private let passwordTextField = LoginTextField(type: .password)
+    public let passwordTextField = LoginTextField(type: .password)
     
     // 생성하기 버튼
     public let createCodeButton = LoginViewButton(type: .createCode)
@@ -117,6 +124,7 @@ class LoginView : UIView {
         [
             idLabel,
             idTextField,
+            sameNicknameExisted,
             checkIdButton
         ].forEach{idGroupView.addSubview($0)} // 아이디 그룹
         
@@ -194,6 +202,13 @@ class LoginView : UIView {
         idTextField.snp.makeConstraints { make in
             make.top.equalTo(idLabel.snp.bottom).offset(10)
             make.leading.bottom.equalToSuperview()
+        }
+        
+        // 아이디 에러 라벨
+        sameNicknameExisted.snp.makeConstraints { make in
+            make.top.equalTo(idTextField.snp.bottom).offset(9)
+            make.leading.equalToSuperview().offset(5)
+            make.height.equalTo(12)
         }
         
         // 중복 확인 버튼

@@ -46,6 +46,7 @@ class HomeView: UIView {
         label.text = "지수님의 우체통"
         label.textColor = .white
         label.font = .customFont(font: .PretendardRegular, ofSize: 24)
+        label.numberOfLines = 1
         
         return label
     }()
@@ -91,12 +92,13 @@ class HomeView: UIView {
             $0.edges.equalToSuperview()
         }
         mailboxOwner.snp.makeConstraints{
-            $0.top.equalTo(safeAreaLayoutGuide).offset(44)
+            $0.top.equalToSuperview().offset(60)
             $0.leading.equalTo(safeAreaLayoutGuide).offset(16)
+            $0.trailing.equalTo(numberOfMail.snp.leading)
         }
         numberOfMail.snp.makeConstraints{
-            $0.top.equalTo(mailboxOwner.snp.bottom).offset(3)
-            $0.leading.equalTo(safeAreaLayoutGuide).offset(16)
+            $0.centerY.equalTo(mailboxOwner.snp.centerY)
+            $0.trailing.equalToSuperview().offset(-15.5)
         }
         searchButton.snp.makeConstraints{
             $0.top.equalTo(safeAreaLayoutGuide).offset(52)
@@ -109,12 +111,12 @@ class HomeView: UIView {
             $0.trailing.equalTo(safeAreaLayoutGuide).offset(-16)
         }
         mailboxImage.snp.makeConstraints{
-            $0.top.equalTo(mailboxOwner.snp.bottom).offset(25)
+            $0.top.equalTo(numberOfMail.snp.bottom).offset(19.5)
             $0.centerX.equalToSuperview()
         }
         
         doorCollectionView.snp.makeConstraints{
-            $0.top.equalTo(mailboxImage.snp.top).offset(137)
+            $0.top.equalTo(mailboxImage.snp.top).offset(126)
             $0.centerX.equalTo(mailboxImage)
             $0.bottom.equalTo(mailboxImage.snp.bottom).offset(-65)
             $0.width.equalTo(286)
