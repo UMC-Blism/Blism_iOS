@@ -313,6 +313,7 @@
 				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blism/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앨범에서 사진을 선택하기 위해 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -340,6 +341,7 @@
 				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blism/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "앨범에서 사진을 선택하기 위해 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

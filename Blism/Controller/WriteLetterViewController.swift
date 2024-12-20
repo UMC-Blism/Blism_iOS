@@ -12,15 +12,29 @@ import UIKit
 class WriteLetterViewController: UIViewController {
 
     private let writeView = WriteLetterView()
+    private let picker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view = writeView
         
+        setGesture()
+        setImagePicker()
         setNavigationBar()
         setAction()
         setDelegate()
+    }
+    
+    private func setGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openImagePicker))
+        
+        writeView.imageAttachView.addGestureRecognizer(tapGesture)
+    }
+    
+    private func setImagePicker() {
+        self.picker.sourceType = .photoLibrary
+        self.picker.modalPresentationStyle = .fullScreen
     }
     
     private func setAction() {
@@ -33,6 +47,7 @@ class WriteLetterViewController: UIViewController {
     
     private func setDelegate() {
         writeView.textView.delegate = self
+        self.picker.delegate = self
     }
     
     private func setNavigationBar(){
@@ -42,6 +57,11 @@ class WriteLetterViewController: UIViewController {
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
         
         self.navigationItem.titleView = NavigationTitleView(title: "편지 작성하기", titleColor: .blismBlack)
+    }
+    
+    @objc
+    private func openImagePicker() {
+        self.present(picker, animated: true, completion: nil)
     }
     
     @objc
@@ -96,6 +116,18 @@ extension WriteLetterViewController: UITextViewDelegate {
         if count > 150 {
             writeView.textView.text = String(writeView.textView.text.prefix(150))
             writeView.charCountLabel.text = "150/150"
+        }
+    }
+}
+
+extension WriteLetterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.dismiss(animated: false, completion: {
+                DispatchQueue.main.async {
+                    self.writeView.imageAttachView.image = image
+                }
+            })
         }
     }
 }

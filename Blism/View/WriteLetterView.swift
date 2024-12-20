@@ -29,9 +29,10 @@ class WriteLetterView: UIView {
     }
     
     // 이미지 첨부 이미지뷰
-    private let imageAttachView = UIImageView().then {
+    let imageAttachView = UIImageView().then {
         $0.image = .attachPhoto
         $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
         $0.isUserInteractionEnabled = true // 제스처 인식
     }
     
@@ -169,6 +170,12 @@ class WriteLetterView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        imageAttachView.layer.cornerRadius = 10
     }
     
     private func setSubview() {
