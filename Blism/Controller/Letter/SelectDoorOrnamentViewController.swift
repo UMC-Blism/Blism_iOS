@@ -49,6 +49,22 @@ class SelectDoorOrnamentViewController: UIViewController {
         selectOrnamentView.selectDoorOrnamentCollectionView.dataSource = self
     }
     
+    private func setNoOrnamentButtonConfiguration(color: String) {
+        var configuration = UIButton.Configuration.filled()
+        configuration.baseBackgroundColor = .base1
+        
+        var titleAttr = AttributedString.init("장식 없이")
+        titleAttr.font = .customFont(font: .PretendardSemiBold, ofSize: 15)
+        titleAttr.foregroundColor = .blismBlack
+        
+        configuration.attributedTitle = titleAttr
+        configuration.background.strokeColor = UIColor(hex: color)
+        configuration.background.strokeWidth = 2
+        
+        selectOrnamentView.noOrnamentButton.translatesAutoresizingMaskIntoConstraints = false
+        selectOrnamentView.noOrnamentButton.configuration = configuration
+    }
+    
     @objc
     private func previousButtonAction() {
         self.navigationController?.popViewController(animated: true)
@@ -83,6 +99,9 @@ class SelectDoorOrnamentViewController: UIViewController {
         if let cell = selectOrnamentView.selectDoorOrnamentCollectionView.cellForItem(at: selectedIndexPath) as? DoorOrnamentCollectionViewCell {
             cell.configureSelectedState(isSelected: false)
         }
+        
+        // 안고르기 버튼 업데이트
+        setNoOrnamentButtonConfiguration(color: "#E72B6D")
     }
 }
 
@@ -104,6 +123,7 @@ extension SelectDoorOrnamentViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? DoorOrnamentCollectionViewCell {
             cell.configureSelectedState(isSelected: true)
+            setNoOrnamentButtonConfiguration(color: "#B7D2E5")
         }
     }
     
