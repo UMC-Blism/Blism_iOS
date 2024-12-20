@@ -40,10 +40,12 @@ class SearchHistoryTableViewCell: UITableViewCell {
     let deleteButton = UIButton().then {
         $0.setImage(.close, for: .normal)
         $0.tintColor = UIColor(hex: "#575A61")
+        $0.isUserInteractionEnabled = true
     }
     
     private func setViews() {
         self.backgroundColor = .clear
+        self.contentView.isUserInteractionEnabled = true
         
         [
             historyNameLabel,
