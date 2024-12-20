@@ -13,9 +13,6 @@ class CheckNicknameViewController : UIViewController {
     private var inputCheckCode = ""
     
     override func viewDidLoad() {
-        changeNicknameView.nicknameGroupView.errMessageLabel.isHidden = true
-        changeNicknameView.checkCodeGroupView.errMessageLabel.isHidden = true
-        
         self.view = changeNicknameView
 
         addAction()

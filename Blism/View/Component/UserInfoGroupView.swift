@@ -27,6 +27,7 @@ class UserInfoGroupView : UIView {
         lbl.text = errMessage
         lbl.font = .customFont(font: .PretendardMedium, ofSize: 10)
         lbl.textColor = UIColor(hex: "#E72B6D")
+        lbl.isHidden = true
     }
     
     init(type: LoginTextFieldType, title: String, errMessage: String) {
