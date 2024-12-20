@@ -22,20 +22,22 @@ class CheckNicknameView : UIView {
     }
     
     // 닉네임 그룹
-    private let nicknameGroupView = UserInfoGroupView(type: .id, title: "기존 닉네임 (아이디)", errMessage: "닉네임을 다시 입력해주세요.")
+    public let nicknameGroupView = UserInfoGroupView(type: .id, title: "기존 닉네임 (아이디)", errMessage: "닉네임을 다시 입력해주세요.")
     
     
     // 확인코드 그룹
-    private let checkCodeGroupView = UserInfoGroupView(type: .checkCode, title: "확인 코드 입력", errMessage: "코드를 다시 확인해주세요.")
+    public let checkCodeGroupView = UserInfoGroupView(type: .checkCode, title: "확인 코드 입력", errMessage: "코드를 다시 확인해주세요.")
     
     // 다음 버튼
     public let nextButton = UIButton().then { btn in
         btn.setTitle("다음", for: .normal)
         btn.titleLabel?.font = .customFont(font: .PretendardRegular, ofSize: 15)
         btn.setTitleColor(.base2, for: .normal)
-        btn.backgroundColor = .blismBlue
         btn.layer.cornerRadius = 10
         btn.clipsToBounds = true
+        
+        btn.backgroundColor = .systemGray4
+        btn.isUserInteractionEnabled = false
     }
     
     

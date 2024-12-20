@@ -23,7 +23,7 @@ class UserInfoGroupView : UIView {
     public lazy var textField = LoginTextField(type: type)
     
     // 에러 라벨
-    private lazy var errMessageLabel = UILabel().then { lbl in
+    public lazy var errMessageLabel = UILabel().then { lbl in
         lbl.text = errMessage
         lbl.font = .customFont(font: .PretendardMedium, ofSize: 10)
         lbl.textColor = UIColor(hex: "#E72B6D")
