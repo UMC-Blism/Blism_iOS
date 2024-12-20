@@ -20,6 +20,7 @@ class WriteLetterView: UIView {
     private let imageAttachView = UIImageView().then {
         $0.image = .attachPhoto
         $0.contentMode = .scaleAspectFill
+        $0.isUserInteractionEnabled = true // 제스처 인식
     }
     
     // 폰트 옵션 그룹뷰
@@ -28,7 +29,7 @@ class WriteLetterView: UIView {
     // 폰트 옵션 라벨
     private let fontOptionLabel = UILabel().then {
         $0.text = "폰트 옵션"
-        $0.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
+        $0.font = .customFont(font: .PretendardLight, ofSize: 15)
         $0.textColor = .blismBlack
     }
     
@@ -36,27 +37,27 @@ class WriteLetterView: UIView {
     public let fontOption1Button: UIButton = createFontOptionButton(font: .customFont(font: .SejongGeulggot, ofSize: 15), title: "1번 폰트")
     public let fontOption2Button: UIButton = createFontOptionButton(font: .customFont(font: .KyoboHandWriting, ofSize: 15), title: "2번 폰트")
     public let fontOption3Button: UIButton = createFontOptionButton(font: .customFont(font: .GanwonEduLight, ofSize: 15), title: "3번 폰트")
-    public let fontOption4Button: UIButton = createFontOptionButton(font: .customFont(font: .PretendardRegular, ofSize: 15), title: "4번 폰트")
+    public let fontOption4Button: UIButton = createFontOptionButton(font: .customFont(font: .PretendardLight, ofSize: 14), title: "4번 폰트")
     
     // 받는 사람 그룹
     private let receiverGroupView: UIView = createSenderReceiverGroupView()
     
     private let receiverLabel = UILabel().then {
         $0.text = "To ."
-        $0.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
+        $0.font = .customFont(font: .PretendardLight, ofSize: 15)
         $0.textColor = UIColor(hex: "#1A274F")
     }
     
     private let receiverNameLabel = UILabel().then {
         $0.text = "받는 사람"
-        $0.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
+        $0.font = .customFont(font: .PretendardLight, ofSize: 15)
         $0.textColor = UIColor(hex: "#6C8FC6")
     }
     
     // 공개하기 토글 스위치
     private let toggleLabel = UILabel().then {
-        $0.text = "이 편지를 공개하기"
-        $0.font = .systemFont(ofSize: 12, weight: UIFont.Weight(300))
+        $0.text = "이 편지를 잠그기"
+        $0.font = .customFont(font: .PretendardLight, ofSize: 12)
         $0.textColor = UIColor(hex: "#1A274F")
     }
     
@@ -66,24 +67,27 @@ class WriteLetterView: UIView {
     }
     
     // 편지 작성 텍스트뷰
-    private let textView = UITextView().then {
+    let textView = UITextView().then {
         $0.layer.borderColor = UIColor(hex: "#B7D2E5")?.cgColor
         $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 10
         $0.backgroundColor = .white
-        $0.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
+        $0.clipsToBounds = false
+        $0.isScrollEnabled = false
+        $0.font = .customFont(font: .PretendardLight, ofSize: 15)
+        $0.textContainerInset = UIEdgeInsets(top: 12, left: 10, bottom: 12, right: 12)
     }
     
-    private let placeholderLabel = UILabel().then {
+    let placeholderLabel = UILabel().then {
         $0.text = "편지를 작성해 주세요."
         $0.textColor = UIColor(hex: "#6C8FC6")
-        $0.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
+        $0.font = .customFont(font: .PretendardLight, ofSize: 15)
     }
     
-    private let charCountLabel = UILabel().then {
+    let charCountLabel = UILabel().then {
         $0.text = "0/150"
         $0.textColor = UIColor(hex: "#6C8FC6")
-        $0.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
+        $0.font = .customFont(font: .PretendardLight, ofSize: 15)
     }
     
     // 보내는 사람 그룹
@@ -91,13 +95,13 @@ class WriteLetterView: UIView {
     
     private let senderLabel = UILabel().then {
         $0.text = "From ."
-        $0.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
+        $0.font = .customFont(font: .PretendardLight, ofSize: 15)
         $0.textColor = UIColor(hex: "#1A274F")
     }
     
     private let senderNameLabel = UILabel().then {
         $0.text = "보내는 사람"
-        $0.font = .systemFont(ofSize: 15, weight: UIFont.Weight(300))
+        $0.font = .customFont(font: .PretendardLight, ofSize: 15)
         $0.textColor = UIColor(hex: "#6C8FC6")
     }
     
@@ -175,8 +179,7 @@ class WriteLetterView: UIView {
         ].forEach { senderGroupView.addSubview($0) } // 보내는 사람 그룹
         
         [
-            placeholderLabel,
-            charCountLabel
+            placeholderLabel
         ].forEach { textView.addSubview($0) }
         
         [
@@ -187,6 +190,7 @@ class WriteLetterView: UIView {
             toggleLabel,
             toggleSwitch,
             textView,
+            charCountLabel,
             senderGroupView,
             sendButton
         ].forEach { addSubview($0) }
@@ -277,7 +281,6 @@ class WriteLetterView: UIView {
         
         // 텍스트뷰
         textView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
             $0.top.equalTo(receiverGroupView.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(155)
@@ -288,7 +291,8 @@ class WriteLetterView: UIView {
         }
         
         charCountLabel.snp.makeConstraints {
-            $0.trailing.bottom.equalToSuperview().inset(15)
+            //$0.trailing.bottom.equalToSuperview().inset(15)
+            $0.trailing.bottom.equalTo(textView).offset(-15)
         }
         
         // 보내는 사람 그룹

@@ -20,10 +20,19 @@ class WriteLetterViewController: UIViewController {
         
         setNavigationBar()
         setAction()
+        setDelegate()
     }
     
     private func setAction() {
         writeView.sendButton.addTarget(self, action: #selector(touchUpInsideSendButton), for: .touchUpInside)
+        writeView.fontOption1Button.addTarget(self, action: #selector(changeFontOption1), for: .touchUpInside)
+        writeView.fontOption2Button.addTarget(self, action: #selector(changeFontOption2), for: .touchUpInside)
+        writeView.fontOption3Button.addTarget(self, action: #selector(changeFontOption3), for: .touchUpInside)
+        writeView.fontOption4Button.addTarget(self, action: #selector(changeFontOption4), for: .touchUpInside)
+    }
+    
+    private func setDelegate() {
+        writeView.textView.delegate = self
     }
     
     private func setNavigationBar(){
@@ -47,4 +56,46 @@ class WriteLetterViewController: UIViewController {
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
+    @objc
+    private func changeFontOption1() {
+        writeView.textView.font = .customFont(font: .SejongGeulggot, ofSize: 15)
+        writeView.placeholderLabel.font = .customFont(font: .SejongGeulggot, ofSize: 15)
+        writeView.charCountLabel.font = .customFont(font: .SejongGeulggot, ofSize: 15)
+        
+        writeView.textView.layoutIfNeeded()
+    }
+    
+    @objc
+    private func changeFontOption2() {
+        writeView.textView.font = .customFont(font: .KyoboHandWriting, ofSize: 15)
+        writeView.placeholderLabel.font = .customFont(font: .KyoboHandWriting, ofSize: 15)
+        writeView.charCountLabel.font = .customFont(font: .KyoboHandWriting, ofSize: 15)
+    }
+    
+    @objc
+    private func changeFontOption3() {
+        writeView.textView.font = .customFont(font: .GanwonEduLight, ofSize: 15)
+        writeView.placeholderLabel.font = .customFont(font: .GanwonEduLight, ofSize: 15)
+        writeView.charCountLabel.font = .customFont(font: .GanwonEduLight, ofSize: 15)
+    }
+    
+    @objc
+    private func changeFontOption4() {
+        writeView.textView.font = .customFont(font: .PretendardLight, ofSize: 15)
+        writeView.placeholderLabel.font = .customFont(font: .PretendardLight, ofSize: 15)
+        writeView.charCountLabel.font = .customFont(font: .PretendardLight, ofSize: 15)
+    }
+}
+
+extension WriteLetterViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        writeView.placeholderLabel.isHidden = !textView.text.isEmpty
+        let count = textView.text.count
+        writeView.charCountLabel.text = "\(count)/150"
+        
+        if count > 150 {
+            writeView.textView.text = String(writeView.textView.text.prefix(150))
+            writeView.charCountLabel.text = "150/150"
+        }
+    }
 }
