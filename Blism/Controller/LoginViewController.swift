@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import Moya
 
 class LoginViewController: UIViewController {
     
 
     private let loginView = LoginView()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +50,9 @@ class LoginViewController: UIViewController {
         KeychainService.shared.save(account: .userInfo, service: .checkCode, value: checkCode)
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.pushViewController(nextVC, animated: true)
+        
+        
+        
     }
 }
 

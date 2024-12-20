@@ -14,7 +14,7 @@ enum MyMailBoxInfo {
 
 extension MyMailBoxInfo: TargetType {
     var baseURL: URL { //url 수정
-        guard let baseURL = URL(string: "https://dummyjson.com") else {
+        guard let baseURL = URL(string: "https://3.38.95.210:8080/swagger-ui/index.html#/") else {
             fatalError("Error: Invalid URL")
         }
         
