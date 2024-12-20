@@ -7,7 +7,7 @@
 
 struct SpecificPastMailboxResponse: Codable {
     let isSuccess: Bool
-    let code: Int
+    let code: String
     let message: String
     let data: UserData
 }
