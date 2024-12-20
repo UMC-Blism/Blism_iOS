@@ -23,5 +23,6 @@ class TabBarController: UITabBarController {
         myPageVC.tabBarItem = UITabBarItem(title: nil, image: .tabUser, tag: 2)
 
         self.viewControllers = [searchVC, homeVC, myPageVC]
+        self.selectedIndex = 1
     }
 }

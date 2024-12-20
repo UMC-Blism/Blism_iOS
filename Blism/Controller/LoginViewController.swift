@@ -125,7 +125,6 @@ class LoginViewController: UIViewController {
     
     private func presentTabBarVC(){
         let nextVC = TabBarController()
-        nextVC.selectedIndex = 1
         nextVC.modalPresentationStyle = .fullScreen
         present(nextVC,animated: true)
     }
