@@ -14,9 +14,11 @@ class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(hex: "#EDEFF4")
+
         self.tabBar.tintColor = UIColor(hex: "#314B9E")
         self.tabBar.isTranslucent = false
+        self.tabBar.backgroundColor = UIColor(hex: "#EDEFF4")
+
         
         searchVC.tabBarItem = UITabBarItem(title: nil, image: .tabZoom, tag: 0)
         homeVC.tabBarItem = UITabBarItem(title: nil, image: .tabHome, tag: 1)

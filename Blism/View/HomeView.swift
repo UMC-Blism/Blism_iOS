@@ -97,7 +97,7 @@ class HomeView: UIView {
         
         doorCollectionView.snp.makeConstraints{
 //          13 mini height 812 / 126 : 6.44 - top 비율
-            let doorCollectionViewTop = height / 6.44 - 5
+            let doorCollectionViewTop = height / 6.44 + 5
             $0.top.equalTo(mailboxImage.snp.top).offset(doorCollectionViewTop)
 
             $0.centerX.equalTo(mailboxImage)

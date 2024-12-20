@@ -14,7 +14,7 @@ class HomeViewController: UIViewController {
     private let dummyData = MailBoxCollectionViewModel.Dummy()
     
     //API 연결
-    var homeInfoResponse : MailBoxCollectionViewApiModel?
+    var homeInfoResponse : MailBoxResponse?
     private let apiService = HomeMailBoxRequest()
     
     override func viewDidLoad() {
@@ -26,7 +26,7 @@ class HomeViewController: UIViewController {
         //        navigationController?.setNavigationBarHidden(true, animated: true)
         let id = KeychainService.shared.load(account: .userInfo  , service: .id)
         nicknameChange(nickname: id!) //이부분은 로그인할때 받아옴
-        let numberOfMail = String(homeInfoResponse?.count ?? 0)
+        let numberOfMail = String(homeInfoResponse?.data.count ?? 0)
         numOfMailChange(num: numberOfMail)
         
         
@@ -47,15 +47,8 @@ class HomeViewController: UIViewController {
     private func fetchMailBoxInfo(userId: String) {
         let IntId = Int(userId)
         apiService.fetchMyMailBoxInfo(userId: IntId ?? 0) { [weak self] result in
-            switch result {
-            case .success(let response):
-                self?.homeInfoResponse = response
+                self?.homeInfoResponse = result
                 print("success")
-                // 데이터를 처리하는 추가 코드 (예: 테이블 뷰 갱신)
-                
-            case .failure(let error):
-                print("Network request error: \(error.localizedDescription)")
-            }
         }
     }
     
