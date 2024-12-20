@@ -18,15 +18,11 @@ class HomeViewController: UIViewController {
         view = rootView
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
-        
-//        navigationController?.setNavigationBarHidden(true, animated: true)
-        
         nicknameChange(nickname: "아진") //이부분은 로그인할때 받아옴
         tapRecognizer()
         
         
         viewController.modalPresentationStyle = .overFullScreen
-//        viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
         present(viewController, animated: false)
         
     }

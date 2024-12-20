@@ -8,9 +8,9 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-    private let searchVC = SearchNicknameViewController()
-    private let homeVC = HomeViewController()
-    private let myPageVC = MyPageViewController()
+    private let searchVC = UINavigationController(rootViewController: SearchNicknameViewController())
+    private let homeVC = UINavigationController(rootViewController:HomeViewController())
+    private let myPageVC = UINavigationController(rootViewController:MyPageViewController())
     
     override func viewDidLoad() {
         super.viewDidLoad()
