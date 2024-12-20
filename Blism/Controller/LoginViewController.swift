@@ -83,7 +83,25 @@ class LoginViewController: UIViewController {
     
     @objc   // 로그인 버튼
     private func touchUpInsideLoginButton(){
-        presentTabBarVC()
+        if let nickname = loginView.idTextField.text, let checkCode = loginView.passwordTextField.text {
+            let signUpRequest = MemberSignUpRequest(nickname: nickname, password: checkCode)
+            
+            MemberAPI.shared.postSignUp(request: signUpRequest) {[weak self] response in
+                if response.isSuccess {
+                    if let data = response.data {
+                        self?.saveInfo(memberId: data.memberId, nickname: nickname, checkCode: checkCode)
+                    } else {
+                        print("fetchSignUp: data nil")
+                    }
+                    
+                } else {
+                    print(response.message)
+                }
+            }
+        } else {
+            print("아이디, 비밀번호 입력 필요")
+        }
+
 //        let provider = MoyaProvider<MemberTargrtType>()
 //        
 //        guard let nickname = loginView.idTextField.text else {return }
@@ -121,6 +139,12 @@ class LoginViewController: UIViewController {
         print("키 체인 저장 완료: \(KeychainService.shared.load(account: .userInfo, service: .checkCode) ?? "") ")
         print("키 체인 저장 완료: \(KeychainService.shared.load(account: .userInfo, service: .memberId) ?? "")")
         print("키 체인 저장 완료: \(KeychainService.shared.load(account: .userInfo, service: .nickname) ?? "")")
+        
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.presentTabBarVC()
+        }
+        
     }
     
     private func presentTabBarVC(){
