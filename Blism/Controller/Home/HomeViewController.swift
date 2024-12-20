@@ -46,16 +46,10 @@ class HomeViewController: UIViewController {
     // API 호출 함수
     private func fetchMailBoxInfo(userId: String) {
         let IntId = Int(userId)
-        apiService.fetchMyMailBoxInfo(userId: IntId ?? 0) { [weak self] result in
-            switch result {
-            case .success(let response):
-                self?.homeInfoResponse = response
-                print("success")
-                // 데이터를 처리하는 추가 코드 (예: 테이블 뷰 갱신)
-                
-            case .failure(let error):
-                print("Network request error: \(error.localizedDescription)")
-            }
+        apiService.fetchMyMailBoxInfo(userId: IntId ?? 0) { [weak self] data in
+            self?.homeInfoResponse = data
+            print("success")
+            // 데이터를 처리하는 추가 코드 (예: 테이블 뷰 갱신)
         }
     }
     

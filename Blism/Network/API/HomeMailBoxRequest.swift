@@ -10,19 +10,23 @@ class HomeMailBoxRequest {
     private let provider = MoyaProvider<MyMailBoxInfo>()
       
       // API 요청 메서드
-      func fetchMyMailBoxInfo(userId: Int, completion: @escaping (Result<MailBoxCollectionViewApiModel, Error>) -> Void) {
+      func fetchMyMailBoxInfo(userId: Int, completion: @escaping (MailBoxCollectionViewApiModel) -> Void) {
           provider.request(.getMyMailBoxInfo(userId: userId)) { result in
               switch result {
               case .success(let response):
                   do {
                       // 응답을 모델로 변환
                       let myMailBoxInfoResponse = try response.map(MailBoxCollectionViewApiModel.self)
-                      completion(.success(myMailBoxInfoResponse))
+                      completion(myMailBoxInfoResponse)
                   } catch {
-                      completion(.failure(error)) // 변환 실패 시 오류 처리
+//                      completion(.failure(error)) // 변환 실패 시 오류 처리
+//                      completion(nil)
+                    // alert 
+                      print("Network request error: \(error.localizedDescription)")
                   }
               case .failure(let error):
-                  completion(.failure(error)) // 네트워크 오류 처리
+//                  completion(.failure(error)) // 네트워크 오류 처리
+                  print("Network request error: \(error.localizedDescription)")
               }
           }
       }

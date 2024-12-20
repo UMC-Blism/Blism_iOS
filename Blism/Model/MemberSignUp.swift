@@ -1,0 +1,35 @@
+//
+//  MemberSignUp.swift
+//  Blism
+//
+//  Created by 이수현 on 12/20/24.
+//
+
+import Foundation
+
+
+public struct MemberSignUpRequest: Codable {
+    let nickname: String
+    let password: Int
+}
+
+
+public struct MemberSignUpResponse: Codable {
+    let isSuccess: Bool
+    let code: Int
+    let message: String
+    let data: MemberId
+}
+
+public struct MemberId: Codable{
+    let userId: Int64
+    
+    enum CodingKeys: String, CodingKey {
+        case userId = "user_id"
+    }
+   
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.userId = try container.decode(Int64.self, forKey: .userId)
+    }
+}
