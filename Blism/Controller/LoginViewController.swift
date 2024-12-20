@@ -31,7 +31,9 @@ class LoginViewController: UIViewController {
     
     @objc
     private func touchUpInsideCreateCodeButton(){
+        let checkCode = Int.random(in: 1000 ... 9999)
         
+        loginView.passwordTextField.text = String(checkCode)
     }
     
     @objc
@@ -40,8 +42,9 @@ class LoginViewController: UIViewController {
         
         guard let id = loginView.idTextField.text else {return}
         guard let checkCode = loginView.passwordTextField.text else {return}
-        
+ 
         KeychainService.shared.save(account: .userInfo, service: .id, value: id)
+        KeychainService.shared.save(account: .userInfo, service: .checkCode, value: checkCode)
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
