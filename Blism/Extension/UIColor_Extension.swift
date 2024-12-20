@@ -33,5 +33,7 @@ extension UIColor {
     static let base1 = UIColor(hex: "#EDEFF4")
     static let base2 = UIColor(hex: "#FFF8EF")
     static let blismBlack = UIColor(hex: "#1A274F")
-    static let alertButtonSkyBlue = UIColor(hex: "#B7D2E5") 
+    static let alertButtonSkyBlue = UIColor(hex: "#B7D2E5")
+    static let errorRed = UIColor(hex: "#E72B6D")
+    
 }

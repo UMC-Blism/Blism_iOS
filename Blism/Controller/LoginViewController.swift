@@ -8,6 +8,7 @@
 import UIKit
 
 class LoginViewController: UIViewController {
+    
 
     private let loginView = LoginView()
 
@@ -18,7 +19,19 @@ class LoginViewController: UIViewController {
     }
     
     private func setAction(){
+        loginView.checkIdButton.addTarget(self, action: #selector(touchUpInsideCheckIdButton), for: .touchUpInside)
+        loginView.createCodeButton.addTarget(self, action: #selector(touchUpInsideCreateCodeButton), for: .touchUpInside)
         loginView.loginButton.addTarget(self, action: #selector(touchUpInsideLoginButton), for: .touchUpInside)
+    }
+    
+    @objc
+    private func touchUpInsideCheckIdButton(){
+        
+    }
+    
+    @objc
+    private func touchUpInsideCreateCodeButton(){
+        
     }
     
     @objc
@@ -27,6 +40,12 @@ class LoginViewController: UIViewController {
         nextVC.selectedIndex = 1
         nextVC.modalPresentationStyle = .fullScreen
         present(nextVC,animated: true)
+        
+        guard let id = loginView.idTextField.text else {return}
+        guard let checkCode = loginView.passwordTextField.text else {return}
+        
+        KeychainService.shared.save(account: .userInfo, service: .id, value: id)
+
     }
 }
 

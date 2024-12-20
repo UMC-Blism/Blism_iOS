@@ -12,7 +12,7 @@ class BuildCollectionView : UICollectionView {
     
      init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout().then {
-            $0.minimumLineSpacing = 14
+            $0.minimumLineSpacing = 12
             $0.estimatedItemSize = .init(width: 46, height: 86)
         }
         super.init(frame: frame, collectionViewLayout: layout)

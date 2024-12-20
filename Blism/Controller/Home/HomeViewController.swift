@@ -9,6 +9,8 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+   
+    
     private let rootView = HomeView()
     let viewController = HomeDisclosureViewController()
     private let dummyData = MailBoxCollectionViewModel.Dummy()
@@ -18,7 +20,9 @@ class HomeViewController: UIViewController {
         view = rootView
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
-        nicknameChange(nickname: "아진") //이부분은 로그인할때 받아옴
+        
+        let id = KeychainService.shared.load(account: .userInfo  , service: .id)
+        nicknameChange(nickname: id ?? "") //이부분은 로그인할때 받아옴
         tapRecognizer()
         
         
