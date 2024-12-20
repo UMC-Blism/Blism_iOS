@@ -26,10 +26,15 @@ class MailBoxCollectionViewCell: UICollectionViewCell {
     private func setComponent(){
         addSubview(doorImage)
         
+        // se: 667 / 16 pro 874 / 13 mini 812/86: 9.44
+        
         doorImage.snp.makeConstraints{
+            let height = UIScreen.main.bounds.height / 9.44
+            
+            $0.width.equalTo(height / 2)
+            $0.height.equalTo(height)
             $0.top.equalToSuperview()
-            $0.width.equalTo(46)
-            $0.height.equalTo(86)
+
         }
     }
     

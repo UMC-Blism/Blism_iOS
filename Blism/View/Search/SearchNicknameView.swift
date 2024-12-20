@@ -13,10 +13,10 @@ class SearchNicknameView: UIView {
     private let backgroundImageView = BackGroundImageView(type: .white)
     
     // 백 버튼
-    let backButton = UIButton().then {
-        $0.setImage(.popIcon, for: .normal)
-        $0.tintColor = .blismBlack
-    }
+//    let backButton = UIButton().then {
+//        $0.setImage(.popIcon, for: .normal)
+//        $0.tintColor = .blismBlack
+//    }
     
     // 텍스트필드 감싸는 뷰
     private let searchTextFieldGroupView = UIView().then {
@@ -106,7 +106,7 @@ class SearchNicknameView: UIView {
     private func setSubview() {
         [
             backgroundImageView,
-            backButton,
+//            backButton,
             searchTextFieldGroupView,
             recentSearchLabel,
             deleteSearchHistoryLabel,
@@ -137,17 +137,16 @@ class SearchNicknameView: UIView {
             $0.edges.equalToSuperview()
         }
         
-        backButton.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).inset(20)
-            $0.leading.equalToSuperview().inset(16)
-            $0.width.equalTo(16)
-            $0.height.equalTo(32)
-        }
+//        backButton.snp.makeConstraints {
+//            $0.top.equalTo(safeAreaLayoutGuide).inset(20)
+//            $0.leading.equalToSuperview().inset(16)
+//            $0.width.equalTo(16)
+//            $0.height.equalTo(32)
+//        }
         
         searchTextFieldGroupView.snp.makeConstraints {
-            $0.centerY.equalTo(backButton)
-            $0.leading.equalTo(backButton.snp.trailing).offset(17)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(safeAreaLayoutGuide).inset(20)
+            $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(39)
         }
         
