@@ -13,7 +13,9 @@ class BuildCollectionView : UICollectionView {
      init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout().then {
             $0.minimumLineSpacing = 12
-            $0.estimatedItemSize = .init(width: 46, height: 86)
+            
+            let height = UIScreen.main.bounds.height / 9.44
+            $0.estimatedItemSize = .init(width: height / 2, height: height)
         }
         super.init(frame: frame, collectionViewLayout: layout)
          self.backgroundColor = .clear
