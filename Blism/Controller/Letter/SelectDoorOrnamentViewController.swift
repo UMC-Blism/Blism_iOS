@@ -41,6 +41,7 @@ class SelectDoorOrnamentViewController: UIViewController {
     private func setAction() {
         selectOrnamentView.previousButton.addTarget(self, action: #selector(previousButtonAction), for: .touchUpInside)
         selectOrnamentView.nextButton.addTarget(self, action: #selector(nextButtonAction), for: .touchUpInside)
+        selectOrnamentView.noOrnamentButton.addTarget(self, action: #selector(noORnamentButtonAction), for: .touchUpInside)
     }
     
     private func setupDelegate() {
@@ -55,10 +56,15 @@ class SelectDoorOrnamentViewController: UIViewController {
 
     @objc
     private func nextButtonAction() {
-        guard let selectedIndexPath = selectOrnamentView.selectDoorOrnamentCollectionView.indexPathsForSelectedItems?.first else { return }
+        var selectedDoorOrnamentTag = 0
         
-        // 선택된 셀 태그 가져오기
-        let selectedDoorOrnamentTag = DoorDesignModel.doorOrnaments()[selectedIndexPath.row].tag
+        let selectedIndexPath = selectOrnamentView.selectDoorOrnamentCollectionView.indexPathsForSelectedItems?.first ?? IndexPath(row: -1, section: 0)
+        if selectedIndexPath.row == -1 {
+            selectedDoorOrnamentTag = 0
+        } else {
+            // 선택된 셀 태그 가져오기
+            selectedDoorOrnamentTag =  DoorDesignModel.doorOrnaments()[selectedIndexPath.row].tag
+        }
         
         // 완성 화면에 문 정보 전부 전달
         let nextVC = DoorDesignFinishViewController()
@@ -66,6 +72,17 @@ class SelectDoorOrnamentViewController: UIViewController {
         nextVC.selectedDoorColorTag = selectedDoorColorTag
         nextVC.selectedDoorOrnamentTag = selectedDoorOrnamentTag
         self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    @objc
+    private func noORnamentButtonAction() {
+        // 선택된 셀의 indexPath 가져오기
+        guard let selectedIndexPath = selectOrnamentView.selectDoorOrnamentCollectionView.indexPathsForSelectedItems?.first else { return }
+        selectOrnamentView.selectDoorOrnamentCollectionView.deselectItem(at: selectedIndexPath, animated: true)
+        // 셀 상태 업데이트
+        if let cell = selectOrnamentView.selectDoorOrnamentCollectionView.cellForItem(at: selectedIndexPath) as? DoorOrnamentCollectionViewCell {
+            cell.configureSelectedState(isSelected: false)
+        }
     }
 }
 

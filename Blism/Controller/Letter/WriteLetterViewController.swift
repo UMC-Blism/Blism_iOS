@@ -18,6 +18,7 @@ class WriteLetterViewController: UIViewController {
         super.viewDidLoad()
         
         view = writeView
+        self.tabBarController?.isTabBarHidden = true
         
         setGesture()
         setImagePicker()

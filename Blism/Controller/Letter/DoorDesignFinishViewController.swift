@@ -94,6 +94,11 @@ class DoorDesignFinishViewController: UIViewController {
             // VisiterHomeViewController까지의 스택만 유지
             let newStack = Array(navigationController.viewControllers[...targetIndex])
             navigationController.setViewControllers(newStack, animated: true)
+            
+            // VisitorHomeViewController에서 탭바 다시 보이도록
+            if let visitorHomeVC = navigationController.viewControllers.last as? VisiterHomeViewController {
+                visitorHomeVC.tabBarController?.isTabBarHidden = false
+            }
         }
     }
 
