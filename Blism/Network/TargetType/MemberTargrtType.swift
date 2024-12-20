@@ -10,8 +10,8 @@ import Foundation
 
 public enum MemberTargrtType {
     case signUp(MemberSignUpRequest)
-    case duplicateId
-    case changeId
+    case checkId(MemberNicknameCheckRequest)
+    case changeId(MemberChangeNicknameRequest)
     case searchNickcname
 }
 
@@ -27,7 +27,7 @@ extension MemberTargrtType: TargetType {
         switch self {
         case .signUp:
             return "/members/signup"
-        case .duplicateId:
+        case .checkId:
             return "/members"
         case .changeId:
             return "/members/change"
@@ -40,7 +40,7 @@ extension MemberTargrtType: TargetType {
         switch self {
         case .signUp:
             return .post
-        case .duplicateId:
+        case .checkId:
             return .get
         case .changeId:
             return .patch
@@ -51,12 +51,12 @@ extension MemberTargrtType: TargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .signUp(let memberSignUpRequest):
-            return .requestJSONEncodable(memberSignUpRequest)
-        case .duplicateId:
-             return .requestPlain
-        case .changeId:
-            return .requestPlain
+        case .signUp(let request):
+            return .requestJSONEncodable(request)
+        case .checkId(let request):
+            return .requestJSONEncodable(request)
+        case .changeId(let request):
+            return .requestJSONEncodable(request)
         case .searchNickcname:
             return .requestPlain
         }
@@ -65,6 +65,4 @@ extension MemberTargrtType: TargetType {
     public var headers: [String : String]? {
         return ["Content-Type": "application/json"]
     }
-    
-    
 }
