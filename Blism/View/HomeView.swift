@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 class HomeView: UIView {
+    var height = UIScreen.main.bounds.height
+    var mailboxImageHeigth = 0.0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,38 +63,18 @@ class HomeView: UIView {
         return label
     }()
     
-    public let searchButton: UIImageView = {
-        let btn = UIImageView()
-        
-        btn.image = UIImage(named: "search")
-        
-        return btn
-    }()
-    
-    public let menuButton: UIImageView = {
-        let btn = UIImageView()
-        
-        btn.image = UIImage(named: "menu")
-        
-        return btn
-    }()
-    
-   
-    
     func setupView(){
         addSubview(backgroundImage)
         addSubview(mailboxImage)
         addSubview(doorCollectionView)
         addSubview(mailboxOwner)
         addSubview(numberOfMail)
-        addSubview(searchButton)
-        addSubview(menuButton)
         
         backgroundImage.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
         mailboxOwner.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(60)
+            $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.equalTo(safeAreaLayoutGuide).offset(16)
             $0.trailing.equalTo(numberOfMail.snp.leading)
         }
@@ -100,26 +82,34 @@ class HomeView: UIView {
             $0.centerY.equalTo(mailboxOwner.snp.centerY)
             $0.trailing.equalToSuperview().offset(-15.5)
         }
-        searchButton.snp.makeConstraints{
-            $0.top.equalTo(safeAreaLayoutGuide).offset(52)
-            $0.trailing.equalTo(menuButton.snp.leading).offset(-20)
-            $0.width.height.equalTo(32)
-        }
-        menuButton.snp.makeConstraints{
-            $0.width.height.equalTo(32)
-            $0.top.equalTo(safeAreaLayoutGuide).offset(52)
-            $0.trailing.equalTo(safeAreaLayoutGuide).offset(-16)
-        }
+
         mailboxImage.snp.makeConstraints{
+            mailboxImageHeigth = height / 1.23 + 10
+            // se: 667 / 16 pro 874 /
+            // 13 mini height - 812 / 658: 1.23
+            // 13 mini width - 812 / 343: 2.36
             $0.top.equalTo(numberOfMail.snp.bottom).offset(19.5)
-            $0.centerX.equalToSuperview()
+            $0.centerX.equalToSuperview().multipliedBy(1.02)
+
+            $0.height.equalTo(mailboxImageHeigth)
+            $0.width.equalTo(mailboxImageHeigth / 2)
         }
         
         doorCollectionView.snp.makeConstraints{
-            $0.top.equalTo(mailboxImage.snp.top).offset(126)
+//          13 mini height 812 / 126 : 6.44 - top 비율
+            let doorCollectionViewTop = height / 6.44 - 5
+            $0.top.equalTo(mailboxImage.snp.top).offset(doorCollectionViewTop)
+
             $0.centerX.equalTo(mailboxImage)
-            $0.bottom.equalTo(mailboxImage.snp.bottom).offset(-65)
-            $0.width.equalTo(286)
+            
+            //  657 : 53 = 12.39
+            let bottomInset = mailboxImageHeigth / 12.39
+            print(bottomInset)
+            $0.bottom.equalTo(mailboxImage.snp.bottom).inset(bottomInset)
+            
+            // 13 mini mailboxImage width : 343 / 286 : 1.19
+            let width = mailboxImageHeigth / 2
+            $0.width.equalTo(width / 1.19)
         }
     }
 }

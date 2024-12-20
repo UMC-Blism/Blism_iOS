@@ -36,14 +36,16 @@ class LoginViewController: UIViewController {
     
     @objc
     private func touchUpInsideLoginButton(){
-        let nextVC = HomeViewController()
+        let nextVC = TabBarController()
+        nextVC.selectedIndex = 1
+        nextVC.modalPresentationStyle = .fullScreen
+        present(nextVC,animated: true)
         
         guard let id = loginView.idTextField.text else {return}
         guard let checkCode = loginView.passwordTextField.text else {return}
         
         KeychainService.shared.save(account: .userInfo, service: .id, value: id)
-        self.navigationController?.navigationBar.isHidden = true
-        self.navigationController?.pushViewController(nextVC, animated: true)
+
     }
 }
 

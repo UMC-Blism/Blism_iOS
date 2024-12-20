@@ -8,9 +8,6 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    
-   
-    
     private let rootView = HomeView()
     let viewController = HomeDisclosureViewController()
     private let dummyData = MailBoxCollectionViewModel.Dummy()
@@ -21,56 +18,23 @@ class HomeViewController: UIViewController {
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
         
-//        navigationController?.setNavigationBarHidden(true, animated: true)
         let id = KeychainService.shared.load(account: .userInfo  , service: .id)
-        nicknameChange(nickname: id!) //이부분은 로그인할때 받아옴
-        tapRecognizer()
-        
+        nicknameChange(nickname: id ?? "") //이부분은 로그인할때 받아옴
         
         viewController.modalPresentationStyle = .overFullScreen
-//        viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
         present(viewController, animated: false)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // 화면 이동 후 돌아올 때 뒤로가기 버튼이 나옴 '수정필요!'
-        self.navigationItem.leftBarButtonItems = .none
         self.navigationController?.navigationBar.isHidden = true
     }
     
     
     func nicknameChange(nickname: String){
-        
         let updatedText = rootView.mailboxOwner.text?.replacingOccurrences(of: "지수", with: nickname)
-        
         rootView.mailboxOwner.text = updatedText
     }
-    
-    func tapRecognizer(){
-        let searchTapGesture = UITapGestureRecognizer(target: self, action: #selector(goToSearch))
-        rootView.searchButton.addGestureRecognizer(searchTapGesture)
-        rootView.searchButton.isUserInteractionEnabled = true
-        
-        let menuTapGesture = UITapGestureRecognizer(target: self, action: #selector(goToMenu))
-        rootView.menuButton.addGestureRecognizer(menuTapGesture)
-        rootView.menuButton.isUserInteractionEnabled = true
-    }
-    
-    @objc func goToSearch(){
-        //nav 추가
-        let viewController = SearchNicknameViewController()
-        
-        navigationController?.pushViewController(viewController, animated: true)
-        
-    }
-    
-    @objc func goToMenu(){
-        //nav 추가
-        let nextVC = MyPageViewController()
-        navigationController?.pushViewController(nextVC, animated: true)
-    }
-    
 }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -100,8 +64,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         if (day >= readLetterPosibleDate){
             
             let viewController = ReadLetterViewController(type: .home)
-            
-//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
             viewController.modalPresentationStyle = .overFullScreen
             present(viewController, animated: false)
         }else{
@@ -109,7 +71,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             let viewController = HomeDateAlertViewController()
             
             viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
-//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
             viewController.modalPresentationStyle = .overFullScreen
             present(viewController, animated: false)
             

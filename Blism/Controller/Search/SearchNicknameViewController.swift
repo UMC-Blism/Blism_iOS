@@ -36,13 +36,13 @@ class SearchNicknameViewController: UIViewController {
 
     private func setupAction() {
         searchNicknameView.searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
-        searchNicknameView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+//        searchNicknameView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
-    @objc
-    private func backButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
-    }
+//    @objc
+//    private func backButtonTapped() {
+//        self.navigationController?.popViewController(animated: true)
+//    }
     
     @objc
     private func searchButtonTapped() {
