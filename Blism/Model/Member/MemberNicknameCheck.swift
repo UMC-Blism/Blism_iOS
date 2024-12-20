@@ -11,6 +11,12 @@ public struct MemberNicknameCheckRequest: Codable {
     let nickname: String
 }
 
+/*
+ {
+     "nickname" : "김가천" (String)
+ }
+ */
+
 
 public struct MemberNicknameCheckResponse: Codable {
     let isSuccess: Bool

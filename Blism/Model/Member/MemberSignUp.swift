@@ -18,7 +18,7 @@ public struct MemberSignUpResponse: Codable {
     let isSuccess: Bool
     let code: Int
     let message: String
-    let data: MemberId
+    let data: MemberId?
 }
 
 public struct MemberId: Codable {
@@ -33,3 +33,15 @@ public struct MemberId: Codable {
         self.memberId = try container.decode(Int64.self, forKey: .memberId)
     }
 }
+
+
+/*
+ {
+     isSuccess: True,
+     code: 200,
+     message: "회원 가입 성공",
+     data: {
+         "member_id" : 1 (Long)
+     }
+ }
+ */
