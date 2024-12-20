@@ -9,7 +9,7 @@ import Moya
 import Foundation
 
 public enum MemberTargrtType {
-    case signUp
+    case signUp(MemberSignUpRequest)
     case duplicateId
     case changeId
     case searchNickcname
@@ -17,7 +17,7 @@ public enum MemberTargrtType {
 
 extension MemberTargrtType: TargetType {
     public var baseURL: URL {
-        guard let baseURL = URL(string: "http://3.38.95.210:8080/swagger-ui/index.html#") else {
+        guard let baseURL = URL(string: "https://3.38.95.210:8080/swagger-ui/index.html#") else {
            fatalError("Error: Invalid URL")
        }
        return baseURL
@@ -51,8 +51,8 @@ extension MemberTargrtType: TargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .signUp:
-            return .requestPlain
+        case .signUp(let memberSignUpRequest):
+            return .requestJSONEncodable(memberSignUpRequest)
         case .duplicateId:
              return .requestPlain
         case .changeId:

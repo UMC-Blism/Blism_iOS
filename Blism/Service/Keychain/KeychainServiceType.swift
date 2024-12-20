@@ -8,6 +8,7 @@
 import Foundation
 
 public enum KeychainServiceType : String {
-    case id = "id"
+    case memberId = "memberId"
+    case nickname = "nickname"
     case checkCode = "checkCode"
 }

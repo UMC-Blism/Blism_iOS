@@ -21,7 +21,6 @@ class HomeMailBoxRequest {
                   } catch {
 //                      completion(.failure(error)) // 변환 실패 시 오류 처리
 //                      completion(nil)
-                    // alert 
                       print("Network request error: \(error.localizedDescription)")
                   }
               case .failure(let error):

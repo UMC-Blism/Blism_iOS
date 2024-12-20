@@ -23,9 +23,8 @@ class HomeViewController: UIViewController {
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
         
-        //        navigationController?.setNavigationBarHidden(true, animated: true)
-        let id = KeychainService.shared.load(account: .userInfo  , service: .id)
-        nicknameChange(nickname: id!) //이부분은 로그인할때 받아옴
+        let nickname = KeychainService.shared.load(account: .userInfo  , service: .nickname) ?? "닉네임 오류"
+        nicknameChange(nickname: nickname) //이부분은 로그인할때 받아옴
         let numberOfMail = String(homeInfoResponse?.count ?? 0)
         numOfMailChange(num: numberOfMail)
         
@@ -35,8 +34,12 @@ class HomeViewController: UIViewController {
         present(viewController, animated: false)
         
         // API 호출
-        fetchMailBoxInfo(userId: id!)
-        
+        if let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId) {
+            fetchMailBoxInfo(memberId: memberId)
+        } else {
+            // 아이디 없음 오류
+            print("HomeVieController - 키체인 저장된 멤버 아이디 없음")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,12 +47,15 @@ class HomeViewController: UIViewController {
     }
     
     // API 호출 함수
-    private func fetchMailBoxInfo(userId: String) {
-        let IntId = Int(userId)
-        apiService.fetchMyMailBoxInfo(userId: IntId ?? 0) { [weak self] data in
-            self?.homeInfoResponse = data
-            print("success")
-            // 데이터를 처리하는 추가 코드 (예: 테이블 뷰 갱신)
+    private func fetchMailBoxInfo(memberId: String) {
+        if let IntId = Int(memberId) {
+            apiService.fetchMyMailBoxInfo(userId: IntId) { [weak self] data in
+                self?.homeInfoResponse = data
+                print("success")
+                // 데이터를 처리하는 추가 코드 (예: 테이블 뷰 갱신)
+            }
+        } else {
+            // 아아디 Int로 변환 실패
         }
     }
     

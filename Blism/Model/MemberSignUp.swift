@@ -10,7 +10,7 @@ import Foundation
 
 public struct MemberSignUpRequest: Codable {
     let nickname: String
-    let password: Int
+    let password: String
 }
 
 
@@ -21,15 +21,15 @@ public struct MemberSignUpResponse: Codable {
     let data: MemberId
 }
 
-public struct MemberId: Codable{
-    let userId: Int64
+public struct MemberId: Codable {
+    let memberId: Int64
     
     enum CodingKeys: String, CodingKey {
-        case userId = "user_id"
+        case memberId = "member_id"
     }
    
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.decode(Int64.self, forKey: .userId)
+        self.memberId = try container.decode(Int64.self, forKey: .memberId)
     }
 }
