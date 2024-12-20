@@ -13,12 +13,12 @@ class WriteLetterViewController: UIViewController {
 
     private let writeView = WriteLetterView()
     private let picker = UIImagePickerController()
-    var isReply: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view = writeView
+        self.tabBarController?.isTabBarHidden = true
         
         setGesture()
         setImagePicker()
@@ -73,14 +73,8 @@ class WriteLetterViewController: UIViewController {
     
     @objc
     private func touchUpInsideSendButton() {
-        if isReply {
-            
-        }
-        else {
-            let nextVC = SelectDoorDesignViewController()
-            self.navigationController?.pushViewController(nextVC, animated: true)
-        }
-        
+        let nextVC = SelectDoorDesignViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     @objc

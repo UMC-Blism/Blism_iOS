@@ -68,13 +68,13 @@ class WriteLetterView: UIView {
     }
     
     // 공개하기 토글 스위치
-    private let toggleLabel = UILabel().then {
+    let toggleLabel = UILabel().then {
         $0.text = "이 편지를 잠그기"
         $0.font = .customFont(font: .PretendardLight, ofSize: 12)
         $0.textColor = UIColor(hex: "#1A274F")
     }
     
-    private var toggleSwitch = UISwitch().then {
+    var toggleSwitch = UISwitch().then {
         $0.isOn = false
         $0.onTintColor = .blismBlue
     }
