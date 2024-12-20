@@ -10,6 +10,18 @@ import Then
 import SnapKit
 
 class WriteLetterView: UIView {
+    // 스크롤 뷰
+    let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+        $0.showsHorizontalScrollIndicator = false
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.isScrollEnabled = true
+    }
+    
+    let contentView = UIView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     // 백그라운드 이미지 뷰
     private let backgroundImageView = UIImageView().then {
         $0.image = .whiteBackground
@@ -160,6 +172,11 @@ class WriteLetterView: UIView {
     }
     
     private func setSubview() {
+        self.addSubview(backgroundImageView)
+        self.addSubview(scrollView)
+        
+        scrollView.addSubview(contentView)
+        
         [
             fontOptionLabel,
             fontOption1Button,
@@ -183,7 +200,6 @@ class WriteLetterView: UIView {
         ].forEach { textView.addSubview($0) }
         
         [
-            backgroundImageView,
             imageAttachView,
             fontOptionGroupView,
             receiverGroupView,
@@ -193,7 +209,7 @@ class WriteLetterView: UIView {
             charCountLabel,
             senderGroupView,
             sendButton
-        ].forEach { addSubview($0) }
+        ].forEach { contentView.addSubview($0) }
     }
     
     private func setUI() {
@@ -202,9 +218,22 @@ class WriteLetterView: UIView {
             $0.edges.equalToSuperview()
         }
         
+        // 스크롤뷰
+        scrollView.snp.makeConstraints {
+            $0.edges.equalTo(safeAreaLayoutGuide)
+        }
+        
+        // 컨텐트뷰
+        contentView.snp.makeConstraints {
+//            $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide)
+//            $0.top.bottom.equalToSuperview()
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
+        }
+        
         // 이미지 첨부 뷰
         imageAttachView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).inset(45.5)
+            $0.top.equalToSuperview().inset(45.5)
             $0.centerX.equalToSuperview()
             $0.width.height.equalTo(319)
         }
@@ -319,6 +348,7 @@ class WriteLetterView: UIView {
             $0.top.equalTo(senderGroupView.snp.bottom).offset(32)
             $0.width.equalTo(128)
             $0.height.equalTo(45)
+            $0.bottom.equalToSuperview().inset(30)
         }
     }
 }

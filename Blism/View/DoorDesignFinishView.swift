@@ -95,9 +95,8 @@ class DoorDesignFinishView: UIView {
     private func setUI() {
         doorOrnamentImageView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(28)
-            $0.leading.equalToSuperview().inset(9)
-            //$0.centerX.equalToSuperview().offset()
-            $0.width.height.equalTo(72)
+            $0.leading.equalToSuperview().inset(15)
+            $0.width.height.equalTo(60)
         }
         
         previousButton.snp.makeConstraints {
@@ -118,18 +117,18 @@ class DoorDesignFinishView: UIView {
         
         descriptionLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(safeAreaLayoutGuide).inset(190)
+            $0.bottom.equalTo(doorDesignImageView.snp.top).offset(-50)
         }
         
         doorDesignImageView.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(40)
             $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
             $0.width.equalTo(107)
             $0.height.equalTo(200)
         }
         
         buttonGroupView.snp.makeConstraints {
-            $0.top.equalTo(doorDesignImageView.snp.bottom).offset(143)
+            $0.bottom.equalToSuperview().inset(30)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(313)
             $0.height.equalTo(45)
