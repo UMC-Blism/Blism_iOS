@@ -13,6 +13,7 @@ class DoorDesignFinishViewController: UIViewController {
     var selectedDoorDesignTag: Int = 1
     var selectedDoorColorTag: Int = 1
     var selectedDoorOrnamentTag: Int = 1
+    let senderID: Int64 = Int64(KeychainService.shared.load(account: .userInfo, service: .id) ?? "") ?? Int64(0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
