@@ -9,10 +9,11 @@ import Moya
 import Foundation
 
 public enum MemberTargrtType {
-    case signUp(MemberSignUpRequest)
-    case checkId(MemberNicknameCheckRequest)
-    case changeId(MemberChangeNicknameRequest)
-    case searchNickcname(MemberSearchRequest)
+    case signUp(MemberSignUpRequest)            // 회원가입
+    case checkId(MemberNicknameCheckRequest)    // 닉네임 중복 확인
+    case changeId(MemberChangeNicknameRequest)  // 닉네임 변경
+    case searchNickcname(MemberSearchRequest)   // 닉네임 검색
+    case visitorAuth(VisitorAuthRequest)        // 방문자 확인코드 인증
 }
 
 extension MemberTargrtType: TargetType {
@@ -34,6 +35,8 @@ extension MemberTargrtType: TargetType {
             return "/members/change"
         case .searchNickcname:
             return "/members/search"
+        case .visitorAuth:
+            return "/members/{nickname}/{checkcode}"
         }
     }
     
@@ -46,6 +49,8 @@ extension MemberTargrtType: TargetType {
         case .changeId:
             return .patch
         case .searchNickcname:
+            return .get
+        case .visitorAuth:
             return .get
         }
     }
@@ -60,6 +65,8 @@ extension MemberTargrtType: TargetType {
             return.requestParameters(parameters: ["original_nickname": request.originalNickname, "new_nickname" : request.newNickname], encoding: URLEncoding.queryString)
         case .searchNickcname(let request):
             return .requestParameters(parameters: ["nickname": request.nickname], encoding: URLEncoding.queryString)
+        case .visitorAuth(let request):
+            return .requestParameters(parameters: ["nickname": request.nickname, "checkcode" : request.checkCode], encoding: URLEncoding.queryString)
         }
     }
     
