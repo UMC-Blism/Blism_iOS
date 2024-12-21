@@ -13,7 +13,7 @@ enum LetterTargetType {
     case writeLetter(image: UIImage, WriteLetterRequest)    // 편지 작성
     case readLetter(ReadLetterRequest)      // 특정 편지 조회
     case fetchSentLetters(FetchSentLettersRequest)          // 보낸 편지 목록 조회
-    case readAllReceivedLetters             // 받은 전체 편지 조회
+    case fetchReceivedLetters(FetchReceivedLettersRequest)   // 받은 전체 편지 조회
     // case editLetter // 편지 수정
 }
 
@@ -34,8 +34,8 @@ extension LetterTargetType: TargetType {
             return "/letters/\(request.letterId)"
         case .fetchSentLetters(let request):
             return "/letters/\(request.userId)/sent"
-        case .readAllReceivedLetters:
-            return "/letters/received"
+        case .fetchReceivedLetters(let request):
+            return "/letters/\(request.userId)/received"
         }
     }
     
@@ -43,7 +43,7 @@ extension LetterTargetType: TargetType {
         switch self {
         case .writeLetter:
             return .post
-        case .readLetter, .fetchSentLetters, .readAllReceivedLetters:
+        case .readLetter, .fetchSentLetters, .fetchReceivedLetters:
             return .get
         }
     }
@@ -86,8 +86,8 @@ extension LetterTargetType: TargetType {
             return .requestParameters(parameters: ["letterId": request.letterId], encoding: URLEncoding.queryString)
         case .fetchSentLetters(let request):
             return .requestParameters(parameters: ["userId": request.userId], encoding: URLEncoding.queryString)
-        case .readAllReceivedLetters:
-            return .requestPlain
+        case .fetchReceivedLetters(let request):
+            return .requestParameters(parameters: ["userId": request.userId], encoding: URLEncoding.queryString)
         }
     }
     
@@ -97,8 +97,8 @@ extension LetterTargetType: TargetType {
             return ["Content-Type": "multipart/form-data"]
         case .readLetter(_), .fetchSentLetters:
             return ["Content-Type": "application/json"]
-        case .readAllReceivedLetters:
-            return .none
+        case .fetchReceivedLetters:
+            return ["Content-Type": "application/json"]
         }
     }
     
