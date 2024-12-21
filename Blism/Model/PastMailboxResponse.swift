@@ -2,25 +2,23 @@
 //  PastMailboxResponse.swift
 //  Blism
 //
-//  Created by 송재곤 on 12/20/24.
+//  Created by 송재곤 on 12/21/24.
 //
-
-import Foundation
 
 struct PastMailboxResponse: Codable {
     let isSuccess: Bool
     let code: String
     let message: String
-    let data: mailboxData
+    let data: mailBoxData
 }
 
-struct mailboxData: Codable {
+struct mailBoxData: Codable {
     let memberId: Int
     let count: Int
-    let mailboxes: [mailboxInfo]
+    let mailboxes: [pastMailBoxData]
 }
 
-struct mailboxInfo: Codable {
+struct pastMailBoxData: Codable {
     let mailboxId: Int
-    let year: Int
+    let yeat: Int
 }

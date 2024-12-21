@@ -14,6 +14,7 @@ class MemberAPI {
     
     let provider = MoyaProvider<MemberTargrtType>()
     
+    
     // 회원가입
     func postSignUp(request: MemberSignUpRequest, completion: @escaping (Result<MemberSignUpResponse, NetworkError>) -> Void){
         provider.request(.signUp(request)) { response in

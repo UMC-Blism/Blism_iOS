@@ -62,7 +62,7 @@ extension PrevMailBoxDetailViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.config(image: dummyData[indexPath.row].doorImage)
+        cell.confige(image: dummyData[indexPath.row].doorImage)
         return cell
     }
 }

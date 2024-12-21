@@ -7,6 +7,7 @@
 
 import UIKit
 import Moya
+import Kingfisher
 
 class HomeViewController: UIViewController {
     private let rootView = HomeView()
@@ -14,8 +15,8 @@ class HomeViewController: UIViewController {
     private let dummyData = MailBoxCollectionViewModel.Dummy()
     
     //API 연결
-    var homeInfoResponse : MailBoxResponse?
-    private let apiService = HomeMailBoxRequest()
+    var homeInfoResponse : MailboxCheckingResponse?
+//    private let apiService = MailboxAPI
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +25,10 @@ class HomeViewController: UIViewController {
         rootView.doorCollectionView.delegate = self
         
         viewController.modalPresentationStyle = .overFullScreen
-        //        viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
         present(viewController, animated: false)
         
-
+        let id = KeychainService.shared.load(account: .userInfo, service: .memberId)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,15 +38,15 @@ class HomeViewController: UIViewController {
         // API 호출
         let nickname = KeychainService.shared.load(account: .userInfo  , service: .nickname) ?? "닉네임 오류"
         nicknameChange(nickname: nickname) //이부분은 로그인할때 받아옴
-        let numberOfMail = String(homeInfoResponse?.data.count ?? 0)
-
-        numOfMailChange(num: numberOfMail)
         
         // 키체인 불러오기
         if let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId), let nickname = KeychainService.shared.load(account: .userInfo, service: .nickname) {
-            fetchMailBoxInfo(memberId: memberId)
+            fetchMailBoxInfo(userId: memberId)
             
             nicknameChange(nickname: nickname)
+            
+            let numberOfMail = String(homeInfoResponse?.result?.count ?? 1)
+            numOfMailChange(num: numberOfMail)
         } else {
             // 아이디 없음 오류
             print("HomeVieController - 키체인 저장된 멤버 아이디 없음")
@@ -53,22 +54,25 @@ class HomeViewController: UIViewController {
     }
     
     // API 호출 함수
-    private func fetchMailBoxInfo(memberId: String) {
-        if let IntId = Int(memberId) {
-            apiService.fetchMyMailBoxInfo(userId: IntId) { [weak self] data in
-                self?.homeInfoResponse = data
-                print("success")
-                // 데이터를 처리하는 추가 코드 (예: 테이블 뷰 갱신)
+    private func fetchMailBoxInfo(userId: String) {
+        let memberId = Int64(userId)
+        
+        let request = MailboxCheckingRequest(memberId: memberId ?? 0)
+        
+        MailboxAPI.shared.mailboxCheck(request: request) {[weak self] result in
+            switch result {
+            case .success(let data):
+                print(data)
+                if data.isSuccess {
+                    self?.homeInfoResponse = data
+                } else {
+                    print("data isFailed")
+                }
+                
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
             }
-        } else {
-            // 아아디 Int로 변환 실패
-//=======
-//    private func fetchMailBoxInfo(userId: String) {
-//        let IntId = Int(userId)
-//        apiService.fetchMyMailBoxInfo(userId: IntId ?? 0) { [weak self] result in
-//                self?.homeInfoResponse = result
-//                print("success")
-//>>>>>>> b55ce5278a76c132cc2cefd6c8bd4de8dc1d42d3
         }
     }
     
@@ -80,7 +84,7 @@ class HomeViewController: UIViewController {
     }
     func numOfMailChange(num: String){
         
-        let updatedText = rootView.mailboxOwner.text?.replacingOccurrences(of: "n", with: num)
+        let updatedText = rootView.numberOfMail.text?.replacingOccurrences(of: "n", with: num)
         
         rootView.numberOfMail.text = updatedText
     }
@@ -99,7 +103,12 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return UICollectionViewCell()
         }
 
-        mailBoxCell.config(image: dummyData[indexPath.row].doorImage)
+//        mailBoxCell.config(image: dummyData[indexPath.row].doorImage)
+        let letterData = homeInfoResponse?.result?.letters
+        if let imageUrl = URL(string: letterData?[indexPath.row].doorImageUrl ?? "") {
+            mailBoxCell.config(imageUrl: imageUrl)
+        }
+
         
         return mailBoxCell
     }

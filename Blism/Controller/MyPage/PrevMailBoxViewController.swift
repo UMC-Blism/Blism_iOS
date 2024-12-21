@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import Moya
 
 class PrevMailBoxViewController: UIViewController {
     private let prevMailBoxView : PrevMailBoxView
     
     private let dummyData : [[Any]]?
+    
+    var pastMailboxInfo : PastMailboxResponse?
+    private let provider = MoyaProvider<MailboxTargetType>()
     
     init(data: [[Any]]?) {
         self.dummyData = data
@@ -29,6 +33,8 @@ class PrevMailBoxViewController: UIViewController {
         
         setProtocol()
         setNavigationBar()
+        
+        PastMailboxInfoResponse()
     }
     private func setProtocol(){
         prevMailBoxView.collectionView.dataSource = self
@@ -42,18 +48,43 @@ class PrevMailBoxViewController: UIViewController {
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
         
         // 타이틀
-        self.navigationItem.titleView = NavigationTitleView(title: "에전에 받은 우체통", titleColor: .base2)
+        self.navigationItem.titleView = NavigationTitleView(title: "예전에 받은 우체통", titleColor: .base2)
     }
     
     @objc
     private func popAction(){
         self.navigationController?.popViewController(animated: true)
     }
+    
+    private func PastMailboxInfoResponse() {
+        let userId = Int(KeychainService.shared.load(account: .userInfo, service: .memberId) ?? "") ?? 0
+        provider.request(.getAllPastMail){ result in
+            switch result {
+            case .success(let response):
+                print(response)
+                print("Request URL: \(response.request?.url?.absoluteString ?? "No URL")")
+                do {
+                    
+                    let pastMailBoxInfoResponse = try response.map(PastMailboxResponse.self)
+                    self.pastMailboxInfo = pastMailBoxInfoResponse
+                    
+                } catch {
+                    // 변환 실패 시 오류 처리
+                    print("Mapping error: \(error.localizedDescription)")
+                }
+            case .failure(let error):
+                print("Network request error: \(error.localizedDescription)")
+            }
+        }
+        
+    }
 }
+
 
 extension PrevMailBoxViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dummyData?.count ?? 0
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
