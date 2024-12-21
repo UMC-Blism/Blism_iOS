@@ -14,13 +14,13 @@ public struct VisitorAuthRequest: Codable {
 
 
 public struct VisitorAuthResponse: Codable {
-    let isSucess: Bool
+    let isSuccess: Bool
     let code: Int
     let message: String
-    let result: VisitiorAuthData?
+    let result: VisitorAuthData?
     
     enum CodingKeys: String, CodingKey {
-        case isSucess
+        case isSuccess
         case code
         case message
         case result
@@ -28,16 +28,16 @@ public struct VisitorAuthResponse: Codable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.isSucess = try container.decode(Bool.self, forKey: .isSucess)
+        self.isSuccess = try container.decode(Bool.self, forKey: .isSuccess)
         self.code = try container.decode(Int.self, forKey: .code)
         self.message = try container.decode(String.self, forKey: .message)
-        self.result = try container.decodeIfPresent(VisitiorAuthData.self, forKey: .result)
+        self.result = try container.decodeIfPresent(VisitorAuthData.self, forKey: .result)
     }
 }
 
 
-public struct VisitiorAuthData: Codable {
-    let mailBoxId: Int
+public struct VisitorAuthData: Codable {
+    let mailBoxId: Int64
     
     enum CodingKeys: String, CodingKey {
         case mailBoxId = "mailbox_id"
@@ -45,15 +45,24 @@ public struct VisitiorAuthData: Codable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.mailBoxId = try container.decode(Int.self, forKey: .mailBoxId)
+        self.mailBoxId = try container.decode(Int64.self, forKey: .mailBoxId)
     }
 }
 
-//{
-//  "isSuccess": true,
-//  "code": 200,
-//  "message": "성공입니다.",
-//  "result": {
-//    "mailbox_id": 1
-//  }
-//}
+
+/*
+ {
+   "isSuccess": true,
+   "code": 200,
+   "message": "성공입니다.",
+   "result": {
+     "mailbox_id": 1
+   }
+ }
+ 
+ {
+   "isSuccess": true,
+   "code": 200,
+   "message": "성공입니다."
+ }
+ */

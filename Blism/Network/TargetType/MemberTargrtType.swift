@@ -36,7 +36,7 @@ extension MemberTargrtType: TargetType {
         case .searchNickcname:
             return "/members/search"
         case .visitorAuth:
-            return "/members"
+            return "/members/{nickname}/{checkcode}"
         }
     }
     
@@ -66,7 +66,7 @@ extension MemberTargrtType: TargetType {
         case .searchNickcname(let request):
             return .requestParameters(parameters: ["nickname": request.nickname], encoding: URLEncoding.queryString)
         case .visitorAuth(let request):
-            return .requestParameters(parameters: ["nickname": request.nickname, "checkCode" : request.checkCode], encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: ["nickname": request.nickname, "checkcode" : request.checkCode], encoding: URLEncoding.queryString)
         }
     }
     

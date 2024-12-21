@@ -59,7 +59,7 @@ class VisitorCheckViewController : UIViewController {
         MemberAPI.shared.authVisitor(request: request) {[weak self] result in
             switch result {
             case .success(let data):
-                if data.isSucess{
+                if data.isSuccess{
                     if let dataResult = data.result {   // 확인코드가 맞으면 -> 화면 이동
                         let nextVC = VisiterHomeViewController(mailBoxId: dataResult.mailBoxId)
                         self?.navigationController?.pushViewController(nextVC, animated: true)
