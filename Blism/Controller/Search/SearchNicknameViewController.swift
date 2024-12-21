@@ -15,6 +15,8 @@ class SearchNicknameViewController: UIViewController {
             UserDefaults.standard.set(searchHistory, forKey: "SearchHistory")
         }
     }
+    
+    private var searchResult = [String]()
 
     private lazy var searchNicknameView = SearchNicknameView().then {
         $0.searchResultTableView.delegate = self
@@ -78,14 +80,14 @@ class SearchNicknameViewController: UIViewController {
 //            searchNicknameView.noResultView.isHidden = true
 //            searchNicknameView.deleteSearchHistoryLabel.isHidden = true
 //        }
-        guard let text = searchNicknameView.searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else {
+        guard let searchNickname = searchNicknameView.searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !searchNickname.isEmpty else {
             // 빈칸일 경우 아무 동작 없음
             return
         }
         
         // 필드 빈칸 아닐 때
-        searchHistory.append(text)
-        searchNicknameView.searchTextField.text = ""
+        searchHistory.append(searchNickname)
+        
         
         // search history tableview 업데이트
         searchNicknameView.searchHistoryTableView.reloadData()
@@ -95,6 +97,32 @@ class SearchNicknameViewController: UIViewController {
         searchNicknameView.noResultView.isHidden = true
         searchNicknameView.deleteSearchHistoryLabel.isHidden = true
         
+        // API 연결
+        self.searchAPI(searchNickname: searchNickname)
+  
+        
+    }
+    private func searchAPI(searchNickname: String) {
+        let request = MemberSearchRequest(nickname: searchNickname)
+        MemberAPI.shared.searchNickname(request: request) {[weak self] result in
+            switch result {
+            case .success(let data):
+                // 배열이 비어있으면 -> 검색 결과가 없으면
+                if data.result.isEmpty {
+                    self?.searchNicknameView.noResultView.isHidden = false
+                    self?.searchNicknameView.searchHistoryTableView.isHidden = true
+                    self?.searchNicknameView.searchResultTableView.isHidden = true
+                    self?.searchNicknameView.deleteSearchHistoryLabel.isHidden = true
+                    self?.searchNicknameView.recentSearchLabel.isHidden = true
+                } else {
+                    self?.searchResult = data.result.map{$0.nickname}
+                    self?.searchNicknameView.searchResultTableView.reloadData()
+                }
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
+        }
     }
 }
 
@@ -125,7 +153,12 @@ extension SearchNicknameViewController: UITableViewDataSource {
             return cell
         } else if tableView == searchNicknameView.searchResultTableView {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.identifier) as? SearchResultTableViewCell else { return UITableViewCell() }
-            cell.nicknameLabel.text = "햄"
+            
+            if !searchResult.isEmpty {
+                cell.nicknameLabel.text = searchResult[indexPath.section]
+            }
+            
+            
             
             return cell
         }
