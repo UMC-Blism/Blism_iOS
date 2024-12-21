@@ -58,6 +58,7 @@ class ChangeNicknameViewController: UIViewController{
                 print(data)
                 if data.isSuccess {
                     self?.setNicknameGroupView(isDuplication: data.result != nil)
+                    
                 } else {
                     print("data isFailed")
                 }

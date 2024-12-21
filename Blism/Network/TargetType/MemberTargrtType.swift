@@ -54,10 +54,10 @@ extension MemberTargrtType: TargetType {
         switch self {
         case .signUp(let request):
             return .requestJSONEncodable(request)
-        case .checkId(let nickname):
-            return .requestParameters(parameters: ["nickname": nickname.nickname], encoding: URLEncoding.queryString)
+        case .checkId(let request):
+            return .requestParameters(parameters: ["nickname": request.nickname], encoding: URLEncoding.queryString)
         case .changeId(let request):
-            return .requestJSONEncodable(request)
+            return.requestParameters(parameters: ["original_nickname": request.originalNickname, "new_nickname" : request.newNickname], encoding: URLEncoding.queryString)
         case .searchNickcname:
             return .requestPlain
         }
