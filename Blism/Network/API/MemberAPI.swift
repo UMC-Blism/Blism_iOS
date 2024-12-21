@@ -12,7 +12,7 @@ class MemberAPI {
     static let shared = MemberAPI()
     private init() {}
     
-    let provider = MoyaProvider<MemberTargrtType>()
+    private let provider = MoyaProvider<MemberTargrtType>()
     
     
     // 회원가입
@@ -153,4 +153,40 @@ class MemberAPI {
             }
         }
     }
+    
+    // 방문자 인증
+    func authVisitor(request: VisitorAuthRequest, completion: @escaping (Result<VisitorAuthResponse, NetworkError>) -> Void) {
+        provider.request(.visitorAuth(request)) { response in
+            switch response {
+            case let .success(result):
+                print(result)
+                do {
+                    let decodingResult = try JSONDecoder().decode(VisitorAuthResponse.self, from: result.data)
+                    if 200..<400 ~= decodingResult.code{
+                        completion(.success(decodingResult))
+                    } else {
+                        print("서버 오류")
+                        print(decodingResult.message)
+                        completion(.failure(.serverError(decodingResult.code)))
+                    }
+                } catch {
+                    print("디코딩 에러")
+                    completion(.failure(.failToDecode(error.localizedDescription)))
+                }
+            case let .failure(error):
+                print("네트워크 오류")
+                switch error {
+                case .encodableMapping(let error):  // 인코딩 실패
+                    completion(.failure(.encodingError(error.localizedDescription)))
+                case .requestMapping(let message):    // 요청 실패
+                    completion(.failure(.requestFailed(message)))
+                case .parameterEncoding(let error):
+                    completion(.failure(.parameterEncodingError(error.localizedDescription)))
+                default:
+                    completion(.failure(.otherMoyaError(error.errorDescription)))
+                }
+            }
+        }
+    }
+    
 }

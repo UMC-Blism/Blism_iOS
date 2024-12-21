@@ -1,5 +1,5 @@
 //
-//  VisiterCheckView.swift
+//  VisitorCheckView.swift
 //  Blism
 //
 //  Created by 이수현 on 12/19/24.
@@ -7,7 +7,23 @@
 
 import UIKit
 
-class VisiterCheckView: UIView {
+class VisitorCheckView: UIView {
+    
+    private let onwerNickname: String
+    
+    init(onwerNickname: String){
+        self.onwerNickname = onwerNickname
+        super.init(frame: .zero)
+        
+        setSubView()
+        setUI()
+    }
+
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let backgroundImageView = BackGroundImageView(type: .white)
     
     // 그룹 뷰
@@ -36,8 +52,8 @@ class VisiterCheckView: UIView {
     }
     
     // 닉네임 텍스트 필드
-    private let nicknameTextField = LoginTextField(type: .visitMailBox).then { txt in
-        txt.text = "햄"
+    private lazy var nicknameTextField = LoginTextField(type: .visitMailBox).then { txt in
+        txt.text = onwerNickname
         txt.isUserInteractionEnabled = false
     }
     
@@ -51,27 +67,18 @@ class VisiterCheckView: UIView {
     }
     
     // 확인 코드 텍스트 필드
-    private let checkCodeTextField = LoginTextField(type: .checkCode)
+    public let checkCodeTextField = LoginTextField(type: .checkCode)
     
     // 방문 버튼
     public let visitButton = UIButton().then { btn in
         btn.setTitle("방문하기", for: .normal)
         btn.titleLabel?.font = .customFont(font: .PretendardRegular, ofSize: 15)
         btn.setTitleColor(.base2, for: .normal)
-        btn.backgroundColor = .blismBlue
         btn.layer.cornerRadius = 10
         btn.clipsToBounds = true
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
         
-        setSubView()
-        setUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        btn.backgroundColor = .systemGray4
+        btn.isUserInteractionEnabled = false
     }
     
     private func setSubView(){
