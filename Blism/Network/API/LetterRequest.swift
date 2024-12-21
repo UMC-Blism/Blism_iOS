@@ -51,24 +51,37 @@ class LetterRequest {
     }
     
     // readLetter
-    func fetchLetter(letterID: Int64, completion: @escaping (Result<LetterData, Error>) -> Void) {
-        provider.request(.readLetter(letterID: letterID)) { result in
-            switch result {
-            case .success(let response):
+    func readLetter(request: ReadLetterRequest, completion: @escaping(Result<ReadLetterResponse, NetworkError>) -> Void) {
+        provider.request(.readLetter(request)) { response in
+            switch response {
+            case let .success(result):
+                print(result)
+                print(response)
                 do {
-                    let decoder = JSONDecoder()
-                    let readLetterResponse = try decoder.decode(ReadLetterResponse.self, from: response.data)
-                    if readLetterResponse.isSuccess, let letterData = readLetterResponse.data {
-                        completion(.success(letterData))
+                    let decodingResult = try JSONDecoder().decode(ReadLetterResponse.self, from: result.data)
+                    if 200..<400 ~= decodingResult.code {
+                        completion(.success(decodingResult))
                     } else {
-                        let errorMessage = readLetterResponse.message
-                        completion(.failure(NSError(domain: "", code: readLetterResponse.code, userInfo: [NSLocalizedDescriptionKey: errorMessage])))
+                        print("서버 오류")
+                        print(decodingResult.message)
+                        completion(.failure(.serverError(decodingResult.code)))
                     }
                 } catch {
-                    completion(.failure(error))
+                    print("디코딩 에러")
+                    completion(.failure(.failToDecode(error.localizedDescription)))
                 }
-            case .failure(let error):
-                completion(.failure(error))
+            case let .failure(error):
+                print("네트워크 오류")
+                switch error {
+                case .encodableMapping(let error):  // 인코딩 실패
+                    completion(.failure(.encodingError(error.localizedDescription)))
+                case .requestMapping(let message):    // 요청 실패
+                    completion(.failure(.requestFailed(message)))
+                case .parameterEncoding(let error):
+                    completion(.failure(.parameterEncodingError(error.localizedDescription)))
+                default:
+                    completion(.failure(.otherMoyaError(error.errorDescription)))
+                }
             }
         }
     }

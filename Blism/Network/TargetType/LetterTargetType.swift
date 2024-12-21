@@ -11,7 +11,7 @@ import Moya
 
 enum LetterTargetType {
     case writeLetter(image: UIImage, WriteLetterRequest)    // 편지 작성
-    case readLetter(letterID: Int64)        // 특정 편지 조회
+    case readLetter(ReadLetterRequest)      // 특정 편지 조회
     case readAllLetters                     // 전체 편지 조회
     case readAllReceivedLetters             // 받은 전체 편지 조회
     // case editLetter // 편지 수정
@@ -30,8 +30,8 @@ extension LetterTargetType: TargetType {
         switch self {
         case .writeLetter:
             return "/letters"
-        case .readLetter(let letterID):
-            return "/letters/\(letterID)"
+        case .readLetter(let request):
+            return "/letters/\(request.letterId)"
         case .readAllLetters:
             return "/letters/sent"
         case .readAllReceivedLetters:
@@ -43,7 +43,7 @@ extension LetterTargetType: TargetType {
         switch self {
         case .writeLetter:
             return .post
-        case .readLetter(_), .readAllLetters, .readAllReceivedLetters:
+        case .readLetter, .readAllLetters, .readAllReceivedLetters:
             return .get
         }
     }
@@ -82,7 +82,9 @@ extension LetterTargetType: TargetType {
             }
             
             return .uploadMultipart(formData)
-        case .readLetter(_), .readAllLetters, .readAllReceivedLetters:
+        case .readLetter(let request):
+            return .requestParameters(parameters: ["letterId": request.letterId], encoding: URLEncoding.queryString)
+        case .readAllLetters, .readAllReceivedLetters:
             return .requestPlain
         }
     }
