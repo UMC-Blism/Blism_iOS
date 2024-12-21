@@ -28,8 +28,8 @@ extension MemberTargrtType: TargetType {
         switch self {
         case .signUp:
             return "/members/signup"
-        case .checkId(let nickname):
-            return "/members/\(nickname.nickname.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "")"
+        case .checkId:
+            return "/members/{nickname}"
         case .changeId:
             return "/members/change"
         case .searchNickcname:
@@ -54,10 +54,10 @@ extension MemberTargrtType: TargetType {
         switch self {
         case .signUp(let request):
             return .requestJSONEncodable(request)
-        case .checkId:
-            return .requestPlain
+        case .checkId(let request):
+            return .requestParameters(parameters: ["nickname": request.nickname], encoding: URLEncoding.queryString)
         case .changeId(let request):
-            return .requestJSONEncodable(request)
+            return.requestParameters(parameters: ["original_nickname": request.originalNickname, "new_nickname" : request.newNickname], encoding: URLEncoding.queryString)
         case .searchNickcname:
             return .requestPlain
         }

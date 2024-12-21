@@ -23,29 +23,33 @@ class HomeViewController: UIViewController {
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
         
+        viewController.modalPresentationStyle = .overFullScreen
+        //        viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
+        present(viewController, animated: false)
+        
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("homeVC -viewWIllAppear")
+        self.navigationController?.navigationBar.isHidden = true
+        
+        // API 호출
         let nickname = KeychainService.shared.load(account: .userInfo  , service: .nickname) ?? "닉네임 오류"
         nicknameChange(nickname: nickname) //이부분은 로그인할때 받아옴
         let numberOfMail = String(homeInfoResponse?.data.count ?? 0)
 
         numOfMailChange(num: numberOfMail)
         
-        
-        viewController.modalPresentationStyle = .overFullScreen
-        //        viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
-        present(viewController, animated: false)
-        
-        // API 호출
-        if let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId) {
+        // 키체인 불러오기
+        if let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId), let nickname = KeychainService.shared.load(account: .userInfo, service: .nickname) {
             fetchMailBoxInfo(memberId: memberId)
+            
+            nicknameChange(nickname: nickname)
         } else {
             // 아이디 없음 오류
             print("HomeVieController - 키체인 저장된 멤버 아이디 없음")
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
     }
     
     // API 호출 함수
@@ -72,6 +76,7 @@ class HomeViewController: UIViewController {
     func nicknameChange(nickname: String){
         let updatedText = rootView.mailboxOwner.text?.replacingOccurrences(of: "지수", with: nickname)
         rootView.mailboxOwner.text = updatedText
+        loadViewIfNeeded()
     }
     func numOfMailChange(num: String){
         

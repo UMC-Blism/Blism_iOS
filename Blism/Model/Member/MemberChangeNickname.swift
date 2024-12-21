@@ -29,7 +29,7 @@ public struct MemberChangeNicknameReponse: Codable {
     let isSuccess: Bool
     let code: Int
     let message: String
-    let data: String?
+    let result: String?
 }
 
 
