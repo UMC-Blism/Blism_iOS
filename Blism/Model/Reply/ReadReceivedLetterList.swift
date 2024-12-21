@@ -54,18 +54,28 @@ public struct ReceivedLetterListData: Codable {
         self.content = try container.decode(String.self, forKey: .content)
         self.senderId = try container.decode(Int64.self, forKey: .senderId)
         self.senderName = try container.decode(String.self, forKey: .senderName)
-        
         let dateString = try container.decode(String.self, forKey: .createdDate)
-        let ISOFormatter = ISO8601DateFormatter()
         
-        guard let parsedDate = ISOFormatter.date(from: dateString) else {
-            self.createdDate = "날짜 디코딩 실패"
-            return
-        }
-        
+        let trimmedDateString = String(dateString.prefix(10)) // "2024-12-22"
+
+        // DateFormatter로 변환
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy⋅MM⋅dd⋅EEE"
-        self.createdDate = dateFormatter.string(from: parsedDate)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        // 문자열 -> Date 변환
+        if let date = dateFormatter.date(from: trimmedDateString) {
+            // 변환된 Date를 원하는 형식으로 포맷팅
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "yyyy⋅MM⋅dd⋅EEE요일"
+            outputFormatter.locale = Locale(identifier: "ko_KR") // 한국어 요일 표시
+            let formattedDate = outputFormatter.string(from: date)
+            self.createdDate = formattedDate
+            print(formattedDate) // 출력 예: "2024⋅12⋅22⋅일요일"
+        } else {
+            self.createdDate = "날짜 변환 실패"
+        }
     }
     
     
