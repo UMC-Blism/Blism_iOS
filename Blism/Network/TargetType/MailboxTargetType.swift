@@ -10,8 +10,9 @@ import Moya
 
 enum MailboxTargetType {
     case getMyMailBoxInfo(MailboxCheckingRequest)
-    case getAllPastMail
-    case getSpecificYearPastMail(userId: Int, year: Int)
+    case getAllPastMail(PastMailboxCheckingRequest)
+    case getSpecificYearPastMail(SpecificPastMailboxCheckingRequest)
+    case patchvVisibilityPermission(VisibilityPermissionRequest)
 }
 
 extension MailboxTargetType: TargetType {
@@ -25,12 +26,15 @@ extension MailboxTargetType: TargetType {
     
     var path: String {
         switch self {
-        case .getMyMailBoxInfo(_):
+        case .getMyMailBoxInfo:
             return "/mailboxes"
         case .getAllPastMail:
             return "/mailboxes/past"
-        case .getSpecificYearPastMail(_, let year):
-            return "/mailboxes/\(year)"
+        case .getSpecificYearPastMail(let request):
+            // `memberId`와 `year`를 동적으로 포함시킴
+            return "/mailboxes/past/\(request.memberId)"
+        case .patchvVisibilityPermission:
+            return "/mailboxes/visibility"
         }}
     
     var method: Moya.Method {
@@ -39,20 +43,23 @@ extension MailboxTargetType: TargetType {
             return .get
         case .getAllPastMail:
             return .get
-        case .getSpecificYearPastMail(_, _):
+        case .getSpecificYearPastMail:
             return .get
-            
+        case .patchvVisibilityPermission:
+            return .patch
         }
     }
     
     var task: Moya.Task { // 파라미터 확인
         switch self {
         case .getMyMailBoxInfo(let request):
+            return .requestParameters(parameters: ["memberId": request.memberId], encoding: URLEncoding.queryString)
+        case .getAllPastMail(let request):
+            return .requestParameters(parameters: ["memberId": request.memberId], encoding: URLEncoding.queryString)
+        case .getSpecificYearPastMail(let request):
+            return .requestParameters(parameters: ["year": request.year], encoding: URLEncoding.queryString)
+        case .patchvVisibilityPermission(let request):
             return .requestJSONEncodable(request)
-        case .getAllPastMail:
-            return .requestPlain
-        case .getSpecificYearPastMail(_, _):
-            return .requestParameters(parameters: [:], encoding: URLEncoding.queryString)
         }
     }
     

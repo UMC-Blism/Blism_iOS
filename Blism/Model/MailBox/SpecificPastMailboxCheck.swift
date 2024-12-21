@@ -1,19 +1,19 @@
 //
-//  MailboxChecking.swift
+//  SpecificPastMailboxCheck.swift
 //  Blism
 //
-//  Created by 송재곤 on 12/21/24.
+//  Created by 송재곤 on 12/22/24.
 //
-
-
 import Foundation
 
 
-public struct MailboxCheckingRequest: Codable {
+public struct SpecificPastMailboxCheckingRequest: Codable {
     let memberId: Int64
+    let year: String
     
     enum CodingKeys: CodingKey {
         case memberId
+        case year
     }
 }
 
@@ -24,11 +24,11 @@ public struct MailboxCheckingRequest: Codable {
  */
 
 
-public struct  MailboxCheckingResponse: Codable {
+public struct SpecificPastMailboxCheckingResponse: Codable {
     let isSuccess: Bool
     let code: Int
     let message: String
-    let result: MailboxCheckingResponseData?
+    let result: SpecificPastMailboxCheckingResponseData?
     
     enum CodingKeys: String, CodingKey {
         case isSuccess
@@ -42,16 +42,16 @@ public struct  MailboxCheckingResponse: Codable {
         self.isSuccess = try container.decode(Bool.self, forKey: .isSuccess)
         self.code = try container.decode(Int.self, forKey: .code)
         self.message = try container.decode(String.self, forKey: .message)
-        self.result = try container.decodeIfPresent(MailboxCheckingResponseData.self, forKey: .result)
+        self.result = try container.decodeIfPresent(SpecificPastMailboxCheckingResponseData.self, forKey: .result)
     }
     
 }
 
-public struct MailboxCheckingResponseData: Codable {
+public struct SpecificPastMailboxCheckingResponseData: Codable {
     let memberId: Int64
     let count: Int
     let visibility: Int?
-    let letters: [LetterInfo]
+    let letters: [specificPastMailBoxData]
     
     enum CodingKeys:  String, CodingKey {
         case memberId
@@ -65,7 +65,7 @@ public struct MailboxCheckingResponseData: Codable {
         self.memberId = try container.decode(Int64.self, forKey: .memberId)
         self.count = try container.decode(Int.self, forKey: .count)
         self.visibility = try container.decodeIfPresent(Int.self, forKey: .visibility)
-        self.letters = try container.decode([LetterInfo].self, forKey: .letters)
+        self.letters = try container.decode([specificPastMailBoxData].self, forKey: .letters)
     }
 }
 /*
@@ -77,10 +77,10 @@ public struct MailboxCheckingResponseData: Codable {
  }
  */
 
-public struct LetterInfo: Codable {
+public struct specificPastMailBoxData: Codable {
     let letterId: Int64
     let doorImageUrl: String
-    let visibility: Int?
+    let visibility: Int
     
     enum CodingKeys:  String, CodingKey {
         case letterId = "id"
@@ -92,7 +92,7 @@ public struct LetterInfo: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.letterId = try container.decode(Int64.self, forKey: .letterId)
         self.doorImageUrl = try container.decode(String.self, forKey: .doorImageUrl)
-        self.visibility = try container.decodeIfPresent(Int.self, forKey: .visibility)
+        self.visibility = try container.decode(Int.self, forKey: .visibility)
     }
 }
 

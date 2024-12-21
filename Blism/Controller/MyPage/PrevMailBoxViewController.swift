@@ -9,27 +9,17 @@ import UIKit
 import Moya
 
 class PrevMailBoxViewController: UIViewController {
-    private let prevMailBoxView : PrevMailBoxView
+    private let prevMailBoxView = PrevMailBoxView()
+
     
-    private let dummyData : [[Any]]?
-    
-    var pastMailboxInfo : PastMailboxResponse?
+    var pastMailboxInfo : PastMailboxCheckingResponse?
     private let provider = MoyaProvider<MailboxTargetType>()
     
-    init(data: [[Any]]?) {
-        self.dummyData = data
-        self.prevMailBoxView = PrevMailBoxView()
-        prevMailBoxView.isNullData(isNull: data == nil ? true : false)
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view = prevMailBoxView
+        self.view = prevMailBoxView
         
         setProtocol()
         setNavigationBar()
@@ -57,34 +47,38 @@ class PrevMailBoxViewController: UIViewController {
     }
     
     private func PastMailboxInfoResponse() {
-        let userId = Int(KeychainService.shared.load(account: .userInfo, service: .memberId) ?? "") ?? 0
-        provider.request(.getAllPastMail){ result in
+        let userId = Int64(KeychainService.shared.load(account: .userInfo, service: .memberId) ?? "") ?? 0
+        
+        let request = PastMailboxCheckingRequest(memberId: userId)
+        
+        MailboxAPI.shared.pastMailboxCheck(request: request) {[weak self] result in
             switch result {
-            case .success(let response):
-                print(response)
-                print("Request URL: \(response.request?.url?.absoluteString ?? "No URL")")
-                do {
-                    
-                    let pastMailBoxInfoResponse = try response.map(PastMailboxResponse.self)
-                    self.pastMailboxInfo = pastMailBoxInfoResponse
-                    
-                } catch {
-                    // 변환 실패 시 오류 처리
-                    print("Mapping error: \(error.localizedDescription)")
+            case .success(let data):
+                print(data)
+                if data.isSuccess {
+                    self?.pastMailboxInfo = data
+                    self?.prevMailBoxView.collectionView.reloadData()
+                } else {
+                    print("data isFailed")
                 }
+                
             case .failure(let error):
-                print("Network request error: \(error.localizedDescription)")
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
             }
         }
-        
     }
 }
 
 
 extension PrevMailBoxViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dummyData?.count ?? 0
-        
+        if let pastMailCount = pastMailboxInfo?.result?.count {
+            return pastMailCount
+        } else {
+            print("과거에 받은 편지 개수를 가져오지 못했습니다.")
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -92,17 +86,33 @@ extension PrevMailBoxViewController: UICollectionViewDataSource{
             return UICollectionViewCell()
         }
         
-        cell.config(year: dummyData?[indexPath.row][0] as? String ?? "")
+//        cell.config(year: dummyData?[indexPath.row][0] as? String ?? "")
+        // 배열이라면, 특정 인덱스를 지정해야 합니다.
+        if let pastMailboxList = pastMailboxInfo?.result?.pastMailboxList, pastMailboxList.count > 0 {
+            let pastYear = pastMailboxList[indexPath.row].year // 첫 번째 요소의 year 속성
+            cell.config(year: pastYear)
+            self.prevMailBoxView.isNullData(isNull: false)
+        } else {
+            self.prevMailBoxView.isNullData(isNull: true)
+            print("pastMailboxList가 비어있거나 nil입니다.")
+        }
+
+        
         return cell
     }
 }
 
 extension PrevMailBoxViewController: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // API 연결
-        let year = dummyData?[indexPath.row][0] as? String ?? ""
-        let count = dummyData?[indexPath.row][1] as? Int ?? 0
-        let nextVC = PrevMailBoxDetailViewController(year: year, mailCount: count)
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        if let pastMailboxList = pastMailboxInfo?.result?.pastMailboxList, pastMailboxList.count > indexPath.row {
+                // 선택된 항목의 year와 mailCount를 가져옴
+                let pastYear = pastMailboxList[indexPath.row].year
+                
+                // 다음 화면으로 데이터 전달
+                let nextVC = PrevMailBoxDetailViewController(year: pastYear)
+                self.navigationController?.pushViewController(nextVC, animated: true)
+            } else {
+                print("pastMailboxList가 비어있거나 인덱스가 범위를 벗어났습니다.")
+            }
     }
 }

@@ -12,7 +12,7 @@ class PrevMailBoxDetailView: UIView{
     private let backgroundImageView = BackGroundImageView(type: .black)
     private let title : String
     
-    private lazy var titleLabel = UILabel().then { lbl in
+    public lazy var titleLabel = UILabel().then { lbl in
         lbl.text = title
         lbl.font = .customFont(font: .PretendardLight, ofSize: 15)
         lbl.textColor = .base2
@@ -27,8 +27,8 @@ class PrevMailBoxDetailView: UIView{
         
     }
     
-    init(year: String, count: Int){
-        title = "\(year)년에는 \(count)통의 편지를 받았어요."
+    init(year: String){
+        title = "\(year)년에는 n통의 편지를 받았어요."
         super.init(frame: .zero)
         
         setSubView()

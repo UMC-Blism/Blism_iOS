@@ -12,11 +12,9 @@ import Kingfisher
 class HomeViewController: UIViewController {
     private let rootView = HomeView()
     let viewController = HomeDisclosureViewController()
-    private let dummyData = MailBoxCollectionViewModel.Dummy()
     
     //API 연결
     var homeInfoResponse : MailboxCheckingResponse?
-//    private let apiService = MailboxAPI
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +25,7 @@ class HomeViewController: UIViewController {
         viewController.modalPresentationStyle = .overFullScreen
         present(viewController, animated: false)
         
-        let id = KeychainService.shared.load(account: .userInfo, service: .memberId)
+        
         
     }
     
@@ -41,12 +39,11 @@ class HomeViewController: UIViewController {
         
         // 키체인 불러오기
         if let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId), let nickname = KeychainService.shared.load(account: .userInfo, service: .nickname) {
-            fetchMailBoxInfo(userId: memberId)
             
-            nicknameChange(nickname: nickname)
             
-            let numberOfMail = String(homeInfoResponse?.result?.count ?? 1)
-            numOfMailChange(num: numberOfMail)
+        fetchMailBoxInfo(userId: memberId)
+        nicknameChange(nickname: nickname)
+            
         } else {
             // 아이디 없음 오류
             print("HomeVieController - 키체인 저장된 멤버 아이디 없음")
@@ -55,16 +52,20 @@ class HomeViewController: UIViewController {
     
     // API 호출 함수
     private func fetchMailBoxInfo(userId: String) {
-        let memberId = Int64(userId)
+        guard let memberId = Int64(userId) else {return}
         
-        let request = MailboxCheckingRequest(memberId: memberId ?? 0)
-        
+        let request = MailboxCheckingRequest(memberId: memberId)
         MailboxAPI.shared.mailboxCheck(request: request) {[weak self] result in
             switch result {
             case .success(let data):
-                print(data)
+                print("\(data)**")
                 if data.isSuccess {
                     self?.homeInfoResponse = data
+                    
+                    let numberOfMail = String(self?.homeInfoResponse?.result?.count ?? 1)
+                    print("&&&& \(self?.homeInfoResponse?.result?.count)")
+                    self?.numOfMailChange(num: numberOfMail)
+                    self?.rootView.doorCollectionView.reloadData()
                 } else {
                     print("data isFailed")
                 }
@@ -95,19 +96,35 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return MailBoxCollectionViewModel.Dummy().count
+        return 25
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let mailBoxCell = rootView.doorCollectionView.dequeueReusableCell(withReuseIdentifier: MailBoxCollectionViewCell.identifier, for: indexPath) as? MailBoxCollectionViewCell else {
             return UICollectionViewCell()
         }
-
+        
 //        mailBoxCell.config(image: dummyData[indexPath.row].doorImage)
         let letterData = homeInfoResponse?.result?.letters
-        if let imageUrl = URL(string: letterData?[indexPath.row].doorImageUrl ?? "") {
-            mailBoxCell.config(imageUrl: imageUrl)
+        
+        if let letters = letterData {
+            // letters 배열에서 id가 indexPath.row와 동일한 요소를 찾기
+            if let matchingLetter = letters.first(where: { $0.letterId == indexPath.row }) {
+                // 해당 letter의 doorImageUrl을 가져오기
+                let imageUrl = matchingLetter.doorImageUrl
+                // 이미지 설정
+                mailBoxCell.config(imageUrl: imageUrl)
+                print("letterData다.")
+            } else {
+                // id가 일치하는 letter가 없을 경우 처리
+                print("해당 id를 가진 letter가 존재하지 않습니다.")
+                mailBoxCell.config(imageUrl: "emptyDoor")
+            }
+        } else {
+            // letterData가 nil일 경우 처리
+            print("letterData가 nil입니다.")
         }
+
 
         
         return mailBoxCell
