@@ -93,17 +93,22 @@ class ChangeNicknameViewController: UIViewController{
             MemberAPI.shared.changeNickname(request: request) {[weak self] result in
                 switch result {
                 case .success(let data):
-                    // 마이페이지 뷰로 이동
-                    self?.backToMyPageVC()
+                    if data.isSuccess == true {
+                        // 키체인 저장
+                        KeychainService.shared.update(account: .userInfo, service: .nickname, newValue: newNickname)
+                        // 마이페이지 뷰로 이동
+                        self?.backToMyPageVC()
+                    } else {
+                        let alert = NetworkAlert.shared.getAlertController(title: "닉네임 변경 실패")
+                        self?.present(alert, animated: true)
+                    }
+
                     
                 case .failure(let error):
                     let alert = NetworkAlert.shared.getAlertController(title: error.description)
                     self?.present(alert, animated: true)
                 }
             }
-            
-            // 키체인 저장
-            KeychainService.shared.update(account: .userInfo, service: .nickname, newValue: newNickname)
         }))
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         present(alert, animated: true)
