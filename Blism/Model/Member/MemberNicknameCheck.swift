@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MemberNicknameCheckRequest: Codable {
+public struct MemberNicknameCheckRequest: Encodable {
     let nickname: String
 }
 
@@ -18,38 +18,38 @@ public struct MemberNicknameCheckRequest: Codable {
  */
 
 
-public struct MemberNicknameCheckResponse: Codable {
+public struct MemberNicknameCheckResponse: Decodable {
     let isSuccess: Bool
     let code: Int
     let message: String
-    let data: [MemberNicknameCheckData]?
+    let result: MemberNicknameCheckData?
     
-    enum CodingKeys: CodingKey {
+    enum CodingKeys: String, CodingKey {
         case isSuccess
         case code
         case message
-        case data
+        case result
     }
     
-    public init(from decoder: any Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.isSuccess = try container.decode(Bool.self, forKey: .isSuccess)
         self.code = try container.decode(Int.self, forKey: .code)
         self.message = try container.decode(String.self, forKey: .message)
-        self.data = try container.decodeIfPresent([MemberNicknameCheckData].self, forKey: .data) ?? nil
+        self.result = try container.decodeIfPresent(MemberNicknameCheckData.self, forKey: .result) ?? nil
     }
 }
 
-public struct MemberNicknameCheckData: Codable {
+public struct MemberNicknameCheckData: Decodable {
     let nickname: String
     let memberId: Int64
     
     enum CodingKeys: String, CodingKey {
         case nickname
-        case memberId = "member_id"
+        case memberId = "id"
     }
    
-    public init(from decoder: any Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.nickname = try container.decode(String.self, forKey: .nickname)
         self.memberId = try container.decode(Int64.self, forKey: .memberId)

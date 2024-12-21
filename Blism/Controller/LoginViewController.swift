@@ -58,7 +58,7 @@ class LoginViewController: UIViewController {
             switch result {
             case .success(let data):
                 print(data)
-                if data.data == nil { // 중복 없음
+                if data.result == nil { // 중복 없음
                     self?.loginView.checkNicknameLabel.text = "사용 가능한 아아디입니다."
                     self?.loginView.checkNicknameLabel.textColor = .blismBlue
                     self?.loginView.createCodeButton.isUserInteractionEnabled = true
@@ -90,56 +90,31 @@ class LoginViewController: UIViewController {
     
     @objc   // 로그인 버튼
     private func touchUpInsideLoginButton(){
-        presentTabBarVC()
+//        presentTabBarVC()
         
-//        if let nickname = loginView.idTextField.text, let checkCode = loginView.passwordTextField.text {
-//            let signUpRequest = MemberSignUpRequest(nickname: nickname, password: checkCode)
-//            
-//            MemberAPI.shared.postSignUp(request: signUpRequest) {[weak self] response in
-//                if response.isSuccess {
-//                    if let data = response.data {
-//                        self?.saveInfo(memberId: data.memberId, nickname: nickname, checkCode: checkCode)
-//                    } else {
-//                        print("fetchSignUp: data nil")
-//                    }
-//                    
-//                } else {
-//                    print(response.message)
-//                }
-//            }
-//        } else {
-//            print("아이디, 비밀번호 입력 필요")
-//        }
-
-//        let provider = MoyaProvider<MemberTargrtType>()
-//        
-//        guard let nickname = loginView.idTextField.text else {return }
-//        guard let checkCode = loginView.passwordTextField.text else {return}
-//        
-//        let signUpRequest = MemberSignUpRequest(nickname: nickname, password: checkCode)
-//        provider.request(.signUp(signUpRequest)) {[weak self] response in
-//            switch response {
-//            case let .success(result):
-//                do {
-//                    let decodingResult = try result.map(MemberSignUpResponse.self)
-//                    if 200..<400 ~= decodingResult.code {
-//                        self?.saveInfo(memberId: decodingResult.data.memberId, nickname: nickname, checkCode: checkCode)
-//                        self?.presentTabBarVC()
-//                    } else {
-//                        print("서버 오류")
-//                        print(decodingResult.message)
-//                    }
-//                } catch {
-//                    print("디코딩 에러")
-//                }     
-//            case let .failure(error):
-//                print(error.localizedDescription)
-//            }
-//        }
+        if let nickname = loginView.idTextField.text, let checkCode = loginView.passwordTextField.text {
+            let signUpRequest = MemberSignUpRequest(nickname: nickname, checkCode: checkCode)
+            
+            MemberAPI.shared.postSignUp(request: signUpRequest) {[weak self] response in
+                switch response {
+                case .success(let result):
+                    if result.isSuccess {
+                        if let memberId = result.result { //회원 가입 성공
+                            self?.saveInfo(memberId: memberId, nickname: nickname, checkCode: checkCode)
+                        }
+                    }
+                case .failure(let error):
+                    let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                    self?.present(alert, animated: true)
+                }
+            }
+        } else {
+            print("아이디, 비밀번호 입력 필요")
+        }
     }
     
-    private func saveInfo(memberId: Int64, nickname: String, checkCode: String){
-        KeychainService.shared.save(account: .userInfo, service: .memberId, value: "\(memberId)")
+    private func saveInfo(memberId: String, nickname: String, checkCode: String){
+        KeychainService.shared.save(account: .userInfo, service: .memberId, value: memberId)
         KeychainService.shared.save(account: .userInfo, service: .nickname, value: nickname)
         KeychainService.shared.save(account: .userInfo, service: .checkCode, value: checkCode)
         

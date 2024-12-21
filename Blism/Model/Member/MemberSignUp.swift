@@ -10,38 +10,48 @@ import Foundation
 
 public struct MemberSignUpRequest: Codable {
     let nickname: String
-    let password: String
+    let checkCode: String
+    
+    enum CodingKeys: String, CodingKey {
+        case nickname
+        case checkCode = "check_code"
+    }
 }
+
+/*
+ {
+   "nickname": "수",
+   "check_code": "1243"
+ }
+ */
 
 
 public struct MemberSignUpResponse: Codable {
     let isSuccess: Bool
     let code: Int
     let message: String
-    let data: MemberId?
-}
-
-public struct MemberId: Codable {
-    let memberId: Int64
+    let result: String?
     
     enum CodingKeys: String, CodingKey {
-        case memberId = "member_id"
+        case isSuccess
+        case code
+        case message
+        case result
     }
-   
+    
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.memberId = try container.decode(Int64.self, forKey: .memberId)
+        self.isSuccess = try container.decode(Bool.self, forKey: .isSuccess)
+        self.code = try container.decode(Int.self, forKey: .code)
+        self.message = try container.decode(String.self, forKey: .message)
+        self.result = try container.decodeIfPresent(String.self, forKey: .result) ?? nil
     }
 }
-
-
 /*
  {
-     isSuccess: True,
-     code: 200,
-     message: "회원 가입 성공",
-     data: {
-         "member_id" : 1 (Long)
-     }
+   "isSuccess": true,
+   "code": 0,
+   "message": "string",
+   "result": "string"
  }
  */

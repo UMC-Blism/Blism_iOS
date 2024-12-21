@@ -54,6 +54,7 @@ class MemberAPI {
             switch response {
             case let .success(result):
                 do {
+                    print(result.statusCode)
                     let decodingResult = try JSONDecoder().decode(MemberNicknameCheckResponse.self, from: result.data)
                     if 200..<400 ~= decodingResult.code{
                         completion(.success(decodingResult))
