@@ -60,9 +60,9 @@ class LoginView : UIView {
         lbl.attributedText = attributedText
     }
     // 닉네임 그룹
-    private let sameNicknameExisted = UILabel().then { lbl in
+    public let checkNicknameLabel = UILabel().then { lbl in
         lbl.text = "이미 존재하는 닉네임입니다."
-        lbl.font = .customFont(font: .PretendardRegular, ofSize: 10)
+        lbl.font = .customFont(font: .PretendardBold, ofSize: 10)
         lbl.textColor = UIColor.errorRed
     }
     
@@ -71,7 +71,10 @@ class LoginView : UIView {
     
     
     // 중복 확인 버튼
-    public let checkIdButton = LoginViewButton(type: .checkId)
+    public let checkIdButton = LoginViewButton(type: .checkId).then { btn in
+        btn.isUserInteractionEnabled = false
+        btn.backgroundColor = .systemGray4
+    }
     
     // 비밀번호 그룹
     private let passwordGroupView = UIView()
@@ -84,10 +87,17 @@ class LoginView : UIView {
     }
     
     // 비밀번호 텍스트 필드
-    public let passwordTextField = LoginTextField(type: .password)
+    public let passwordTextField = LoginTextField(type: .password).then { txt in
+        txt.isUserInteractionEnabled = false
+        txt.textColor = .blismBlue
+        
+    }
     
     // 생성하기 버튼
-    public let createCodeButton = LoginViewButton(type: .createCode)
+    public let createCodeButton = LoginViewButton(type: .createCode).then { btn in
+        btn.isUserInteractionEnabled = false
+        btn.backgroundColor = .systemGray4
+    }
     
     // 확인코드 설명 라벨
     private let codeDesriptionLabel = UILabel().then { lbl in
@@ -100,9 +110,10 @@ class LoginView : UIView {
     public let loginButton = UIButton().then {btn in
         btn.setTitle("블리즘 시작하기", for: .normal)
         btn.setTitleColor(.base2, for: .normal)
-        btn.backgroundColor = .blismBlue
+        btn.backgroundColor = .systemGray4
         btn.layer.cornerRadius = 10
         btn.titleLabel?.font = .customFont(font: .PretendardMedium, ofSize: 15)
+        btn.isUserInteractionEnabled = false
     }
     
     override init(frame: CGRect) {
@@ -124,7 +135,7 @@ class LoginView : UIView {
         [
             idLabel,
             idTextField,
-            sameNicknameExisted,
+            checkNicknameLabel,
             checkIdButton
         ].forEach{idGroupView.addSubview($0)} // 아이디 그룹
         
@@ -205,7 +216,7 @@ class LoginView : UIView {
         }
         
         // 아이디 에러 라벨
-        sameNicknameExisted.snp.makeConstraints { make in
+        checkNicknameLabel.snp.makeConstraints { make in
             make.top.equalTo(idTextField.snp.bottom).offset(9)
             make.leading.equalToSuperview().offset(5)
             make.height.equalTo(12)
