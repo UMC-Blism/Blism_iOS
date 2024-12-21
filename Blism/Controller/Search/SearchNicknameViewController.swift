@@ -138,7 +138,7 @@ extension SearchNicknameViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if tableView == searchNicknameView.searchResultTableView {
-            return 2
+            return searchResult.count
         }
         return 1
     }
@@ -157,8 +157,6 @@ extension SearchNicknameViewController: UITableViewDataSource {
             if !searchResult.isEmpty {
                 cell.nicknameLabel.text = searchResult[indexPath.section]
             }
-            
-            
             
             return cell
         }
@@ -200,7 +198,7 @@ extension SearchNicknameViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch tableView {
         case searchNicknameView.searchResultTableView:
-            let nextVC = VisiterCheckViewController()
+            let nextVC = VisitorCheckViewController(onwerNickname: searchResult[indexPath.section])
             self.navigationController?.pushViewController(nextVC, animated: true)
         default:
             return
