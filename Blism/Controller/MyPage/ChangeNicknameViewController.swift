@@ -17,9 +17,7 @@ class ChangeNicknameViewController: UIViewController{
         setNavigationBar()
         setAction()
     }
-    
 
-    
     private func setAction(){
         
         // 닉네임 텍스트필드 액션
@@ -51,18 +49,24 @@ class ChangeNicknameViewController: UIViewController{
     
     // 중복확인 버튼 로직
     @objc func touchUpInsideCheckIdButton(){
-        let inputChangeNickname = changeNicknameView.nicknameGroupView.textField.text
-        /*
-         중복 확인 버튼 API 로직 -inputChangeNickname
-         MemberAPI.shared.getCheckNickname()
-         */
+        guard let inputChangeNickname = changeNicknameView.nicknameGroupView.textField.text else {return}
+        let request = MemberNicknameCheckRequest(nickname: inputChangeNickname)
         
-        // 중복이 없다면 (아이디 텍스트 필드 수정 불가)
-        setNicknameGroupView(isDuplication: false)
-        
-        // 중복이 있다면
-//        setDuplication(isDuplication: true)
-        
+        MemberAPI.shared.getCheckNickname(request: request) {[weak self] result in
+            switch result {
+            case .success(let data):
+                print(data)
+                if data.isSuccess {
+                    self?.setNicknameGroupView(isDuplication: data.data != nil)
+                } else {
+                    print("data isFailed")
+                }
+                
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
+        }
     }
     
     private func setNicknameGroupView(isDuplication: Bool){

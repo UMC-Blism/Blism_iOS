@@ -8,34 +8,34 @@
 import UIKit
 
 class CheckNicknameViewController : UIViewController {
-    private let changeNicknameView = CheckNicknameView()
+    private let checkNicknameView = CheckNicknameView()
     private var inputNickname = ""
     private var inputCheckCode = ""
     
     override func viewDidLoad() {
-        self.view = changeNicknameView
+        self.view = checkNicknameView
 
         addAction()
         setNavigationBar()
     }
     
     private func addAction(){
-        changeNicknameView.nextButton.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
+        checkNicknameView.nextButton.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         
-        changeNicknameView.nicknameGroupView.textField.addTarget(self, action: #selector(editingDidEndTextField), for: .editingChanged)
+        checkNicknameView.nicknameGroupView.textField.addTarget(self, action: #selector(editingDidEndTextField), for: .editingChanged)
         
-        changeNicknameView.checkCodeGroupView.textField.addTarget(self, action: #selector(editingDidEndTextField), for: .editingChanged)
+        checkNicknameView.checkCodeGroupView.textField.addTarget(self, action: #selector(editingDidEndTextField), for: .editingChanged)
     }
     
     @objc
     func editingDidEndTextField(){
-        let isValid = changeNicknameView.nicknameGroupView.textField.text != "" && changeNicknameView.checkCodeGroupView.textField.text != ""
+        let isValid = checkNicknameView.nicknameGroupView.textField.text != "" && checkNicknameView.checkCodeGroupView.textField.text != ""
         
-        changeNicknameView.nextButton.isUserInteractionEnabled = isValid
-        changeNicknameView.nextButton.backgroundColor = isValid ? .blismBlue : .systemGray4
+        checkNicknameView.nextButton.isUserInteractionEnabled = isValid
+        checkNicknameView.nextButton.backgroundColor = isValid ? .blismBlue : .systemGray4
         
-        inputNickname = changeNicknameView.nicknameGroupView.textField.text ?? ""
-        inputCheckCode = changeNicknameView.checkCodeGroupView.textField.text ?? ""
+        inputNickname = checkNicknameView.nicknameGroupView.textField.text ?? ""
+        inputCheckCode = checkNicknameView.checkCodeGroupView.textField.text ?? ""
     }
     
     @objc // 다음 버튼
@@ -55,8 +55,8 @@ class CheckNicknameViewController : UIViewController {
         print("inputNickname: \(inputNickname)")
         print("inputCheckCode: \(inputCheckCode)")
         
-        changeNicknameView.nicknameGroupView.errMessageLabel.isHidden = inputNickname == savedNickname
-        changeNicknameView.checkCodeGroupView.errMessageLabel.isHidden = inputCheckCode == savedCheckCode
+        checkNicknameView.nicknameGroupView.errMessageLabel.isHidden = inputNickname == savedNickname
+        checkNicknameView.checkCodeGroupView.errMessageLabel.isHidden = inputCheckCode == savedCheckCode
         
         if inputNickname == savedNickname && inputCheckCode == savedCheckCode {
             let nextVC = ChangeNicknameViewController()

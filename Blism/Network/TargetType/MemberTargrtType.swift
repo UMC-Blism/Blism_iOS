@@ -17,7 +17,8 @@ public enum MemberTargrtType {
 
 extension MemberTargrtType: TargetType {
     public var baseURL: URL {
-        guard let baseURL = URL(string: "https://3.38.95.210:8080/swagger-ui/index.html#") else {
+        guard let baseURL = URL(string: "http://3.38.95.210:8080") else {
+            // NetworkError.urlError
            fatalError("Error: Invalid URL")
        }
        return baseURL
@@ -27,8 +28,8 @@ extension MemberTargrtType: TargetType {
         switch self {
         case .signUp:
             return "/members/signup"
-        case .checkId:
-            return "/members"
+        case .checkId(let nickname):
+            return "/members/\(nickname.nickname.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "")"
         case .changeId:
             return "/members/change"
         case .searchNickcname:
@@ -53,8 +54,8 @@ extension MemberTargrtType: TargetType {
         switch self {
         case .signUp(let request):
             return .requestJSONEncodable(request)
-        case .checkId(let request):
-            return .requestJSONEncodable(request)
+        case .checkId:
+            return .requestPlain
         case .changeId(let request):
             return .requestJSONEncodable(request)
         case .searchNickcname:
