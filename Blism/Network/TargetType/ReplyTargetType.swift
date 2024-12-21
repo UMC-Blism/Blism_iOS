@@ -10,7 +10,7 @@ import Moya
 
 public enum ReplyTargetType {
     case reply        // 편지 작성하기
-    case readAllSentReply         // 내가 보낸 답장 조회
+    case readAllSentReply(ReadSentLetterListRequest)         // 내가 보낸 답장 조회
     case readAllReceivedReply(ReadReceivedLetterListRequest)      // 내가 받은 답장 조회
     case readDetailReply   // 편지 디테일 조회
 }
@@ -55,8 +55,8 @@ extension ReplyTargetType: TargetType {
         switch self {
         case .reply:
             return .requestPlain
-        case .readAllSentReply:
-            return .requestPlain
+        case .readAllSentReply(let request):
+            return .requestParameters(parameters: ["memberid" : request.memberid], encoding: URLEncoding.queryString)
         case .readAllReceivedReply(let request):
             return .requestParameters(parameters: ["memberid" : request.memberid], encoding: URLEncoding.queryString)
         case .readDetailReply:

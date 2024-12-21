@@ -24,7 +24,6 @@ class LetterListViewController : UIViewController {
         setProtocol()
         setNavigationBar()
         loadTableViewData()
-        
     }
     
     private func loadTableViewData(){
@@ -32,7 +31,7 @@ class LetterListViewController : UIViewController {
         case .receivedLetter:
             self.getReceivedLetterList()
         case .sentReplyLetter:
-            self.getReceivedLetterList()
+            self.getSentLetterList()
         case .writingLetter:
             self.getReceivedLetterList()
         case .home:
@@ -63,17 +62,51 @@ class LetterListViewController : UIViewController {
     private func popAction(){
         self.navigationController?.popViewController(animated: true)
     }
+}
+
+// API 함수
+extension LetterListViewController {
+    // 보낸 편지 리스트 가져오기
+    private func getSentLetterList(){
+        guard let myNickname = KeychainService.shared.load(account: .userInfo, service: .nickname) else {return}
+        guard let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId) else {
+            print("getSentLetterList - 키체인 read 오류")
+            return
+        }
+        guard let id = Int64(memberId) else {return}
+        let request = ReadSentLetterListRequest(memberid: id)
+        ReplyAPI.shared.getSentLetterList(request: request) {[weak self] result in
+            switch result {
+            case .success(let responseData):
+                if responseData.isSuccess {
+                    if let data = responseData.result {
+                        self?.letterListData = data.map{LetterListInfo(type: .sentReplyLetter, dateString: $0.createdDate, content: $0.content, receiver: $0.receiverName, sender: myNickname)}
+                        self?.letterListView.tableView.reloadData()
+                    } else {
+//                        데이터 없음
+                        print("빈 데이터")
+                    }
+                } else {
+                    let alert = NetworkAlert.shared.getAlertController(title: "서버 실패")
+                    self?.present(alert, animated: true)
+                }
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
+        }
+    }
     
     // 받은 편지 리스트 가져오기
     private func getReceivedLetterList(){
         guard let myNickname = KeychainService.shared.load(account: .userInfo, service: .nickname) else {return}
         guard let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId) else {
-            print("fetchAPI - 키체인 read 오류")
+            print("getReceivedLetterList - 키체인 read 오류")
             return
         }
         guard let id = Int64(memberId) else {return}
-        let reqeust = ReadReceivedLetterListRequest(memberid: id)
-        ReplyAPI.shared.getReceivedLetterList(request: reqeust) {[weak self] result in
+        let request = ReadReceivedLetterListRequest(memberid: id)
+        ReplyAPI.shared.getReceivedLetterList(request: request) {[weak self] result in
             switch result {
             case .success(let responseData):
                 if responseData.isSuccess {
@@ -150,3 +183,4 @@ extension LetterListViewController : UITableViewDelegate {
         
     }
 }
+
