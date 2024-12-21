@@ -24,12 +24,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
         
         self.window = window
-        
-        let rootVC = LoginViewController()
+        let id = KeychainService.shared.load(account: .userInfo, service: .memberId)
+        print("id: \(id ?? "아이디 없음")")
+        let rootVC = id == nil ? LoginViewController() : TabBarController()
         
         // 스플래시 화면 2초 노출
         DispatchQueue.main.asyncAfter(deadline: .now() + 2	){
-//            let navigationController = UINavigationController(rootViewController: rootVC)
             self.window?.rootViewController = rootVC
         }
     }

@@ -22,20 +22,22 @@ class ChangeNicknameView : UIView {
     }
     
     // 닉네임 그룹
-    private let nicknameGroupView = UserInfoGroupView(type: .id, title: "변경할 닉네임 (아이디)", errMessage: "이미 존재하는 닉네임입니다.")
+    public let nicknameGroupView = UserInfoGroupView(type: .id, title: "변경할 닉네임 (아이디)", errMessage: "이미 존재하는 닉네임입니다.")
     
     // 닉네임 중복 확인 버튼
     public let checkIdButton = LoginViewButton(type: .checkId)
     
     // 재입력 닉네임 그룹
-    private let reInputnicknameGroupView = UserInfoGroupView(type: .id, title: "닉네임 재입력", errMessage: "입력한 닉네임을 다시 확인해주세요.")
+    public let reInputnicknameGroupView = UserInfoGroupView(type: .id, title: "닉네임 재입력", errMessage: "입력한 닉네임을 다시 확인해주세요.").then { view in
+        view.isUserInteractionEnabled = false
+    }
     
     // 다음 버튼
     public let nextButton = UIButton().then { btn in
         btn.setTitle("닉네임 변경하기", for: .normal)
         btn.titleLabel?.font = .customFont(font: .PretendardRegular, ofSize: 15)
         btn.setTitleColor(.base2, for: .normal)
-        btn.backgroundColor = .blismBlue
+        btn.backgroundColor = .systemGray4
         btn.layer.cornerRadius = 10
         btn.clipsToBounds = true
     }
