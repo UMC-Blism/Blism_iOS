@@ -72,7 +72,7 @@ class LetterListViewController : UIViewController {
             return
         }
         guard let id = Int64(memberId) else {return}
-        let reqeust = ReadReceivedLetterListRequest(memberid: 2)
+        let reqeust = ReadReceivedLetterListRequest(memberid: id)
         ReplyAPI.shared.getReceivedLetterList(request: reqeust) {[weak self] result in
             switch result {
             case .success(let responseData):

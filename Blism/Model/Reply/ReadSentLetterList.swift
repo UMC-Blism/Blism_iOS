@@ -1,21 +1,21 @@
 //
-//  ReadReceivedLetterList.swift
+//  ReadSentLetterList.swift
 //  Blism
 //
-//  Created by 이수현 on 12/21/24.
+//  Created by 이수현 on 12/22/24.
 //
 
 import Foundation
 
-public struct ReadReceivedLetterListRequest: Codable {
+public struct ReadSentLetterListRequest: Codable {
     let memberid: Int64
 }
 
-public struct ReadReceivedLetterListResponse: Codable {
+public struct ReadSentLetterListResponse: Codable {
     let isSuccess: Bool
     let code: Int
     let message: String
-    let result: [ReceivedLetterListData]?
+    let result: [ReadSentLetterListData]?
     
     enum CodingKeys: CodingKey {
         case isSuccess
@@ -29,22 +29,22 @@ public struct ReadReceivedLetterListResponse: Codable {
         self.isSuccess =  try container.decode(Bool.self, forKey: .isSuccess)
         self.code = try container.decode(Int.self, forKey: .code)
         self.message = try container.decode(String.self, forKey: .message)
-        self.result = try container.decodeIfPresent([ReceivedLetterListData].self, forKey: .result)
+        self.result = try container.decodeIfPresent([ReadSentLetterListData].self, forKey: .result)
     }
 }
 
-public struct ReceivedLetterListData: Codable {
+public struct ReadSentLetterListData: Codable {
     let letterId : Int64
     let content: String
-    let senderId: Int64
-    let senderName: String
+    let receiverId: Int64
+    let receiverName: String
     let createdDate : String
     
     enum CodingKeys: String, CodingKey {
         case letterId = "letter_id"
         case content
-        case senderId = "sender_id"
-        case senderName = "sender_name"
+        case receiverId = "receiver_id"
+        case receiverName = "receiver_name"
         case createdDate = "created_at"
     }
     
@@ -52,8 +52,8 @@ public struct ReceivedLetterListData: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.letterId = try container.decode(Int64.self, forKey: .letterId)
         self.content = try container.decode(String.self, forKey: .content)
-        self.senderId = try container.decode(Int64.self, forKey: .senderId)
-        self.senderName = try container.decode(String.self, forKey: .senderName)
+        self.receiverId = try container.decode(Int64.self, forKey: .receiverId)
+        self.receiverName = try container.decode(String.self, forKey: .receiverName)
         let dateString = try container.decode(String.self, forKey: .createdDate)
         
         let trimmedDateString = String(dateString.prefix(10)) // "2024-12-22"
