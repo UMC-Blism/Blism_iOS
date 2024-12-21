@@ -85,6 +85,22 @@ class ChangeNicknameViewController: UIViewController{
         alert.addAction(UIAlertAction(title: "변경", style: .default, handler: { _ in
             // API 연결
             print("닉네임 변경")
+            guard let originalNickname = KeychainService.shared.load(account: .userInfo, service: .nickname) else {
+                print("touchUpInsideNextButton - 키체인 오류")
+                return
+            }
+            let request = MemberChangeNicknameRequest(originalNickname: originalNickname, newNickname: newNickname)
+            MemberAPI.shared.changeNickname(request: request) {[weak self] result in
+                switch result {
+                case .success(let data):
+                    // 마이페이지 뷰로 이동
+                    self?.backToMyPageVC()
+                    
+                case .failure(let error):
+                    let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                    self?.present(alert, animated: true)
+                }
+            }
             
             // 키체인 저장
             KeychainService.shared.update(account: .userInfo, service: .nickname, newValue: newNickname)
@@ -117,5 +133,16 @@ class ChangeNicknameViewController: UIViewController{
     @objc
     private func popAction(){
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    // 마이페이지로 돌아가기 로직
+    private func backToMyPageVC(){
+        guard let navigationController = navigationController else { return }
+        // VisiterHomeViewController를 스택에서 찾기
+        if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is MyPageViewController }) {
+            // VisiterHomeViewController까지의 스택만 유지
+            let newStack = Array(navigationController.viewControllers[...targetIndex])
+            navigationController.setViewControllers(newStack, animated: true)
+        }
     }
 }
