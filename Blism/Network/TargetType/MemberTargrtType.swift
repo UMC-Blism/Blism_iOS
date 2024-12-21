@@ -12,7 +12,7 @@ public enum MemberTargrtType {
     case signUp(MemberSignUpRequest)
     case checkId(MemberNicknameCheckRequest)
     case changeId(MemberChangeNicknameRequest)
-    case searchNickcname
+    case searchNickcname(MemberSearchRequest)
 }
 
 extension MemberTargrtType: TargetType {
@@ -58,8 +58,8 @@ extension MemberTargrtType: TargetType {
             return .requestParameters(parameters: ["nickname": request.nickname], encoding: URLEncoding.queryString)
         case .changeId(let request):
             return.requestParameters(parameters: ["original_nickname": request.originalNickname, "new_nickname" : request.newNickname], encoding: URLEncoding.queryString)
-        case .searchNickcname:
-            return .requestPlain
+        case .searchNickcname(let request):
+            return .requestParameters(parameters: ["nickname": request.nickname], encoding: URLEncoding.queryString)
         }
     }
     
