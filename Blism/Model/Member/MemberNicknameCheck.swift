@@ -31,7 +31,7 @@ public struct MemberNicknameCheckData: Codable {
     
     enum CodingKeys: String, CodingKey {
         case nickname
-        case memberId = "member_id"
+        case memberId = "id"
     }
    
     public init(from decoder: any Decoder) throws {

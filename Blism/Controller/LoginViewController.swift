@@ -54,6 +54,8 @@ class LoginViewController: UIViewController {
         let nickname = loginView.idTextField.text
         let checkLabel = loginView.checkNicknameLabel
         
+        MemberAPI.shared
+        
         if nickname == "a" { // Ex) 중복
             checkLabel.text = "이미 존재하는 닉네임입니다."
             checkLabel.textColor = .errorRed
