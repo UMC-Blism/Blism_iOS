@@ -13,7 +13,7 @@ class DoorDesignFinishViewController: UIViewController {
     var selectedDoorDesignTag: Int = 1
     var selectedDoorColorTag: Int = 1
     var selectedDoorOrnamentTag: Int = 1
-    let senderID: Int64 = Int64(KeychainService.shared.load(account: .userInfo, service: .id) ?? "") ?? Int64(0)
+    let senderID: Int64 = Int64(KeychainService.shared.load(account: .userInfo, service: .memberId) ?? "") ?? Int64(0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,3 +118,20 @@ class DoorDesignFinishViewController: UIViewController {
       
   }
  */
+
+
+/* api 연결 위해서 주석으로 남겨둠 - 햄
+guard let image = doorDesignFinishView.doorOrnamentImageView.image else { return }
+
+let requestBody = WriteLetterRequest(senderId: Int64(1), receiverId: Int64(2), mailboxId: Int64(2), doorDesign: 1, colorDesign: 1, decorationDesign: 1, content: "from 누찬 to 코디 xcode 테스트", font: 1, visibility: 1)
+
+LetterRequest.shared.writeLetter(image: image, request: requestBody) {[weak self] result in
+    switch result {
+    case .success(let data):
+        print("작성 성공")
+    case .failure(let error):
+        let alert = NetworkAlert.shared.getAlertController(title: error.description)
+        self?.present(alert, animated: true)
+    }
+}
+*/
