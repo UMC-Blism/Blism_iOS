@@ -12,7 +12,7 @@ import Moya
 enum LetterTargetType {
     case writeLetter(image: UIImage, WriteLetterRequest)    // 편지 작성
     case readLetter(ReadLetterRequest)      // 특정 편지 조회
-    case readAllLetters                     // 전체 편지 조회
+    case fetchSentLetters(FetchSentLettersRequest)          // 보낸 편지 목록 조회
     case readAllReceivedLetters             // 받은 전체 편지 조회
     // case editLetter // 편지 수정
 }
@@ -32,8 +32,8 @@ extension LetterTargetType: TargetType {
             return "/letters"
         case .readLetter(let request):
             return "/letters/\(request.letterId)"
-        case .readAllLetters:
-            return "/letters/sent"
+        case .fetchSentLetters(let request):
+            return "/letters/\(request.userId)/sent"
         case .readAllReceivedLetters:
             return "/letters/received"
         }
@@ -43,7 +43,7 @@ extension LetterTargetType: TargetType {
         switch self {
         case .writeLetter:
             return .post
-        case .readLetter, .readAllLetters, .readAllReceivedLetters:
+        case .readLetter, .fetchSentLetters, .readAllReceivedLetters:
             return .get
         }
     }
@@ -84,7 +84,9 @@ extension LetterTargetType: TargetType {
             return .uploadMultipart(formData)
         case .readLetter(let request):
             return .requestParameters(parameters: ["letterId": request.letterId], encoding: URLEncoding.queryString)
-        case .readAllLetters, .readAllReceivedLetters:
+        case .fetchSentLetters(let request):
+            return .requestParameters(parameters: ["userId": request.userId], encoding: URLEncoding.queryString)
+        case .readAllReceivedLetters:
             return .requestPlain
         }
     }
@@ -93,7 +95,7 @@ extension LetterTargetType: TargetType {
         switch self {
         case .writeLetter:
             return ["Content-Type": "multipart/form-data"]
-        case .readLetter(_), .readAllLetters:
+        case .readLetter(_), .fetchSentLetters:
             return ["Content-Type": "application/json"]
         case .readAllReceivedLetters:
             return .none
