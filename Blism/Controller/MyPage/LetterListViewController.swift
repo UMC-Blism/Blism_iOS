@@ -9,7 +9,8 @@ import UIKit
 
 class LetterListViewController : UIViewController {
     private let type : LetterListType
-    private let letterListView : LetterListView
+    private var letterListView : LetterListView
+    private var letterListData : [LetterListInfo] = []
     
     init(type : LetterListType) {
         self.type = type
@@ -22,7 +23,21 @@ class LetterListViewController : UIViewController {
         view = letterListView
         setProtocol()
         setNavigationBar()
+        loadTableViewData()
         
+    }
+    
+    private func loadTableViewData(){
+        switch type {
+        case .receivedLetter:
+            self.getReceivedLetterList()
+        case .sentReplyLetter:
+            self.getReceivedLetterList()
+        case .writingLetter:
+            self.getReceivedLetterList()
+        case .home:
+            self.getReceivedLetterList()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -48,6 +63,37 @@ class LetterListViewController : UIViewController {
     private func popAction(){
         self.navigationController?.popViewController(animated: true)
     }
+    
+    // 받은 편지 리스트 가져오기
+    private func getReceivedLetterList(){
+        guard let myNickname = KeychainService.shared.load(account: .userInfo, service: .nickname) else {return}
+        guard let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId) else {
+            print("fetchAPI - 키체인 read 오류")
+            return
+        }
+        guard let id = Int64(memberId) else {return}
+        let reqeust = ReadReceivedLetterListRequest(memberid: 2)
+        ReplyAPI.shared.getReceivedLetterList(request: reqeust) {[weak self] result in
+            switch result {
+            case .success(let responseData):
+                if responseData.isSuccess {
+                    if let data = responseData.result {
+                        self?.letterListData = data.map{LetterListInfo(type: .receivedLetter, dateString: $0.createdDate, content: $0.content, receiver: myNickname, sender: $0.senderName)}
+                        self?.letterListView.tableView.reloadData()
+                    } else {
+//                        데이터 없음
+                        print("빈 데이터")
+                    }
+                } else {
+                    let alert = NetworkAlert.shared.getAlertController(title: "서버 실패")
+                    self?.present(alert, animated: true)
+                }
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
+        }
+    }
 }
 
 extension LetterListViewController : UITableViewDataSource {
@@ -59,13 +105,16 @@ extension LetterListViewController : UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: LetterListTableViewCell.id) as? LetterListTableViewCell else {
             return UITableViewCell()
         }
-        cell.config(type: type)
+        if !letterListData.isEmpty {
+            cell.config(listInfo: letterListData[indexPath.section])
+        }
+            
         
         return cell
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return letterListData.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

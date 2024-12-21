@@ -9,10 +9,10 @@ import Foundation
 import Moya
 
 public enum ReplyTargetType {
-    case reply                  // 편지 작성하기
+    case reply        // 편지 작성하기
     case readAllSentReply         // 내가 보낸 답장 조회
-    case readAllReceivedReply      // 내가 받은 답장 조회
-    case readDetailReply          // 편지 디테일 조회
+    case readAllReceivedReply(ReadReceivedLetterListRequest)      // 내가 받은 답장 조회
+    case readDetailReply   // 편지 디테일 조회
 }
 
 
@@ -30,9 +30,9 @@ extension ReplyTargetType: TargetType {
         case .reply:
             return "/replies"
         case .readAllSentReply:
-            return "/replies/sent"
+            return "/replies/{memberId}/sent"
         case .readAllReceivedReply:
-            return "/replies/received"
+            return "/replies/{memberId}/received"
         case .readDetailReply:
             return "/replies"
         }
@@ -57,8 +57,8 @@ extension ReplyTargetType: TargetType {
             return .requestPlain
         case .readAllSentReply:
             return .requestPlain
-        case .readAllReceivedReply:
-            return .requestPlain
+        case .readAllReceivedReply(let request):
+            return .requestParameters(parameters: ["memberid" : request.memberid], encoding: URLEncoding.queryString)
         case .readDetailReply:
             return .requestPlain
         }
@@ -67,6 +67,4 @@ extension ReplyTargetType: TargetType {
     public var headers: [String : String]? {
         return ["Content-Type": "application/json"]
     }
-    
-    
 }

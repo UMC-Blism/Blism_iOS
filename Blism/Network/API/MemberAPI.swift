@@ -12,7 +12,7 @@ class MemberAPI {
     static let shared = MemberAPI()
     private init() {}
     
-    let provider = MoyaProvider<MemberTargrtType>()
+    private let provider = MoyaProvider<MemberTargrtType>()
     
     // 회원가입
     func postSignUp(request: MemberSignUpRequest, completion: @escaping (Result<MemberSignUpResponse, NetworkError>) -> Void){
