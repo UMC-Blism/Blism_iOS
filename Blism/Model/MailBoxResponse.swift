@@ -7,8 +7,15 @@
 
 import Foundation
 
-struct MailBoxCollectionViewApiModel: Codable {
-    let userId: Int
+struct MailBoxResponse: Codable {
+    let isSuccess: Bool
+    let code: String
+    let message: String
+    let data: letterData
+}
+
+struct letterData: Codable {
+    let memberId: Int
     let count: Int
     let letters: [Letter]
 }
@@ -18,4 +25,5 @@ struct Letter: Codable {
     let doorDesign: Int
     let colorDesign: Int
     let decorationDesign: Int
+    let visibility: Bool
 }

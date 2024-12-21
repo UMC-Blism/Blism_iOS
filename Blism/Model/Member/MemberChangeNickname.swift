@@ -29,21 +29,18 @@ public struct MemberChangeNicknameReponse: Codable {
     let isSuccess: Bool
     let code: Int
     let message: String
-    let data: MemberChangeNicknameData?
+    let data: String?
 }
 
-public struct MemberChangeNicknameData: Codable{
-    let nickname: String
-}
 
 /*
  {
 
-     isSuccess: True,
-     code: 200,
-     message: "넥네임 수정 성공",
-     data: {
-         "nickname" : "변경 가천" (String)
-     }
+ {
+   "isSuccess": true,
+   "code": 200,
+   "message": "성공입니다.",
+   "result": "변경완료"
+ }
  }
  */

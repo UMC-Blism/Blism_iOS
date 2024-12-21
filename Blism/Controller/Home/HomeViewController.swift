@@ -14,7 +14,7 @@ class HomeViewController: UIViewController {
     private let dummyData = MailBoxCollectionViewModel.Dummy()
     
     //API 연결
-    var homeInfoResponse : MailBoxCollectionViewApiModel?
+    var homeInfoResponse : MailBoxResponse?
     private let apiService = HomeMailBoxRequest()
     
     override func viewDidLoad() {
@@ -23,9 +23,11 @@ class HomeViewController: UIViewController {
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
         
+
         let nickname = KeychainService.shared.load(account: .userInfo  , service: .nickname) ?? "닉네임 오류"
         nicknameChange(nickname: nickname) //이부분은 로그인할때 받아옴
-        let numberOfMail = String(homeInfoResponse?.count ?? 0)
+        let numberOfMail = String(homeInfoResponse?.data.count ?? 0)
+
         numOfMailChange(num: numberOfMail)
         
         
@@ -56,6 +58,13 @@ class HomeViewController: UIViewController {
             }
         } else {
             // 아아디 Int로 변환 실패
+//=======
+//    private func fetchMailBoxInfo(userId: String) {
+//        let IntId = Int(userId)
+//        apiService.fetchMyMailBoxInfo(userId: IntId ?? 0) { [weak self] result in
+//                self?.homeInfoResponse = result
+//                print("success")
+//>>>>>>> b55ce5278a76c132cc2cefd6c8bd4de8dc1d42d3
         }
     }
     

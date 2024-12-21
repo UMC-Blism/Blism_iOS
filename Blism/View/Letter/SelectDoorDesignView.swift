@@ -123,7 +123,7 @@ class SelectDoorDesignView: UIView {
         
         descriptionLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(safeAreaLayoutGuide).inset(80)
+            $0.top.equalTo(safeAreaLayoutGuide).inset(UIApplication.shared.windows.first?.safeAreaInsets.top ?? 20 + 20)
         }
         
         frameView.snp.makeConstraints {
