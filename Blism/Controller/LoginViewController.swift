@@ -51,27 +51,32 @@ class LoginViewController: UIViewController {
     
     @objc   // 중복 확인 버튼 toupchUp
     private func touchUpInsideCheckIdButton(){
-        let nickname = loginView.idTextField.text
-        let checkLabel = loginView.checkNicknameLabel
+        guard let nickname = loginView.idTextField.text else {return}
+        let request = MemberNicknameCheckRequest(nickname: nickname)
         
-        MemberAPI.shared
-        
-        if nickname == "a" { // Ex) 중복
-            checkLabel.text = "이미 존재하는 닉네임입니다."
-            checkLabel.textColor = .errorRed
-        } else {
-            checkLabel.text = "사용 가능한 아아디입니다."
-            checkLabel.textColor = .blismBlue
-            loginView.createCodeButton.isUserInteractionEnabled = true
-            loginView.createCodeButton.backgroundColor = .blismBlue
+        MemberAPI.shared.getCheckNickname(request: request) {[weak self] result in
+            switch result {
+            case .success(let data):
+                print(data)
+                if data.data == nil { // 중복 없음
+                    self?.loginView.checkNicknameLabel.text = "사용 가능한 아아디입니다."
+                    self?.loginView.checkNicknameLabel.textColor = .blismBlue
+                    self?.loginView.createCodeButton.isUserInteractionEnabled = true
+                    self?.loginView.createCodeButton.backgroundColor = .blismBlue
+                } else {
+                    print("data isFailed")
+                    self?.loginView.checkNicknameLabel.text = "이미 존재하는 닉네임입니다."
+                    self?.loginView.checkNicknameLabel.textColor = .errorRed
+                }
+                self?.setLoginButton()
+                self?.loginView.checkNicknameLabel.isHidden = false
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
         }
-        
-        setLoginButton()
-        loginView.checkNicknameLabel.isHidden = false
-        
-        // 중복 확인 API 연결
-        // 중복이 아닐 때 - '사용 가능 아이디 입니다', loginButton 활성화, checkNicknameLabel Hidden-false
-        // 중복일 때 - '이미 존재하는 닉네임입니다.', loginButton 활성화, checkNicknameLabel Hidden-false
+
+   
     }
     
     @objc   // 확인 코드 생성 버튼

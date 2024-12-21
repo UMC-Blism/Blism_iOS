@@ -22,7 +22,22 @@ public struct MemberNicknameCheckResponse: Codable {
     let isSuccess: Bool
     let code: Int
     let message: String
-    let data: MemberNicknameCheckData?
+    let data: [MemberNicknameCheckData]?
+    
+    enum CodingKeys: CodingKey {
+        case isSuccess
+        case code
+        case message
+        case data
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.isSuccess = try container.decode(Bool.self, forKey: .isSuccess)
+        self.code = try container.decode(Int.self, forKey: .code)
+        self.message = try container.decode(String.self, forKey: .message)
+        self.data = try container.decodeIfPresent([MemberNicknameCheckData].self, forKey: .data) ?? nil
+    }
 }
 
 public struct MemberNicknameCheckData: Codable {
@@ -31,7 +46,7 @@ public struct MemberNicknameCheckData: Codable {
     
     enum CodingKeys: String, CodingKey {
         case nickname
-        case memberId = "id"
+        case memberId = "member_id"
     }
    
     public init(from decoder: any Decoder) throws {
