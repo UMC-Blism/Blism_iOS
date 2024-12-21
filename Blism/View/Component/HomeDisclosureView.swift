@@ -37,7 +37,7 @@ class HomeDisclosureView: UIView {
         return label
     }()
     
-    private lazy var yesButton: UIButton = {
+    public lazy var yesButton: UIButton = {
         
         let btn = UIButton()
         
@@ -51,7 +51,7 @@ class HomeDisclosureView: UIView {
         return btn
     }()
     
-    private lazy var noButton: UIButton = {
+    public lazy var noButton: UIButton = {
         
         let btn = UIButton()
         

@@ -7,15 +7,14 @@
 
 import UIKit
 import Moya
+import Kingfisher
 
 class HomeViewController: UIViewController {
     private let rootView = HomeView()
     let viewController = HomeDisclosureViewController()
-    private let dummyData = MailBoxCollectionViewModel.Dummy()
     
     //API 연결
-    var homeInfoResponse : MailBoxResponse?
-    private let apiService = HomeMailBoxRequest()
+    var homeInfoResponse : MailboxCheckingResponse?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +23,10 @@ class HomeViewController: UIViewController {
         rootView.doorCollectionView.delegate = self
         
         viewController.modalPresentationStyle = .overFullScreen
-        //        viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
         present(viewController, animated: false)
         
-
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,15 +36,14 @@ class HomeViewController: UIViewController {
         // API 호출
         let nickname = KeychainService.shared.load(account: .userInfo  , service: .nickname) ?? "닉네임 오류"
         nicknameChange(nickname: nickname) //이부분은 로그인할때 받아옴
-        let numberOfMail = String(homeInfoResponse?.data.count ?? 0)
-
-        numOfMailChange(num: numberOfMail)
         
         // 키체인 불러오기
         if let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId), let nickname = KeychainService.shared.load(account: .userInfo, service: .nickname) {
-            fetchMailBoxInfo(memberId: memberId)
             
-            nicknameChange(nickname: nickname)
+            
+        fetchMailBoxInfo(userId: memberId)
+        nicknameChange(nickname: nickname)
+            
         } else {
             // 아이디 없음 오류
             print("HomeVieController - 키체인 저장된 멤버 아이디 없음")
@@ -53,22 +51,29 @@ class HomeViewController: UIViewController {
     }
     
     // API 호출 함수
-    private func fetchMailBoxInfo(memberId: String) {
-        if let IntId = Int(memberId) {
-            apiService.fetchMyMailBoxInfo(userId: IntId) { [weak self] data in
-                self?.homeInfoResponse = data
-                print("success")
-                // 데이터를 처리하는 추가 코드 (예: 테이블 뷰 갱신)
+    private func fetchMailBoxInfo(userId: String) {
+        guard let memberId = Int64(userId) else {return}
+        
+        let request = MailboxCheckingRequest(memberId: memberId)
+        MailboxAPI.shared.mailboxCheck(request: request) {[weak self] result in
+            switch result {
+            case .success(let data):
+                print("\(data)**")
+                if data.isSuccess {
+                    self?.homeInfoResponse = data
+                    
+                    let numberOfMail = String(self?.homeInfoResponse?.result?.count ?? 1)
+                    print("&&&& \(self?.homeInfoResponse?.result?.count)")
+                    self?.numOfMailChange(num: numberOfMail)
+                    self?.rootView.doorCollectionView.reloadData()
+                } else {
+                    print("data isFailed")
+                }
+                
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
             }
-        } else {
-            // 아아디 Int로 변환 실패
-//=======
-//    private func fetchMailBoxInfo(userId: String) {
-//        let IntId = Int(userId)
-//        apiService.fetchMyMailBoxInfo(userId: IntId ?? 0) { [weak self] result in
-//                self?.homeInfoResponse = result
-//                print("success")
-//>>>>>>> b55ce5278a76c132cc2cefd6c8bd4de8dc1d42d3
         }
     }
     
@@ -80,7 +85,7 @@ class HomeViewController: UIViewController {
     }
     func numOfMailChange(num: String){
         
-        let updatedText = rootView.mailboxOwner.text?.replacingOccurrences(of: "n", with: num)
+        let updatedText = rootView.numberOfMail.text?.replacingOccurrences(of: "n", with: num)
         
         rootView.numberOfMail.text = updatedText
     }
@@ -91,15 +96,36 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return MailBoxCollectionViewModel.Dummy().count
+        return 25
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let mailBoxCell = rootView.doorCollectionView.dequeueReusableCell(withReuseIdentifier: MailBoxCollectionViewCell.identifier, for: indexPath) as? MailBoxCollectionViewCell else {
             return UICollectionViewCell()
         }
+        
+//        mailBoxCell.config(image: dummyData[indexPath.row].doorImage)
+        let letterData = homeInfoResponse?.result?.letters
+        
+        if let letters = letterData {
+            // letters 배열에서 id가 indexPath.row와 동일한 요소를 찾기
+            if let matchingLetter = letters.first(where: { $0.letterId == indexPath.row }) {
+                // 해당 letter의 doorImageUrl을 가져오기
+                let imageUrl = matchingLetter.doorImageUrl
+                // 이미지 설정
+                mailBoxCell.config(imageUrl: imageUrl)
+                print("letterData다.")
+            } else {
+                // id가 일치하는 letter가 없을 경우 처리
+                print("해당 id를 가진 letter가 존재하지 않습니다.")
+                mailBoxCell.config(imageUrl: "emptyDoor")
+            }
+        } else {
+            // letterData가 nil일 경우 처리
+            print("letterData가 nil입니다.")
+        }
 
-        mailBoxCell.config(image: dummyData[indexPath.row].doorImage)
+
         
         return mailBoxCell
     }

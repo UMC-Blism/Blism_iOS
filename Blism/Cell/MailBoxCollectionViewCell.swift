@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MailBoxCollectionViewCell: UICollectionViewCell {
     static let identifier = "doorCollectionView"
@@ -38,7 +39,11 @@ class MailBoxCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    public func config(image: UIImage){
+    public func config(imageUrl: String){
+        let imageUrl = URL(string: imageUrl)
+        doorImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "emptyDoor"))
+    }
+    public func confige(image: UIImage){
         doorImage.image = image
     }
     
