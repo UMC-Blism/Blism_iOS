@@ -15,7 +15,7 @@ public struct ReadReplyDetailResponse: Codable {
     let isSuccess: Bool
     let code: Int
     let message: String
-    let result: [ReadReplyDetailData]
+    let result: ReadReplyDetailData
 }
 
 public struct ReadReplyDetailData: Codable {

@@ -95,6 +95,7 @@ class ReplyAPI {
         provider.request(.readDetailReply(request)) { response in
             switch response {
             case let .success(result):
+//                print(result.statusCode)
                 if 200..<400 ~= result.statusCode {
                     do {
                         let decodingResult = try JSONDecoder().decode(ReadReplyDetailResponse.self, from: result.data)
