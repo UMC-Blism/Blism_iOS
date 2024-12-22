@@ -124,6 +124,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         let letterData = homeInfoResponse?.result?.letters
 
+
         if let letters = letterData {
             let index = indexPath.row
             if index < letters.count {

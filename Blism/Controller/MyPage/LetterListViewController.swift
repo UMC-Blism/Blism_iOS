@@ -10,7 +10,7 @@ import UIKit
 class LetterListViewController : UIViewController {
     private let type : LetterListType
     private var letterListView : LetterListView
-    private var letterListData : [LetterListInfo] = []
+    private var letterListData : [LetterData] = []
     
     init(type : LetterListType) {
         self.type = type
@@ -80,7 +80,7 @@ extension LetterListViewController {
             case .success(let responseData):
                 if responseData.isSuccess {
                     if let data = responseData.result {
-                        self?.letterListData = data.map{LetterListInfo(type: .sentReplyLetter, dateString: $0.createdDate, content: $0.content, receiver: $0.receiverName, sender: myNickname)}
+                        self?.letterListData = data.map{LetterData(type: .sentReplyLetter, dateString: $0.createdDate, content: $0.content, receiver: $0.receiverName, sender: myNickname, letterId: $0.letterId)}
                         self?.letterListView.tableView.reloadData()
                     } else {
 //                        데이터 없음
@@ -111,7 +111,7 @@ extension LetterListViewController {
             case .success(let responseData):
                 if responseData.isSuccess {
                     if let data = responseData.result {
-                        self?.letterListData = data.map{LetterListInfo(type: .receivedLetter, dateString: $0.createdDate, content: $0.content, receiver: myNickname, sender: $0.senderName)}
+                        self?.letterListData = data.map{LetterData(type: .receivedLetter, dateString: $0.createdDate, content: $0.content, receiver: myNickname, sender: $0.senderName, letterId: $0.letterId)}
                         self?.letterListView.tableView.reloadData()
                     } else {
 //                        데이터 없음
@@ -169,12 +169,14 @@ extension LetterListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 인덱스에 따라 연결
         
-        var nextVC = ReadLetterViewController(type: .receivedLetter)
+        let lettedId = letterListData[indexPath.section].letterId
+        
+        var nextVC = ReadLetterViewController(type: .receivedLetter, letterId: lettedId)
         
         switch type {
-        case .receivedLetter: nextVC = ReadLetterViewController(type: .receivedLetter)
-        case .sentReplyLetter: nextVC = ReadLetterViewController(type: .sentReplyLetter)
-        case .writingLetter: nextVC = ReadLetterViewController(type: .writingLetter)
+        case .receivedLetter: nextVC = ReadLetterViewController(type: .receivedLetter, letterId: lettedId)
+        case .sentReplyLetter: nextVC = ReadLetterViewController(type: .sentReplyLetter, letterId: lettedId)
+        case .writingLetter: nextVC = ReadLetterViewController(type: .writingLetter, letterId: lettedId)
         default:
             return
         }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ReadLetterView: UIView {
     override init(frame: CGRect) {
@@ -189,6 +190,28 @@ class ReadLetterView: UIView {
             replyButton.setTitle("수정하기", for: .normal)
         case .home:
             backButton.isHidden = true
+        }
+    }
+    
+    public func config(letterInfo: ReadLetterResponseData) {
+        ImageViewExample.kf.setImage(with: URL(string: letterInfo.photoUrl), placeholder: UIImage.readExample)
+        letterSender.text = "From. \(letterInfo.senderNickname)"
+        letterReceiver.text = "To. \(letterInfo.receiverNickname)"
+        letterContent.text = letterInfo.content
+        
+        // 날짜 추가해야 함 (ReadLetterResponse)
+        
+        switch letterInfo.font {
+        case 1:
+            letterContent.font = .customFont(font: .SejongGeulggot, ofSize: 15)
+        case 2:
+            letterContent.font = .customFont(font: .KyoboHandWriting, ofSize: 15)
+        case 3:
+            letterContent.font = .customFont(font: .GanwonEduLight, ofSize: 15)
+        case 4:
+            letterContent.font = .customFont(font: .PretendardLight, ofSize: 15)
+        default:
+            break
         }
     }
 }
