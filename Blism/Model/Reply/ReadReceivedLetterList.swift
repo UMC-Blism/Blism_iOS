@@ -39,6 +39,7 @@ public struct ReceivedLetterListData: Codable {
     let senderId: Int64
     let senderName: String
     let createdDate : String
+    let font: Int
     
     enum CodingKeys: String, CodingKey {
         case letterId = "letter_id"
@@ -46,6 +47,7 @@ public struct ReceivedLetterListData: Codable {
         case senderId = "sender_id"
         case senderName = "sender_name"
         case createdDate = "created_at"
+        case font
     }
     
     public init(from decoder: any Decoder) throws {
@@ -54,6 +56,7 @@ public struct ReceivedLetterListData: Codable {
         self.content = try container.decode(String.self, forKey: .content)
         self.senderId = try container.decode(Int64.self, forKey: .senderId)
         self.senderName = try container.decode(String.self, forKey: .senderName)
+        self.font = try container.decode(Int.self, forKey: .font)
         let dateString = try container.decode(String.self, forKey: .createdDate)
         
         let trimmedDateString = String(dateString.prefix(10)) // "2024-12-22"
