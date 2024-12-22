@@ -21,6 +21,7 @@ class LetterRequest {
             switch result {
             case let .success(response):
                 print(result)
+                print("BLABLA: \(response.statusCode)")
                 do {
                     let decodingResult = try JSONDecoder().decode(WriteLetterResponse.self, from: response.data)
                     if 200..<400 ~= decodingResult.code {

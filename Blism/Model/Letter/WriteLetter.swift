@@ -6,6 +6,24 @@
 //
 
 import Foundation
+import UIKit
+
+final class WriteLetterData {
+    static let shared = WriteLetterData()
+    
+    private init() {}
+    
+    var senderId: Int64 = 0
+    var receiverId: Int64 = 0
+    var mailboxId: Int64 = 0
+    var content: String = ""
+    var font: Int = 4
+    var visibility: Int = 0
+    var doorDesign: Int = 0
+    var colorDesign: Int = 0
+    var decorationDesign: Int = 0
+    var attachedImage: UIImage? = nil
+}
 
 public struct WriteLetterRequest: Codable {
     let senderId: Int64

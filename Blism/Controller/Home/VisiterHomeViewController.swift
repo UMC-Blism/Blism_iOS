@@ -121,7 +121,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
 //            viewController.modalPresentationStyle = .overFullScreen
 //            present(viewController, animated: false)
 //        }
-        let nextVC = WriteLetterViewController()
+        let nextVC = WriteLetterViewController(receiverId: memberId, mailboxId: mailBoxId)
         self.navigationController?.pushViewController(nextVC, animated: true)
         
     }

@@ -13,6 +13,19 @@ class WriteLetterViewController: UIViewController {
 
     private let writeView = WriteLetterView()
     private let picker = UIImagePickerController()
+    private let receiverId: Int64
+    private let mailboxId: Int64
+    
+    init(receiverId: Int64, mailboxId: Int64) {
+        self.receiverId = receiverId
+        self.mailboxId = mailboxId
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +87,17 @@ class WriteLetterViewController: UIViewController {
     @objc
     private func touchUpInsideSendButton() {
         let nextVC = SelectDoorDesignViewController()
+        
+        let data = WriteLetterData.shared
+        
+        // 데이터 저장
+        data.senderId = Int64(KeychainService.shared.load(account: .userInfo, service: .memberId) ?? "") ?? Int64(0)
+        data.receiverId = self.receiverId
+        data.mailboxId = self.mailboxId
+        data.content = writeView.textView.text
+        data.visibility = writeView.toggleSwitch.isOn ? 1 : 0
+        data.attachedImage = writeView.imageAttachView.image
+        
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
@@ -83,6 +107,8 @@ class WriteLetterViewController: UIViewController {
         writeView.placeholderLabel.font = .customFont(font: .SejongGeulggot, ofSize: 15)
         writeView.charCountLabel.font = .customFont(font: .SejongGeulggot, ofSize: 15)
         
+        WriteLetterData.shared.font = 1
+        
         writeView.textView.layoutIfNeeded()
     }
     
@@ -91,6 +117,8 @@ class WriteLetterViewController: UIViewController {
         writeView.textView.font = .customFont(font: .KyoboHandWriting, ofSize: 15)
         writeView.placeholderLabel.font = .customFont(font: .KyoboHandWriting, ofSize: 15)
         writeView.charCountLabel.font = .customFont(font: .KyoboHandWriting, ofSize: 15)
+        
+        WriteLetterData.shared.font = 2
     }
     
     @objc
@@ -98,6 +126,8 @@ class WriteLetterViewController: UIViewController {
         writeView.textView.font = .customFont(font: .GanwonEduLight, ofSize: 15)
         writeView.placeholderLabel.font = .customFont(font: .GanwonEduLight, ofSize: 15)
         writeView.charCountLabel.font = .customFont(font: .GanwonEduLight, ofSize: 15)
+        
+        WriteLetterData.shared.font = 3
     }
     
     @objc
@@ -105,6 +135,8 @@ class WriteLetterViewController: UIViewController {
         writeView.textView.font = .customFont(font: .PretendardLight, ofSize: 15)
         writeView.placeholderLabel.font = .customFont(font: .PretendardLight, ofSize: 15)
         writeView.charCountLabel.font = .customFont(font: .PretendardLight, ofSize: 15)
+        
+        WriteLetterData.shared.font = 4
     }
 }
 

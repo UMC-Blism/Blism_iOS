@@ -62,7 +62,7 @@ extension LetterTargetType: TargetType {
             let imagePart = MultipartFormData(
                 provider: .data(imageData),
                 name: "image",
-                fileName: "image.jpg",
+                fileName: "\(image.hashValue).jpg",
                 mimeType: "image/jpeg"
             )
             formData.append(imagePart)
