@@ -77,6 +77,19 @@ class ReadLetterViewController: UIViewController {
 
                     let data = response.result
                     let letterInfo = LetterDetailData(photoURL: data.photoUrl, senderNickname: data.senderNickname, receiverNickname: data.receiverNickname, content: data.content, font: data.font)
+                    
+                    EditLetterData.shared.receiverId = data.receiverId
+                    EditLetterData.shared.mailboxId = data.mailBoxId
+                    EditLetterData.shared.senderNickname = data.senderNickname
+                    EditLetterData.shared.receiverNickname = data.receiverNickname
+                    EditLetterData.shared.content = data.content
+                    EditLetterData.shared.photoUrl = data.photoUrl
+                    EditLetterData.shared.font = data.font
+                    EditLetterData.shared.visibility = data.visibility
+                    EditLetterData.shared.doorDesign = data.doorDesign
+                    EditLetterData.shared.colorDesign = data.colorDesign
+                    EditLetterData.shared.decorationDesign = data.decorationDesign
+                    
                     self?.receiver = data.receiverNickname
                     self?.sender = data.senderNickname
                     self?.rootView.config(letterInfo: letterInfo)
@@ -106,6 +119,7 @@ class ReadLetterViewController: UIViewController {
                     self?.rootView.config(letterInfo: letterInfo)
                     self?.receiver = data.receiverName
                     self?.sender = data.senderName
+                    self?.rootView.whenLetterWrite.text = data.createdDate
                     self?.textSetting()
                 } else {
                     print("getLetterInfo - isSuccess == false")
@@ -183,17 +197,38 @@ class ReadLetterViewController: UIViewController {
     }
     
     @objc func goToReply(){
-        let replyViewController = ReplyLetterViewController()
+        switch type {
+        case .writingLetter:
+            // 수정에 필요한 정보 저장
+            EditLetterData.shared.letterId = letterId
+            EditLetterData.shared.senderId = Int64(KeychainService.shared.load(account: .userInfo, service: .memberId) ?? "") ?? Int64(0)
+            
+            let editViewController = EditLetterViewController()
+            
+            // 내비게이션 컨트롤러가 있을 경우 처리
+               if let navigationController = self.navigationController {
+                   navigationController.pushViewController(editViewController, animated: true)
+               } else {
+                   // 내비게이션 컨트롤러가 없으면 새로 만들어서 모달로 띄우기
+                   let navController = UINavigationController(rootViewController: editViewController)
+                   navController.modalPresentationStyle = .fullScreen // 전체 화면으로 표시
+                   self.present(navController, animated: true, completion: nil)
+               }
+        default:
+            let replyViewController = ReplyLetterViewController()
+            
+            // 내비게이션 컨트롤러가 있을 경우 처리
+               if let navigationController = self.navigationController {
+                   navigationController.pushViewController(replyViewController, animated: true)
+               } else {
+                   // 내비게이션 컨트롤러가 없으면 새로 만들어서 모달로 띄우기
+                   let navController = UINavigationController(rootViewController: replyViewController)
+                   navController.modalPresentationStyle = .fullScreen // 전체 화면으로 표시
+                   self.present(navController, animated: true, completion: nil)
+               }
+        }
         
-        // 내비게이션 컨트롤러가 있을 경우 처리
-           if let navigationController = self.navigationController {
-               navigationController.pushViewController(replyViewController, animated: true)
-           } else {
-               // 내비게이션 컨트롤러가 없으면 새로 만들어서 모달로 띄우기
-               let navController = UINavigationController(rootViewController: replyViewController)
-               navController.modalPresentationStyle = .fullScreen // 전체 화면으로 표시
-               self.present(navController, animated: true, completion: nil)
-           }
+        
     }
     
 }
