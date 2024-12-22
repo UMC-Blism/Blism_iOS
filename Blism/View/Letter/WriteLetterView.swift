@@ -61,7 +61,7 @@ class WriteLetterView: UIView {
         $0.textColor = UIColor(hex: "#1A274F")
     }
     
-    private let receiverNameLabel = UILabel().then {
+    let receiverNameLabel = UILabel().then {
         $0.text = "받는 사람"
         $0.font = .customFont(font: .PretendardLight, ofSize: 15)
         $0.textColor = UIColor(hex: "#6C8FC6")
@@ -112,7 +112,7 @@ class WriteLetterView: UIView {
         $0.textColor = UIColor(hex: "#1A274F")
     }
     
-    private let senderNameLabel = UILabel().then {
+    let senderNameLabel = UILabel().then {
         $0.text = "보내는 사람"
         $0.font = .customFont(font: .PretendardLight, ofSize: 15)
         $0.textColor = UIColor(hex: "#6C8FC6")

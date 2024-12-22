@@ -139,10 +139,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-
-        
         let letterData = otherHomeInfoResponse?.result?.letters
-        
         
         if let letters = letterData {
             let index = indexPath.row
@@ -168,15 +165,15 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                 }
                 
             }else{
-                let nextVC = WriteLetterViewController()
+                let nextVC = WriteLetterViewController(receiverId: memberId, mailboxId: mailBoxId)
+                WriteLetterData.shared.receiverNickname = rootView.mailboxOwner.text ?? "아진"
+                WriteLetterData.shared.receiverNickname = self.nickname
                 self.navigationController?.pushViewController(nextVC, animated: true)
                 print("편지작성 뷰로 이동")
             }
             
         } else {
-           
+            
         }
-    }
-    
     
 }

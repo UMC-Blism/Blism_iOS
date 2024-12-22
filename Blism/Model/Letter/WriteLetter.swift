@@ -15,6 +15,8 @@ final class WriteLetterData {
     
     var senderId: Int64 = 0
     var receiverId: Int64 = 0
+    var senderNickname: String = ""
+    var receiverNickname: String = ""
     var mailboxId: Int64 = 0
     var content: String = ""
     var font: Int = 4
