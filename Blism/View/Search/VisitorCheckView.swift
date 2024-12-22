@@ -52,7 +52,7 @@ class VisitorCheckView: UIView {
     }
     
     // 닉네임 텍스트 필드
-    private lazy var nicknameTextField = LoginTextField(type: .visitMailBox).then { txt in
+    public lazy var nicknameTextField = LoginTextField(type: .visitMailBox).then { txt in
         txt.text = onwerNickname
         txt.isUserInteractionEnabled = false
     }
