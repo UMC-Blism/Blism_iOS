@@ -29,9 +29,6 @@ class HomeViewController: UIViewController {
         }else{
             print("권한 설정이 되어있습니다")
         }
-        
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,7 +65,7 @@ class HomeViewController: UIViewController {
                 if data.isSuccess {
                     self?.homeInfoResponse = data
                     
-                    let numberOfMail = String(self?.homeInfoResponse?.result?.count ?? 1)
+                    let numberOfMail = String(self?.homeInfoResponse?.result?.count ?? 0)
                     print("&&&& \(self?.homeInfoResponse?.result?.count)")
                     self?.numOfMailChange(num: numberOfMail)
                     let mailboxId = String(self?.homeInfoResponse?.result?.mailboxId ?? 0)
@@ -87,14 +84,15 @@ class HomeViewController: UIViewController {
     
     
     func nicknameChange(nickname: String){
-        let updatedText = rootView.mailboxOwner.text?.replacingOccurrences(of: "지수", with: nickname)
+//        let updatedText = rootView.mailboxOwner.text?.replacingOccurrences(of: "지수", with: nickname)
+        let updatedText = "\(nickname)님의 우체통"
         rootView.mailboxOwner.text = updatedText
         loadViewIfNeeded()
     }
     func numOfMailChange(num: String){
         
-        let updatedText = rootView.numberOfMail.text?.replacingOccurrences(of: "n", with: num)
-        
+//        let updatedText = rootView.numberOfMail.text?.replacingOccurrences(of: "n", with: num)
+        let updatedText = "\(num)개의 둥지가 완성됐어요!"
         rootView.numberOfMail.text = updatedText
     }
     

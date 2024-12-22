@@ -23,6 +23,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = splashVC
         window.makeKeyAndVisible()
         
+        KeychainService.shared.delete(account: .userInfo, service: .checkCode)
+        KeychainService.shared.delete(account: .userInfo, service: .mailboxId)
+        KeychainService.shared.delete(account: .userInfo, service: .memberId)
+        KeychainService.shared.delete(account: .userInfo, service: .nickname)
+        KeychainService.shared.delete(account: .userInfo, service: .visibilityPermission)
+        
         self.window = window
         let id = KeychainService.shared.load(account: .userInfo, service: .memberId)
         print("id: \(id ?? "아이디 없음")")

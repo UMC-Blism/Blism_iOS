@@ -171,6 +171,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                 if let letterData = letter{
                     let receiverId = letterData.memberId
                     let receivermailboxId = letterData.mailboxId
+                    WriteLetterData.shared.receiverNickname = nickname
                     let nextVC = WriteLetterViewController(receiverId: receiverId, mailboxId: receivermailboxId)
                     self.navigationController?.pushViewController(nextVC, animated: true)
                     print("편지작성 뷰로 이동")
