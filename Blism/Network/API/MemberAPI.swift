@@ -89,7 +89,6 @@ class MemberAPI {
                     completion(.failure(.otherMoyaError(error.errorDescription)))
                 }
             }
-
         }
     }
     
