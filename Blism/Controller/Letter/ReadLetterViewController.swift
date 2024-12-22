@@ -25,7 +25,7 @@ class ReadLetterViewController: UIViewController {
         rootView = ReadLetterView()
         rootView.setButton(type: type)
         super.init(nibName: nil, bundle: nil)
-        
+    
         // 정보 가져오기 API
         self.getInfo()
     }
@@ -41,7 +41,6 @@ class ReadLetterViewController: UIViewController {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
         
         tapGesture()
-//        goToReply()
         addAction()
     }
     
