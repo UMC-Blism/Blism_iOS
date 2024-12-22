@@ -122,6 +122,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
 //            present(viewController, animated: false)
 //        }
         let nextVC = WriteLetterViewController(receiverId: memberId, mailboxId: mailBoxId)
+        WriteLetterData.shared.receiverNickname = rootView.mailboxOwner.text ?? "아진"
         self.navigationController?.pushViewController(nextVC, animated: true)
         
     }

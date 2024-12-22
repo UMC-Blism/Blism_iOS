@@ -89,7 +89,7 @@ class DoorDesignFinishViewController: UIViewController {
     @objc
     private func nextButtonAction() {
         writeLetterWithData()
-        //toNextView()
+        toNextView()
     }
     
     private func writeLetterWithData() {
