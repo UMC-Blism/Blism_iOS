@@ -74,7 +74,8 @@ class PrevMailBoxViewController: UIViewController {
 extension PrevMailBoxViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let pastMailCount = pastMailboxInfo?.result?.count {
-            return pastMailCount
+            return 3
+            //return pastMailCount
         } else {
             print("과거에 받은 편지 개수를 가져오지 못했습니다.")
             return 0

@@ -40,7 +40,7 @@ class HomeViewController: UIViewController {
         
         // API 호출
         let nickname = KeychainService.shared.load(account: .userInfo  , service: .nickname) ?? "닉네임 오류"
-//        KeychainService.shared.save(account: .userInfo, service: .memberId, value: "10")
+        KeychainService.shared.save(account: .userInfo, service: .memberId, value: "18")
 //        KeychainService.shared.save(account: .userInfo, service: .nickname, value: "누찬")
         
         // 키체인 불러오기
@@ -124,6 +124,19 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 mailBoxCell.config(imageUrl: "emptyDoor")
             }
         }
+        let todayDate = Date()
+        let calendar = Calendar.current
+        
+        // 오늘 날짜의 '일(day)' 추출
+        let day = calendar.component(.day, from: todayDate)
+        if (indexPath.row == 0){
+            print("vorder")
+            mailBoxCell.doorImage.layer.borderColor = UIColor.DoorBorder?.cgColor
+            mailBoxCell.doorImage.layer.borderWidth = 5
+        }else{
+            mailBoxCell.doorImage.layer.borderColor = UIColor.clear.cgColor
+        }
+        
         return mailBoxCell
     }
 
