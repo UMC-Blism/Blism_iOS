@@ -11,9 +11,36 @@ class SearchNicknameViewController: UIViewController {
     
     private var searchHistory: [String] = [] {
         didSet {
-            // 검색 기록 변경 시 UserDefaults 저장
+            // 배열 크기를 5로 제한
+            if searchHistory.count > 5 {
+                searchHistory.removeLast()
+            }
+            
+            // 검색 기록 변경 시 UserDefaults에 저장
             UserDefaults.standard.set(searchHistory, forKey: "SearchHistory")
         }
+    }
+
+    func addSearchHistory(newSearchTerm: String) {
+        // 이미 검색 기록에 해당 항목이 있으면 그 항목을 삭제
+        if let index = searchHistory.firstIndex(of: newSearchTerm) {
+            searchHistory.remove(at: index)
+        }
+        
+        // 새 검색어를 배열의 첫 번째에 추가
+        searchHistory.insert(newSearchTerm, at: 0)
+        print(searchHistory)
+        searchNicknameView.searchHistoryTableView.reloadData()
+    }
+    func resetSearchHistory() {
+        // UserDefaults에서 검색 기록 삭제
+        UserDefaults.standard.removeObject(forKey: "SearchHistory")
+        
+        // searchHistory 배열 초기화
+        searchHistory = []
+        
+        // 테이블뷰 갱신 (필요한 경우)
+        searchNicknameView.searchHistoryTableView.reloadData()
     }
     
     private var searchResult = [String]()
@@ -31,8 +58,11 @@ class SearchNicknameViewController: UIViewController {
 
         view = searchNicknameView
         
+        searchNicknameView.searchHistoryTableView.allowsSelection = true
+        
         loadSearchHistory()
         setupAction()
+        tapGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,10 +84,14 @@ class SearchNicknameViewController: UIViewController {
 //        searchNicknameView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
     
-//    @objc
-//    private func backButtonTapped() {
-//        self.navigationController?.popViewController(animated: true)
-//    }
+    private func tapGesture(){
+        self.searchNicknameView.deleteSearchHistoryLabel.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(deleteTapped))
+        self.searchNicknameView.deleteSearchHistoryLabel.addGestureRecognizer(tapGesture)
+    }
+    @objc private func deleteTapped(){
+        resetSearchHistory()
+    }
     
     private func loadSearchHistory() {
         if let savedHistory = UserDefaults.standard.array(forKey: "SearchHistory") as? [String] {
@@ -85,8 +119,7 @@ class SearchNicknameViewController: UIViewController {
             return
         }
         
-        // 필드 빈칸 아닐 때
-        searchHistory.append(searchNickname)
+        addSearchHistory(newSearchTerm: searchNickname)
         
         
         // search history tableview 업데이트
@@ -163,7 +196,6 @@ extension SearchNicknameViewController: UITableViewDataSource {
         return UITableViewCell()
         
     }
-    
     @objc
     private func deleteHistoryItem(_ sender: UIButton) {
         let index = sender.tag
@@ -196,7 +228,21 @@ extension SearchNicknameViewController: UITableViewDataSource {
 
 extension SearchNicknameViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         switch tableView {
+            
+        case searchNicknameView.searchHistoryTableView:
+            // 선택된 검색 기록 가져오기
+            let selectedHistory = searchHistory[indexPath.row]
+            
+            print(selectedHistory)
+            // 검색 텍스트 필드에 값 설정
+            searchNicknameView.searchTextField.text = selectedHistory
+            searchNicknameView.searchTextField.layoutIfNeeded()
+            
+            // 검색 버튼 액션 호출
+            searchButtonTapped()
+            
         case searchNicknameView.searchResultTableView:
             let nextVC = VisitorCheckViewController(onwerNickname: searchResult[indexPath.section])
             self.navigationController?.pushViewController(nextVC, animated: true)

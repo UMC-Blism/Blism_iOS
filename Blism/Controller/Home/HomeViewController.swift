@@ -22,8 +22,13 @@ class HomeViewController: UIViewController {
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
 //        KeychainService.shared.delete(account: .userInfo, service: .memberId)
-        viewController.modalPresentationStyle = .overFullScreen
-        present(viewController, animated: false)
+        let visible = KeychainService.shared.load(account: .userInfo, service: .visibilityPermission)
+        if visible == nil{
+            viewController.modalPresentationStyle = .overFullScreen
+            present(viewController, animated: false)
+        }else{
+            print("권한 설정이 되어있습니다")
+        }
         
         
         

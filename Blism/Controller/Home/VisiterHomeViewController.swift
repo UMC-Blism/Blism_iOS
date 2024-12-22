@@ -51,8 +51,10 @@ class VisiterHomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
         self.tabBarController?.isTabBarHidden = false
-
+        let otherMemberId = String(memberId)
+        fetchOtherMailBoxInfo(userId: otherMemberId)
     }
     
     private func setNavigationBar(){
@@ -139,10 +141,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-
-        
         let letterData = otherHomeInfoResponse?.result?.letters
-        
         
         if let letters = letterData {
             let index = indexPath.row
@@ -168,15 +167,19 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                 }
                 
             }else{
-//                let nextVC = WriteLetterViewController()
-//                self.navigationController?.pushViewController(nextVC, animated: true)
-                print("편지작성 뷰로 이동")
+                let letter = otherHomeInfoResponse?.result
+                if let letterData = letter{
+                    let receiverId = letterData.memberId
+                    let receivermailboxId = letterData.mailboxId
+                    let nextVC = WriteLetterViewController(receiverId: receiverId, mailboxId: receivermailboxId)
+                    self.navigationController?.pushViewController(nextVC, animated: true)
+                    print("편지작성 뷰로 이동")
+                }
             }
             
         } else {
-           
+            
         }
+        
     }
-    
-    
 }
