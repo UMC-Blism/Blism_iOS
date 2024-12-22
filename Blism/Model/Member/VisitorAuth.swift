@@ -38,17 +38,19 @@ public struct VisitorAuthResponse: Codable {
 
 public struct VisitorAuthData: Codable {
     let mailBoxId: Int64
+    let memberId: Int64
     
     enum CodingKeys: String, CodingKey {
         case mailBoxId = "mailbox_id"
+        case memberId = "member_id"
     }
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.mailBoxId = try container.decode(Int64.self, forKey: .mailBoxId)
+        self.memberId = try container.decode(Int64.self, forKey: .memberId)
     }
 }
-
 
 /*
  {
@@ -56,13 +58,8 @@ public struct VisitorAuthData: Codable {
    "code": 200,
    "message": "성공입니다.",
    "result": {
-     "mailbox_id": 1
+     "mailbox_id": 1,
+     "member_id": 1
    }
- }
- 
- {
-   "isSuccess": true,
-   "code": 200,
-   "message": "성공입니다."
  }
  */
