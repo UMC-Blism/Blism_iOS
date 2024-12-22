@@ -35,14 +35,15 @@ class HomeViewController: UIViewController {
         
         // API 호출
         let nickname = KeychainService.shared.load(account: .userInfo  , service: .nickname) ?? "닉네임 오류"
-        nicknameChange(nickname: nickname) //이부분은 로그인할때 받아옴
+//        KeychainService.shared.save(account: .userInfo, service: .memberId, value: "10")
+//        KeychainService.shared.save(account: .userInfo, service: .nickname, value: "누찬")
         
         // 키체인 불러오기
         if let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId), let nickname = KeychainService.shared.load(account: .userInfo, service: .nickname) {
             
             
-        fetchMailBoxInfo(userId: memberId)
-        nicknameChange(nickname: nickname)
+            fetchMailBoxInfo(userId: memberId) //임시 아이디 원대는 (userId: memberId)
+            nicknameChange(nickname: nickname)
             
         } else {
             // 아이디 없음 오류
@@ -65,6 +66,8 @@ class HomeViewController: UIViewController {
                     let numberOfMail = String(self?.homeInfoResponse?.result?.count ?? 1)
                     print("&&&& \(self?.homeInfoResponse?.result?.count)")
                     self?.numOfMailChange(num: numberOfMail)
+                    let mailboxId = String(self?.homeInfoResponse?.result?.mailboxId ?? 0)
+                    KeychainService.shared.save(account: .userInfo, service: .mailboxId, value: mailboxId)
                     self?.rootView.doorCollectionView.reloadData()
                 } else {
                     print("data isFailed")

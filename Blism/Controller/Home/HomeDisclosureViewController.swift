@@ -55,20 +55,20 @@ class HomeDisclosureViewController: UIViewController {
     
     @objc func yesButtonTapped(){
         KeychainService.shared.save(account: .userInfo, service: .visibilityPermission, value: "1")
-        if let userId = KeychainService.shared.load(account: .userInfo, service: .memberId){
-            visiblePermission(userId: userId, visibility: 1)
+        if let mailboxId = KeychainService.shared.load(account: .userInfo, service: .mailboxId){
+            visiblePermission(userId: mailboxId, visibility: 1)
         }else {
-            print("userId를 가져오는데 실패하였습니다")
+            print("mailboxId를 가져오는데 실패하였습니다")
         }
         dismiss(animated: true, completion: nil)
         
     }
     @objc func noButtonTapped(){
         KeychainService.shared.save(account: .userInfo, service: .visibilityPermission, value: "0")
-        if let userId = KeychainService.shared.load(account: .userInfo, service: .memberId){
-            visiblePermission(userId: userId, visibility: 0)
+        if let mailboxId = KeychainService.shared.load(account: .userInfo, service: .mailboxId){
+            visiblePermission(userId: mailboxId, visibility: 0)
         }else {
-            print("userId를 가져오는데 실패하였습니다")
+            print("mailboxId를 가져오는데 실패하였습니다")
         }
         dismiss(animated: true, completion: nil)
     }
