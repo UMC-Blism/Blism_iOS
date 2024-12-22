@@ -12,9 +12,22 @@ class VisiterHomeViewController: UIViewController {
     let viewController = HomeDisclosureViewController()
     let navTitle = NavTitleStackView()
     private let dummy = MailBoxCollectionViewModel.Dummy()
+    private let mailBoxId : Int64     // viewDidLoad()에서 우체통 조회 API에서 사용
+    
+    init(mailBoxId: Int64) {
+        self.mailBoxId = mailBoxId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("VisiterHomeViewController viewDidLoad - mailBoxId \(mailBoxId) ")
         view = rootView
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
