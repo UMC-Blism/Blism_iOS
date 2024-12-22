@@ -40,6 +40,13 @@ class WriteLetterViewController: UIViewController {
         setDelegate()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
+        //WriteLetterData.shared.senderNickname =
+        writeView.senderNameLabel.text = KeychainService.shared.load(account: .userInfo, service: .nickname)
+        writeView.receiverNameLabel.text = WriteLetterData.shared.receiverNickname
+    }
+    
     private func setGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openImagePicker))
         

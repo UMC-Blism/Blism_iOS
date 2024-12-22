@@ -11,18 +11,21 @@ class ReadLetterViewController: UIViewController {
 
     private var isFirstAppear = true
     private let letterId : Int64
+    private let replyId: Int64?
+    
     private let type: LetterListType
     private let rootView : ReadLetterView
     
-    init(type: LetterListType, letterId: Int64) {
+    init(type: LetterListType, letterId: Int64, replyId: Int64? = nil) {
         self.type = type
         self.letterId = letterId
+        self.replyId = replyId
         rootView = ReadLetterView()
         rootView.setButton(type: type)
         super.init(nibName: nil, bundle: nil)
         
-        // 편지 정보 가져오기 API
-        self.getLetterInfo(letterId: letterId)
+        // 정보 가져오기 API
+        self.getInfo()
     }
     
     required init?(coder: NSCoder) {
@@ -50,9 +53,18 @@ class ReadLetterViewController: UIViewController {
         }
     }
     
+    private func getInfo(){
+        switch type {
+        case .receivedReply, .sentReply:
+            self.getReplyInfo()
+        case .writingLetter, .home:
+            self.getLetterInfo()
+        }
+    }
+    
     // 편지 정보 가져오기 API
-    private func getLetterInfo(letterId: Int64){
-        // type에 따라, switch - case로 ReadLetter - ReadReply 구분 필욜할듯 
+    private func getLetterInfo(){
+        // type에 따라, switch - case로 ReadLetter - ReadReply 구분 필욜할듯
         let request = ReadLetterRequest(letterId: letterId)
         // API 통신 후 성공하면 ReadLetterView config에 적용
         LetterRequest.shared.readLetter(request: request) {[weak self] result in
@@ -71,6 +83,30 @@ class ReadLetterViewController: UIViewController {
                 self?.present(alert, animated: true)
             }
         }
+    }
+    
+    // 답장 정보 가져오기 API
+    private func getReplyInfo() {
+        guard let replyId = replyId else {return}
+        let request = ReadReplyDetailRequest(replyid: replyId)
+        ReplyAPI.shared.getDetailReply(request: request) {[weak self] result in
+            switch result {
+            case .success(let response):
+                if response.isSuccess {
+//                    self?.rootView.config(letterInfo: response.)
+                    self?.textSetting()
+                } else {
+                    print("getLetterInfo - isSuccess == false")
+                    let alert = NetworkAlert.shared.getAlertController(title: "isSucess: false")
+                    self?.present(alert, animated: true)
+                }
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
+
+        }
+        
     }
     
     private func startAnimation(){

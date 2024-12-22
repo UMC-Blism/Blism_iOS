@@ -51,8 +51,10 @@ class VisiterHomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
         self.tabBarController?.isTabBarHidden = false
-
+        let otherMemberId = String(memberId)
+        fetchOtherMailBoxInfo(userId: otherMemberId)
     }
     
     private func setNavigationBar(){
@@ -139,10 +141,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-
-        
         let letterData = otherHomeInfoResponse?.result?.letters
-        
         
         if let letters = letterData {
             let index = indexPath.row
@@ -179,9 +178,8 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
             }
             
         } else {
-           
+            
         }
+        
     }
-    
-    
 }

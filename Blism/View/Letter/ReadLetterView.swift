@@ -182,9 +182,9 @@ class ReadLetterView: UIView {
     
     public func setButton(type: LetterListType){
         switch type {
-        case .receivedLetter:
+        case .receivedReply:
             replyButton.isHidden = true
-        case .sentReplyLetter:
+        case .sentReply:
             replyButton.isHidden = true
         case .writingLetter:
             replyButton.setTitle("수정하기", for: .normal)
