@@ -155,7 +155,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                             print("letterId를 가져오는데 실패했습니다 301")
                             return
                         }
-                        let viewController = ReadLetterViewController(type: .home, letterId: letterID)
+                        let viewController = ReadOtherPersonLetterViewController(type: .home, letterId: letterID)
                         viewController.modalPresentationStyle = .overFullScreen
                         present(viewController, animated: false)
                     }else {
