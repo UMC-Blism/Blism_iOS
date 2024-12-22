@@ -20,18 +20,22 @@ class MemberAPI {
         provider.request(.signUp(request)) { response in
             switch response {
             case let .success(result):
-                do {
-                    let decodingResult = try JSONDecoder().decode(MemberSignUpResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code{
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(MemberSignUpResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
+                        }
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
@@ -46,6 +50,7 @@ class MemberAPI {
                     completion(.failure(.otherMoyaError(error.errorDescription)))
                 }
             }
+
         }
     }
     
@@ -54,19 +59,22 @@ class MemberAPI {
         provider.request(.checkId(request)) { response in
             switch response {
             case let .success(result):
-                do {
-                    print(result.statusCode)
-                    let decodingResult = try JSONDecoder().decode(MemberNicknameCheckResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code{
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(MemberNicknameCheckResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
+                        }
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
@@ -81,6 +89,7 @@ class MemberAPI {
                     completion(.failure(.otherMoyaError(error.errorDescription)))
                 }
             }
+
         }
     }
     
@@ -89,19 +98,22 @@ class MemberAPI {
         provider.request(.changeId(request)) { response in
             switch response {
             case let .success(result):
-                print(result)
-                do {
-                    let decodingResult = try JSONDecoder().decode(MemberChangeNicknameReponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code{
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(MemberChangeNicknameReponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
+                        }
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
@@ -124,19 +136,22 @@ class MemberAPI {
         provider.request(.searchNickcname(request)) { response in
             switch response {
             case let .success(result):
-                print(result)
-                do {
-                    let decodingResult = try JSONDecoder().decode(MemberSearchResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code{
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(MemberSearchResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
+                        }
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
@@ -159,18 +174,22 @@ class MemberAPI {
         provider.request(.visitorAuth(request)) { response in
             switch response {
             case let .success(result):
-                do {
-                    let decodingResult = try JSONDecoder().decode(VisitorAuthResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code{
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(VisitorAuthResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
+                        }
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
