@@ -40,7 +40,9 @@ class HomeViewController: UIViewController {
         
         // API 호출
         let nickname = KeychainService.shared.load(account: .userInfo  , service: .nickname) ?? "닉네임 오류"
-        KeychainService.shared.save(account: .userInfo, service: .memberId, value: "18")
+        
+        //임시로 쓰기
+//        KeychainService.shared.save(account: .userInfo, service: .memberId, value: "18")
 //        KeychainService.shared.save(account: .userInfo, service: .nickname, value: "누찬")
         
         // 키체인 불러오기
