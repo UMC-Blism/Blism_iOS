@@ -62,7 +62,7 @@ class MyPageView : UIView {
         lbl.textColor = .blismBlack
     }
     
-    public let openMailBoxToggle = UISwitch().then { sw in
+    public var openMailBoxToggle = UISwitch().then { sw in
         sw.onTintColor = .blismBlue
     }
     

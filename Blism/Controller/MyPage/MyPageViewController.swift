@@ -16,6 +16,9 @@ public enum MyPageCellType : String{
 }
 
 class MyPageViewController : UIViewController {
+    
+    var permissionChangedResponse : VisibilityPermissionResponse?
+    
     private let tableViewData : [MyPageCellType] = [
         .receivedLetter,
         .sentReplyLetter,
@@ -23,13 +26,21 @@ class MyPageViewController : UIViewController {
         .prevMailBox,
         .changeNickName
     ]
-    private let myPageView = MyPageView()
+    public let myPageView = MyPageView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = myPageView
         setNavigationBar()
         setProtocol()
+        tapRecognize()
+        
+        let permissionToggle = KeychainService.shared.load(account: .userInfo, service: .visibilityPermission)
+        if permissionToggle == "1"{
+            myPageView.openMailBoxToggle.isOn = true
+        }else{
+            myPageView.openMailBoxToggle.isOn = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,6 +49,53 @@ class MyPageViewController : UIViewController {
         // 닉네임, 날짜 데이터 적용
         self.setUserInfo()
         
+    }
+    
+    private func tapRecognize(){
+        myPageView.openMailBoxToggle.addTarget(self, action: #selector(toggleValueChanged), for: .valueChanged)
+    }
+    @objc private func toggleValueChanged(){
+        let status = KeychainService.shared.load(account: .userInfo, service: .visibilityPermission)
+        
+        
+        
+        if status == "1"{ // 안보이게 변경
+            KeychainService.shared.save(account: .userInfo, service: .visibilityPermission, value: "0")
+            if let userId = KeychainService.shared.load(account: .userInfo, service: .memberId){
+                visiblePermissionChanged(userId: userId, visibility: 0)
+            }else {
+                print("userId를 가져오는데 실패하였습니다")
+            }
+        }else { //보이게 변경
+            KeychainService.shared.save(account: .userInfo, service: .visibilityPermission, value: "1")
+            if let userId = KeychainService.shared.load(account: .userInfo, service: .memberId){
+                visiblePermissionChanged(userId: userId, visibility: 1)
+            }else {
+                print("userId를 가져오는데 실패하였습니다")
+            }
+        }
+    }
+    
+    // API 호출 함수
+    private func visiblePermissionChanged(userId: String, visibility: Int) {
+        guard let mailboxId = Int64(userId) else {return}
+        
+        let request = VisibilityPermissionRequest(mailboxId: mailboxId, visibility: visibility)
+        MailboxAPI.shared.VisibilityPermission(request: request) {[weak self] result in
+            switch result {
+            case .success(let data):
+                print("%%%%%permission\(data)")
+                if data.isSuccess {
+                    self?.permissionChangedResponse = data
+                } else {
+                    print("data isFailed")
+                }
+                
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
+        }
     }
     
     private func setProtocol(){

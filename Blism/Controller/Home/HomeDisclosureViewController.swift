@@ -80,7 +80,7 @@ class HomeDisclosureViewController: UIViewController {
         MailboxAPI.shared.VisibilityPermission(request: request) {[weak self] result in
             switch result {
             case .success(let data):
-                print("\(data)**")
+                print("%%%%%permission\(data)")
                 if data.isSuccess {
                     self?.permissionResponse = data
                 } else {
