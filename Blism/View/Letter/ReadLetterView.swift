@@ -193,8 +193,8 @@ class ReadLetterView: UIView {
         }
     }
     
-    public func config(letterInfo: ReadLetterResponseData) {
-        ImageViewExample.kf.setImage(with: URL(string: letterInfo.photoUrl), placeholder: UIImage.readExample)
+    public func config(letterInfo: LetterDetailData) {
+        ImageViewExample.kf.setImage(with: URL(string: letterInfo.photoURL), placeholder: UIImage.readExample)
         letterSender.text = "From. \(letterInfo.senderNickname)"
         letterReceiver.text = "To. \(letterInfo.receiverNickname)"
         letterContent.text = letterInfo.content

@@ -34,7 +34,7 @@ extension ReplyTargetType: TargetType {
         case .readAllReceivedReply:
             return "/replies/{memberId}/received"
         case .readDetailReply:
-            return "/replies{replyid}"
+            return "/replies/{replyid}"
         }
     }
     

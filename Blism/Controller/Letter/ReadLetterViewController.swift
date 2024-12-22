@@ -12,6 +12,8 @@ class ReadLetterViewController: UIViewController {
     private var isFirstAppear = true
     private let letterId : Int64
     private let replyId: Int64?
+    private var sender = ""
+    private var receiver = ""
     
     private let type: LetterListType
     private let rootView : ReadLetterView
@@ -39,8 +41,7 @@ class ReadLetterViewController: UIViewController {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
         
         tapGesture()
-        textSetting()
-        goToReply()
+//        goToReply()
         addAction()
     }
     
@@ -71,7 +72,11 @@ class ReadLetterViewController: UIViewController {
             switch result {
             case .success(let response):
                 if response.isSuccess {
-                    self?.rootView.config(letterInfo: response.result)
+                    let data = response.result
+                    let letterInfo = LetterDetailData(photoURL: data.photoUrl, senderNickname: data.senderNickname, receiverNickname: data.receiverNickname, content: data.content, font: data.font)
+                    self?.receiver = data.receiverNickname
+                    self?.sender = data.senderNickname
+                    self?.rootView.config(letterInfo: letterInfo)
                     self?.textSetting()
                 } else {
                     print("getLetterInfo - isSuccess == false")
@@ -93,7 +98,11 @@ class ReadLetterViewController: UIViewController {
             switch result {
             case .success(let response):
                 if response.isSuccess {
-//                    self?.rootView.config(letterInfo: response.)
+                    let data = response.result
+                    let letterInfo = LetterDetailData(photoURL: data.photoURL, senderNickname: data.senderName, receiverNickname: data.receiverName, content: data.content, font: data.font)
+                    self?.rootView.config(letterInfo: letterInfo)
+                    self?.receiver = data.receiverName
+                    self?.sender = data.senderName
                     self?.textSetting()
                 } else {
                     print("getLetterInfo - isSuccess == false")
@@ -104,9 +113,7 @@ class ReadLetterViewController: UIViewController {
                 let alert = NetworkAlert.shared.getAlertController(title: error.description)
                 self?.present(alert, animated: true)
             }
-
         }
-        
     }
     
     private func startAnimation(){
@@ -131,7 +138,7 @@ class ReadLetterViewController: UIViewController {
         let attributedText2 = NSMutableAttributedString(string: updatedTextSender ?? "")
 
         // 특정 텍스트 범위를 찾고 속성 적용
-        if let range = updatedTextReceiver?.range(of: "받는 사람") {
+        if let range = updatedTextReceiver?.range(of: receiver) {
             let nsRange = NSRange(range, in: updatedTextReceiver!)
             
             // 텍스트 색상 적용
@@ -141,7 +148,7 @@ class ReadLetterViewController: UIViewController {
         }
         
         // 특정 텍스트 범위를 찾고 속성 적용
-        if let range = updatedTextSender?.range(of: "보내는 사람") {
+        if let range = updatedTextSender?.range(of: sender) {
             let nsRange = NSRange(range, in: updatedTextSender!)
             
             // 텍스트 색상 적용
@@ -173,7 +180,6 @@ class ReadLetterViewController: UIViewController {
     }
     
     @objc func goToReply(){
-        
         let replyViewController = ReplyLetterViewController()
         
         // 내비게이션 컨트롤러가 있을 경우 처리
@@ -185,8 +191,6 @@ class ReadLetterViewController: UIViewController {
                navController.modalPresentationStyle = .fullScreen // 전체 화면으로 표시
                self.present(navController, animated: true, completion: nil)
            }
-        
-        print("1")
     }
     
 }
