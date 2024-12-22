@@ -24,7 +24,7 @@ class MyPageView : UIView {
     
     // 닉네임 라벨 (닉네임만 따로 받아야 함)
     private let nicknameLabel = UILabel().then { lbl in
-        lbl.text = "김지수 님"
+        lbl.text = "김지수님"
         lbl.font = .customFont(font: .PretendardSemiBold, ofSize: 15)
         lbl.textColor = .blue1
         lbl.textAlignment = .center
@@ -41,7 +41,7 @@ class MyPageView : UIView {
     // D-Day
     private let dayLabel = UILabel().then { lbl in
         lbl.text = "D-28일"
-        lbl.font = .customFont(font: .PretendardBold, ofSize: 24)
+        lbl.font = .customFont(font: .PretendardBold, ofSize: 28)
         lbl.textColor = .blue1
         lbl.textAlignment = .center
     }
@@ -62,7 +62,7 @@ class MyPageView : UIView {
         lbl.textColor = .blismBlack
     }
     
-    public let openMailBoxToggle = UISwitch().then { sw in
+    public var openMailBoxToggle = UISwitch().then { sw in
         sw.onTintColor = .blismBlue
     }
     
@@ -166,5 +166,10 @@ class MyPageView : UIView {
             make.horizontalEdges.equalToSuperview().inset(15)
             make.bottom.equalToSuperview().inset(10)
         }
+    }
+    
+    public func setUserInfo(nickname: String, dDay: String){
+        nicknameLabel.text = "\(nickname)님"
+        dayLabel.text = dDay
     }
 }

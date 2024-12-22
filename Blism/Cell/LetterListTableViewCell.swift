@@ -120,20 +120,35 @@ class LetterListTableViewCell : UITableViewCell {
     
     
     // 여기에 
-    public func config(listInfo: LetterListInfo) {
+    public func config(listInfo: LetterData) {
         dateLabel.textColor = listInfo.type == .receivedLetter ? .base2 : .blismBlack
         dateLabel.text = listInfo.dateString
-        contentLabel.text = listInfo.content
         receivedNicknameLabel.text = "From. \(listInfo.receiver)"
         sentNicknameLabel.text = "To. \(listInfo.sender)"
+        
+        switch listInfo.font {
+        case 1:
+            contentLabel.font = .customFont(font: .SejongGeulggot, ofSize: 15)
+        case 2:
+            contentLabel.font = .customFont(font: .KyoboHandWriting, ofSize: 15)
+        case 3:
+            contentLabel.font = .customFont(font: .GanwonEduLight, ofSize: 15)
+        case 4:
+            contentLabel.font = .customFont(font: .PretendardLight, ofSize: 15)
+        default:
+            break
+        }
+        contentLabel.text = listInfo.content
     }
 }
 
 // 편지 리스트 구조체
-public struct LetterListInfo {
+public struct LetterData {
     let type: LetterListType
     let dateString: String
     let content: String
     let receiver: String
     let sender: String
+    let letterId: Int64
+    let font: Int
 }

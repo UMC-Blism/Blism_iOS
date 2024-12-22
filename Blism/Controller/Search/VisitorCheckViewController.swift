@@ -62,7 +62,7 @@ class VisitorCheckViewController : UIViewController {
                 if data.isSuccess{
                     if let dataResult = data.result {   // 확인코드가 맞으면 -> 화면 이동
                         let nextVC = VisiterHomeViewController(mailBoxId: dataResult.mailBoxId, memberId: dataResult.memberId)
-//                        let nextVC = WriteLetterViewController(receiverId: Int64(8), mailboxId: Int64(2))
+
                         self?.navigationController?.pushViewController(nextVC, animated: true)
                     } else {    // 확인 코드가 틀리면 -> 알림
                         self?.showWrongPasswordAlert()

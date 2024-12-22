@@ -10,15 +10,19 @@ import UIKit
 class ReadLetterViewController: UIViewController {
 
     private var isFirstAppear = true
-    
+    private let letterId : Int64
     private let type: LetterListType
     private let rootView : ReadLetterView
     
-    init(type: LetterListType) {
+    init(type: LetterListType, letterId: Int64) {
         self.type = type
+        self.letterId = letterId
         rootView = ReadLetterView()
         rootView.setButton(type: type)
         super.init(nibName: nil, bundle: nil)
+        
+        // 편지 정보 가져오기 API
+        self.getLetterInfo(letterId: letterId)
     }
     
     required init?(coder: NSCoder) {
@@ -33,10 +37,7 @@ class ReadLetterViewController: UIViewController {
         
         tapGesture()
         textSetting()
-        
         goToReply()
-        
-
         addAction()
     }
     
@@ -46,6 +47,29 @@ class ReadLetterViewController: UIViewController {
         if isFirstAppear {  // 첫 번째 호출일 때만 실행
             startAnimation()
             isFirstAppear = false  // 이후에는 애니메이션을 실행하지 않음
+        }
+    }
+    
+    // 편지 정보 가져오기 API
+    private func getLetterInfo(letterId: Int64){
+        // type에 따라, switch - case로 ReadLetter - ReadReply 구분 필욜할듯 
+        let request = ReadLetterRequest(letterId: letterId)
+        // API 통신 후 성공하면 ReadLetterView config에 적용
+        LetterRequest.shared.readLetter(request: request) {[weak self] result in
+            switch result {
+            case .success(let response):
+                if response.isSuccess {
+                    self?.rootView.config(letterInfo: response.result)
+                    self?.textSetting()
+                } else {
+                    print("getLetterInfo - isSuccess == false")
+                    let alert = NetworkAlert.shared.getAlertController(title: "isSucess: false")
+                    self?.present(alert, animated: true)
+                }
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
         }
     }
     

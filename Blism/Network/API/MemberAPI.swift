@@ -159,7 +159,6 @@ class MemberAPI {
         provider.request(.visitorAuth(request)) { response in
             switch response {
             case let .success(result):
-                print(result)
                 do {
                     let decodingResult = try JSONDecoder().decode(VisitorAuthResponse.self, from: result.data)
                     if 200..<400 ~= decodingResult.code{

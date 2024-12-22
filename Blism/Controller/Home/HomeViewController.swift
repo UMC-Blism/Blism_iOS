@@ -104,57 +104,60 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return UICollectionViewCell()
         }
         
-//        mailBoxCell.config(image: dummyData[indexPath.row].doorImage)
         let letterData = homeInfoResponse?.result?.letters
-        
         if let letters = letterData {
-            // letters 배열에서 id가 indexPath.row와 동일한 요소를 찾기
-            if let matchingLetter = letters.first(where: { $0.letterId == indexPath.row }) {
-                // 해당 letter의 doorImageUrl을 가져오기
-                let imageUrl = matchingLetter.doorImageUrl
-                // 이미지 설정
-                mailBoxCell.config(imageUrl: imageUrl)
-                print("letterData다.")
+            let index = indexPath.row
+            if index < letters.count { // 배열 범위 초과 방지
+                let doorImageUrl = letters[index].doorImageUrl // 비옵셔널(String)이라면 바로 사용 가능
+                mailBoxCell.config(imageUrl: doorImageUrl)
+                print("doorImageUrl 설정 완료: \(doorImageUrl)")
             } else {
-                // id가 일치하는 letter가 없을 경우 처리
-                print("해당 id를 가진 letter가 존재하지 않습니다.")
+                print("indexPath.row가 letters 배열 범위를 벗어났습니다.")
                 mailBoxCell.config(imageUrl: "emptyDoor")
             }
-        } else {
-            // letterData가 nil일 경우 처리
-            print("letterData가 nil입니다.")
         }
-
-
-        
         return mailBoxCell
     }
+
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-        let todayDate = Date()
-        let calendar = Calendar.current
         
-        // 오늘 날짜의 '일(day)' 추출
-        let day = calendar.component(.day, from: todayDate)
-        
-        let readLetterPosibleDate = indexPath.row + 1
-            
-        if (day >= readLetterPosibleDate){
-            
-            let viewController = ReadLetterViewController(type: .home)
-            viewController.modalPresentationStyle = .overFullScreen
-            present(viewController, animated: false)
-        }else{
-            
-            let viewController = HomeDateAlertViewController()
-            
-            viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
-            viewController.modalPresentationStyle = .overFullScreen
-            present(viewController, animated: false)
-            
+        let letterData = homeInfoResponse?.result?.letters
 
+
+        if let letters = letterData {
+            let index = indexPath.row
+            if index < letters.count {
+                
+                let todayDate = Date()
+                let calendar = Calendar.current
+                
+                // 오늘 날짜의 '일(day)' 추출
+                let day = calendar.component(.day, from: todayDate)
+                
+                let readLetterPosibleDate = indexPath.row + 1
+                
+                if (day >= readLetterPosibleDate){
+                    guard let letterId = letterData?[indexPath.row].letterId else {return}
+                    let viewController = ReadLetterViewController(type: .home, letterId: letterId)
+                    viewController.modalPresentationStyle = .overFullScreen
+                    present(viewController, animated: false)
+                }else{
+                    
+                    let viewController = HomeDateAlertViewController()
+                    
+                    viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
+                    viewController.modalPresentationStyle = .overFullScreen
+                    present(viewController, animated: false)
+                }
+                
+            } else {
+                print("편지가 없어서 편지를 읽는 view로 이동할 수 없습니다")
+            }
         }
         
+        
     }
-   
+    
 }
+
