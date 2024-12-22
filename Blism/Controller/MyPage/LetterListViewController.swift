@@ -74,14 +74,16 @@ extension LetterListViewController {
             return
         }
         guard let id = Int64(memberId) else {return}
-        let request = ReadSentLetterListRequest(memberid: 3)
+        let request = ReadSentLetterListRequest(memberid: 8)
         ReplyAPI.shared.getSentLetterList(request: request) {[weak self] result in
             switch result {
             case .success(let responseData):
                 if responseData.isSuccess {
                     if let data = responseData.result {
-                        self?.letterListData = data.map{LetterData(type: .sentReplyLetter, dateString: $0.createdDate, content: $0.content, receiver: $0.receiverName, sender: myNickname, letterId: $0.letterId)}
+                        self?.letterListData = data.map{LetterData(type: .sentReplyLetter, dateString: $0.createdDate, content: $0.content, receiver: $0.receiverName, sender: myNickname, letterId: $0.letterId, font: $0.font)}
+                        
                         self?.letterListView.tableView.reloadData()
+                        
                     } else {
 //                        데이터 없음
                         print("빈 데이터")
@@ -105,13 +107,13 @@ extension LetterListViewController {
             return
         }
         guard let id = Int64(memberId) else {return}
-        let request = ReadReceivedLetterListRequest(memberid: 2)
+        let request = ReadReceivedLetterListRequest(memberid: 7)
         ReplyAPI.shared.getReceivedLetterList(request: request) {[weak self] result in
             switch result {
             case .success(let responseData):
                 if responseData.isSuccess {
                     if let data = responseData.result {
-                        self?.letterListData = data.map{LetterData(type: .receivedLetter, dateString: $0.createdDate, content: $0.content, receiver: myNickname, sender: $0.senderName, letterId: $0.letterId)}
+                        self?.letterListData = data.map{LetterData(type: .receivedLetter, dateString: $0.createdDate, content: $0.content, receiver: myNickname, sender: $0.senderName, letterId: $0.letterId, font: $0.font)}
                         self?.letterListView.tableView.reloadData()
                     } else {
 //                        데이터 없음
