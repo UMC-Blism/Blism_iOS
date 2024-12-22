@@ -21,7 +21,7 @@ class HomeViewController: UIViewController {
         view = rootView
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
-        
+//        KeychainService.shared.delete(account: .userInfo, service: .memberId)
         viewController.modalPresentationStyle = .overFullScreen
         present(viewController, animated: false)
         
@@ -139,7 +139,12 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 
                 if (day >= readLetterPosibleDate){
                     
-                    let viewController = ReadLetterViewController(type: .home)
+                    guard let letterID = letterData?[indexPath.row].letterId else {
+                        print("letterId를 가져오는데 실패했습니다 301")
+                        return
+                    }
+                    
+                    let viewController = ReadLetterViewController(type: .home, letterId: letterID)
                     viewController.modalPresentationStyle = .overFullScreen
                     present(viewController, animated: false)
                 }else{
