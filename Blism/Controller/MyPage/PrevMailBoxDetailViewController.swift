@@ -68,7 +68,7 @@ class PrevMailBoxDetailViewController: UIViewController {
         MailboxAPI.shared.specificPastMailboxCheck(request: request) {[weak self] result in
             switch result {
             case .success(let data):
-                print(data)
+//                print(data)
                 if data.isSuccess {
                     self?.specificPastMailboxInfo = data
                     if let count = data.result?.count {

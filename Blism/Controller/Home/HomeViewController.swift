@@ -21,6 +21,21 @@ class HomeViewController: UIViewController {
         view = rootView
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
+        
+        // 예전에 받은 우체통 조회 시 사용
+//        KeychainService.shared.save(account: .userInfo, service: .checkCode, value: "1234")
+//        KeychainService.shared.save(account: .userInfo, service: .memberId, value: "18")
+//        KeychainService.shared.save(account: .userInfo, service: .nickname, value: "donggu")
+        
+        
+        // 햄 계정
+        KeychainService.shared.save(account: .userInfo, service: .memberId, value: "7")
+        KeychainService.shared.save(account: .userInfo, service: .nickname, value: "햄")
+        KeychainService.shared.save(account: .userInfo, service: .visibilityPermission, value: "1")
+        KeychainService.shared.save(account: .userInfo, service: .mailboxId, value: "1")
+        KeychainService.shared.save(account: .userInfo, service: .checkCode, value: "1234")
+           
+        
 //        KeychainService.shared.delete(account: .userInfo, service: .memberId)
         let visible = KeychainService.shared.load(account: .userInfo, service: .visibilityPermission)
         if visible == nil{
@@ -36,7 +51,7 @@ class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         
         // API 호출
-        let nickname = KeychainService.shared.load(account: .userInfo  , service: .nickname) ?? "닉네임 오류"
+//        let nickname = KeychainService.shared.load(account: .userInfo  , service: .nickname) ?? "닉네임 오류"
         
         //임시로 쓰기
 //        KeychainService.shared.save(account: .userInfo, service: .memberId, value: "18")
@@ -46,7 +61,7 @@ class HomeViewController: UIViewController {
         if let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId), let nickname = KeychainService.shared.load(account: .userInfo, service: .nickname) {
             
             
-            fetchMailBoxInfo(userId: memberId) //임시 아이디 원대는 (userId: memberId)
+            fetchMailBoxInfo(userId: memberId)
             nicknameChange(nickname: nickname)
             
         } else {
@@ -63,12 +78,12 @@ class HomeViewController: UIViewController {
         MailboxAPI.shared.mailboxCheck(request: request) {[weak self] result in
             switch result {
             case .success(let data):
-                print("\(data)**")
+//                print("\(data)**")
                 if data.isSuccess {
                     self?.homeInfoResponse = data
                     
                     let numberOfMail = String(self?.homeInfoResponse?.result?.count ?? 0)
-                    print("&&&& \(self?.homeInfoResponse?.result?.count)")
+//                    print("&&&& \(self?.homeInfoResponse?.result?.count)")
                     self?.numOfMailChange(num: numberOfMail)
                     let mailboxId = String(self?.homeInfoResponse?.result?.mailboxId ?? 0)
                     KeychainService.shared.save(account: .userInfo, service: .mailboxId, value: mailboxId)

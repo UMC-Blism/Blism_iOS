@@ -50,10 +50,10 @@ class CheckNicknameViewController : UIViewController {
             return
         }
         
-        print("savedNickname: \(savedNickname)")
-        print("savedCheckCode: \(savedCheckCode)")
-        print("inputNickname: \(inputNickname)")
-        print("inputCheckCode: \(inputCheckCode)")
+//        print("savedNickname: \(savedNickname)")
+//        print("savedCheckCode: \(savedCheckCode)")
+//        print("inputNickname: \(inputNickname)")
+//        print("inputCheckCode: \(inputCheckCode)")
         
         checkNicknameView.nicknameGroupView.errMessageLabel.isHidden = inputNickname == savedNickname
         checkNicknameView.checkCodeGroupView.errMessageLabel.isHidden = inputCheckCode == savedCheckCode

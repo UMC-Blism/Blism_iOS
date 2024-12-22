@@ -95,7 +95,7 @@ class ReadLetterViewController: UIViewController {
                     self?.rootView.config(letterInfo: letterInfo)
                     self?.textSetting()
                 } else {
-                    print("getLetterInfo - isSuccess == false")
+//                    print("getLetterInfo - isSuccess == false")
                     let alert = NetworkAlert.shared.getAlertController(title: "isSucess: false")
                     self?.present(alert, animated: true)
                 }
@@ -122,7 +122,7 @@ class ReadLetterViewController: UIViewController {
                     self?.rootView.whenLetterWrite.text = data.createdDate
                     self?.textSetting()
                 } else {
-                    print("getLetterInfo - isSuccess == false")
+//                    print("getLetterInfo - isSuccess == false")
                     let alert = NetworkAlert.shared.getAlertController(title: "isSucess: false")
                     self?.present(alert, animated: true)
                 }

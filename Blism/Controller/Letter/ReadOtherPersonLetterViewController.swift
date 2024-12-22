@@ -71,7 +71,7 @@ class ReadOtherPersonLetterViewController: UIViewController {
                     self?.rootView.config(letterInfo: response.result)
                     self?.textSetting()
                 } else {
-                    print("getLetterInfo - isSuccess == false")
+//                    print("getLetterInfo - isSuccess == false")
                     let alert = NetworkAlert.shared.getAlertController(title: "isSucess: false")
                     self?.present(alert, animated: true)
                 }
@@ -93,7 +93,7 @@ class ReadOtherPersonLetterViewController: UIViewController {
 //                    self?.rootView.config(letterInfo: response.)
                     self?.textSetting()
                 } else {
-                    print("getLetterInfo - isSuccess == false")
+//                    print("getLetterInfo - isSuccess == false")
                     let alert = NetworkAlert.shared.getAlertController(title: "isSucess: false")
                     self?.present(alert, animated: true)
                 }

@@ -104,7 +104,7 @@ class HomeView: UIView {
             
             //  657 : 53 = 12.39
             let bottomInset = mailboxImageHeigth / 12.39
-            print(bottomInset)
+//            print(bottomInset)
             $0.bottom.equalTo(mailboxImage.snp.bottom).inset(bottomInset)
             
             // 13 mini mailboxImage width : 343 / 286 : 1.19

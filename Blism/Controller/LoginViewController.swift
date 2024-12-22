@@ -65,7 +65,7 @@ class LoginViewController: UIViewController {
                 MemberAPI.shared.getCheckNickname(request: request) {[weak self] result in
                     switch result {
                     case .success(let data):
-                        print(data)
+//                        print(data)
                         if data.result == nil { // 중복 없음
                             self?.loginView.checkNicknameLabel.text = "사용 가능한 아아디입니다."
                             self?.loginView.checkNicknameLabel.textColor = .blismBlue

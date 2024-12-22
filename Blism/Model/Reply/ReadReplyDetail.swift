@@ -72,7 +72,7 @@ public struct ReadReplyDetailData: Codable {
             outputFormatter.locale = Locale(identifier: "ko_KR") // 한국어 요일 표시
             let formattedDate = outputFormatter.string(from: date)
             self.createdDate = formattedDate
-            print(formattedDate) // 출력 예: "2024⋅12⋅22⋅일요일"
+//            print(formattedDate)  출력 예: "2024⋅12⋅22⋅일요일"
         } else {
             self.createdDate = "날짜 변환 실패"
         }

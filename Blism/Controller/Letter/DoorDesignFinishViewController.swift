@@ -20,9 +20,9 @@ class DoorDesignFinishViewController: UIViewController {
 
         view = doorDesignFinishView
         
-        print("design: \(selectedDoorDesignTag)")
-        print("color: \(selectedDoorColorTag)")
-        print("ornament: \(selectedDoorOrnamentTag)")
+//        print("design: \(selectedDoorDesignTag)")
+//        print("color: \(selectedDoorColorTag)")
+//        print("ornament: \(selectedDoorOrnamentTag)")
         setupDoor()
         setupAction()
         setNavigationBar()
@@ -109,13 +109,13 @@ class DoorDesignFinishViewController: UIViewController {
             visibility: letterData.visibility
         )
         
-        print("requestBody: \(requestBody)")
+//        print("requestBody: \(requestBody)")
 
         LetterRequest.shared.writeLetter(image: image, request: requestBody) {[weak self] result in
             switch result {
             case .success(let data):
                 print("작성 성공")
-                print(data)
+//                print(data)
             case .failure(let error):
                 let alert = NetworkAlert.shared.getAlertController(title: error.description)
                 self?.present(alert, animated: true)
