@@ -168,9 +168,14 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                 }
                 
             }else{
-                let nextVC = WriteLetterViewController()
-                self.navigationController?.pushViewController(nextVC, animated: true)
-                print("편지작성 뷰로 이동")
+                let letter = otherHomeInfoResponse?.result
+                if let letterData = letter{
+                    let receiverId = letterData.memberId
+                    let receivermailboxId = letterData.mailboxId
+                    let nextVC = WriteLetterViewController(receiverId: receiverId, mailboxId: receivermailboxId)
+                    self.navigationController?.pushViewController(nextVC, animated: true)
+                    print("편지작성 뷰로 이동")
+                }
             }
             
         } else {
