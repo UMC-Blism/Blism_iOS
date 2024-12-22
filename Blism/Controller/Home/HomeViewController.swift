@@ -138,8 +138,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 let readLetterPosibleDate = indexPath.row + 1
                 
                 if (day >= readLetterPosibleDate){
-                    
-                    let viewController = ReadLetterViewController(type: .home)
+                    guard let letterId = letterData?[indexPath.row].letterId else {return}
+                    let viewController = ReadLetterViewController(type: .home, letterId: letterId)
                     viewController.modalPresentationStyle = .overFullScreen
                     present(viewController, animated: false)
                 }else{

@@ -40,8 +40,10 @@ class VisiterHomeViewController: UIViewController {
         
         tapRecognizer()
         setNavigationBar()
-        
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.isTabBarHidden = false
     }
     
     private func setNavigationBar(){
