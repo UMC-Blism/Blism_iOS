@@ -97,33 +97,42 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-//        let todayDate = Date()
-//        let calendar = Calendar.current
-//        
-//        // 오늘 날짜의 '일(day)' 추출
-//        let day = calendar.component(.day, from: todayDate)
-//        
-//        let readLetterPosibleDate = indexPath.row + 1
-//            
-//        if (day >= readLetterPosibleDate){
-//            
-//            let viewController = ReadLetterViewController()
-//            
-//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
-//            viewController.modalPresentationStyle = .overFullScreen
-//            present(viewController, animated: true)
-//        }else{
-//            
-//            let viewController = HomeDateAlertViewController()
-//            
-//            viewController.readLetterPosibleDateReceiver = readLetterPosibleDate
-//            viewController.view.backgroundColor = UIColor.black.withAlphaComponent(0.5) //투명도 50
-//            viewController.modalPresentationStyle = .overFullScreen
-//            present(viewController, animated: false)
-//        }
-        let nextVC = WriteLetterViewController(receiverId: memberId, mailboxId: mailBoxId)
-        WriteLetterData.shared.receiverNickname = rootView.mailboxOwner.text ?? "아진"
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        let letterData = otherHomeInfoResponse?.result?.letters
+        
+        if let letters = letterData {
+            let index = indexPath.row
+            if index < letters.count {
+                
+                let letterData = otherHomeInfoResponse?.result
+                
+                if let letters = letterData {
+                    if letters.visibility == 1 {
+                        guard let letterID = letterData?.letters[indexPath.row].letterId else {
+                            print("letterId를 가져오는데 실패했습니다 301")
+                            return
+                        }
+                        let viewController = ReadLetterViewController(type: .home, letterId: letterID)
+                        viewController.modalPresentationStyle = .overFullScreen
+                        present(viewController, animated: false)
+                    }else {
+                        //비공개 우편함입니다 띄우기
+                        viewController.modalPresentationStyle = .overFullScreen
+                        present(viewController, animated: false)
+                        print("편지를 조회할 수 없습니다")
+                    }
+                }
+                
+            }else{
+                let nextVC = WriteLetterViewController(receiverId: memberId, mailboxId: mailBoxId)
+                WriteLetterData.shared.receiverNickname = rootView.mailboxOwner.text ?? "아진"
+                WriteLetterData.shared.receiverNickname = self.nickname
+                self.navigationController?.pushViewController(nextVC, animated: true)
+                print("편지작성 뷰로 이동")
+            }
+            
+        } else {
+            
+        }
         
     }
    
