@@ -87,6 +87,6 @@ class ReplyAPI {
                     completion(.failure(.otherMoyaError(error.errorDescription)))
                 }
             }
-            }
         }
+    }
 }

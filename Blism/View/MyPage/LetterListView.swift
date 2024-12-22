@@ -8,8 +8,8 @@
 import UIKit
 
 public enum LetterListType: String {
-    case receivedLetter = "내가 받은 답장"
-    case sentReplyLetter = "내가 보낸 답장"
+    case receivedReply = "내가 받은 답장"
+    case sentReply = "내가 보낸 답장"
     case writingLetter = "내가 보낸 편지"
     case home = "홈에서 들어옴"
 }
@@ -19,7 +19,7 @@ class LetterListView : UIView {
     private let type : LetterListType
     
     // 배경 이미지
-    private lazy var backgroundImage = BackGroundImageView(type: self.type == .receivedLetter ? .black : .white)
+    private lazy var backgroundImage = BackGroundImageView(type: self.type == .receivedReply ? .black : .white)
     
     // 테이블 뷰
     public let tableView = UITableView().then { view in

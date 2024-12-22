@@ -34,6 +34,7 @@ public struct ReadReceivedLetterListResponse: Codable {
 }
 
 public struct ReceivedLetterListData: Codable {
+    let replyId: Int64
     let letterId : Int64
     let content: String
     let senderId: Int64
@@ -42,6 +43,7 @@ public struct ReceivedLetterListData: Codable {
     let font: Int
     
     enum CodingKeys: String, CodingKey {
+        case replyId = "reply_id"
         case letterId = "letter_id"
         case content
         case senderId = "sender_id"
@@ -52,6 +54,7 @@ public struct ReceivedLetterListData: Codable {
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.replyId = try container.decode(Int64.self, forKey: .replyId)
         self.letterId = try container.decode(Int64.self, forKey: .letterId)
         self.content = try container.decode(String.self, forKey: .content)
         self.senderId = try container.decode(Int64.self, forKey: .senderId)
@@ -81,3 +84,21 @@ public struct ReceivedLetterListData: Codable {
         }
     }
 }
+/*
+ {
+   "isSuccess": true,
+   "code": 0,
+   "message": "string",
+   "result": [
+     {
+       "reply_id": 0,
+       "letter_id": 0,
+       "content": "string",
+       "sender_id": 0,
+       "sender_name": "string",
+       "created_at": "2024-12-22T07:25:55.233Z",
+       "font": 0
+     }
+   ]
+ }
+ */

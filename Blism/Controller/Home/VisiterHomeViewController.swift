@@ -168,8 +168,8 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                 }
                 
             }else{
-                let nextVC = WriteLetterViewController()
-                self.navigationController?.pushViewController(nextVC, animated: true)
+//                let nextVC = WriteLetterViewController()
+//                self.navigationController?.pushViewController(nextVC, animated: true)
                 print("편지작성 뷰로 이동")
             }
             
