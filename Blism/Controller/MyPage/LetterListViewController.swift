@@ -131,7 +131,68 @@ extension LetterListViewController {
     
     // 쓴 편지 리스트 가져오기
     private func getWritingLetterList(){
-        
+        guard let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId) else {
+            print("getSentLetterLsit - 키체인 read 오류")
+            return
+        }
+        guard let id = Int64(memberId) else { return }
+        let request = FetchSentLettersRequest(userId: id)
+        LetterRequest.shared.fetchSentLetters(request: request) {[weak self]
+            result in
+            switch result {
+            case .success(let responseData):
+                if responseData.isSuccess {
+                    if let data = responseData.result as [FetchSentLettersResponseData]? {
+                        self?.letterListData = data.map {
+                            LetterData(
+                                type: .writingLetter,
+                                replyId: nil,
+                                letterId: $0.letterId,
+                                dateString: self?.dateFormat(dateString: $0.createdAt) ?? "날짜 변환 실패",
+                                content: $0.content,
+                                receiver: $0.receiverNickname,
+                                sender: $0.senderNickname,
+                                font: $0.font
+                            )
+                        }
+                        self?.letterListView.tableView.reloadData()
+                    } else {
+                        print("빈 데이터")
+                    }
+                } else {
+                    let alert = NetworkAlert.shared.getAlertController(title: "서버 실패")
+                    self?.present(alert, animated: true)
+                }
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
+        }
+    }
+    
+    private func dateFormat(dateString: String) -> String {
+        let trimmedDateString = String(dateString.prefix(10)) // "2024-12-22"
+
+        // DateFormatter로 변환
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        // 문자열 -> Date 변환
+        if let date = dateFormatter.date(from: trimmedDateString) {
+            // 변환된 Date를 원하는 형식으로 포맷팅
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "yyyy⋅MM⋅dd⋅EEE요일"
+            outputFormatter.locale = Locale(identifier: "ko_KR") // 한국어 요일 표시
+            let formattedDate = outputFormatter.string(from: date)
+            //self.createdDate = formattedDate
+            print(formattedDate) // 출력 예: "2024⋅12⋅22⋅일요일"
+            return formattedDate
+        } else {
+            //self.createdDate = "날짜 변환 실패"
+            return "날짜 변환 실패"
+        }
     }
 }
 

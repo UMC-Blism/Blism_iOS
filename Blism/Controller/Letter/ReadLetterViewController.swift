@@ -71,6 +71,10 @@ class ReadLetterViewController: UIViewController {
             switch result {
             case .success(let response):
                 if response.isSuccess {
+
+                    ReplyLetterData.shared.letter_id = self?.letterId ?? Int64(0)
+                    ReplyLetterData.shared.receiver_id = response.result.senderId
+
                     let data = response.result
                     let letterInfo = LetterDetailData(photoURL: data.photoUrl, senderNickname: data.senderNickname, receiverNickname: data.receiverNickname, content: data.content, font: data.font)
                     self?.receiver = data.receiverNickname
