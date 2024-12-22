@@ -154,7 +154,7 @@ class SelectDoorOrnamentView: UIView {
         
         frameView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(30)
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(50)
             $0.height.equalTo(420)
         }
         
