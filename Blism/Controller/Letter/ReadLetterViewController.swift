@@ -88,6 +88,24 @@ class ReadLetterViewController: UIViewController {
     // 답장 정보 가져오기 API
     private func getReplyInfo() {
         guard let replyId = replyId else {return}
+        let request = ReadReplyDetailRequest(replyid: replyId)
+        ReplyAPI.shared.getDetailReply(request: request) {[weak self] result in
+            switch result {
+            case .success(let response):
+                if response.isSuccess {
+//                    self?.rootView.config(letterInfo: response.)
+                    self?.textSetting()
+                } else {
+                    print("getLetterInfo - isSuccess == false")
+                    let alert = NetworkAlert.shared.getAlertController(title: "isSucess: false")
+                    self?.present(alert, animated: true)
+                }
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
+
+        }
         
     }
     

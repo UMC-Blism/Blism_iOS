@@ -12,7 +12,7 @@ public enum ReplyTargetType {
     case reply        // 편지 작성하기
     case readAllSentReply(ReadSentLetterListRequest)         // 내가 보낸 답장 조회
     case readAllReceivedReply(ReadReceivedLetterListRequest)      // 내가 받은 답장 조회
-    case readDetailReply   // 편지 디테일 조회
+    case readDetailReply(ReadReplyDetailRequest)   // 편지 디테일 조회
 }
 
 
@@ -34,7 +34,7 @@ extension ReplyTargetType: TargetType {
         case .readAllReceivedReply:
             return "/replies/{memberId}/received"
         case .readDetailReply:
-            return "/replies"
+            return "/replies{replyid}"
         }
     }
     
@@ -59,8 +59,8 @@ extension ReplyTargetType: TargetType {
             return .requestParameters(parameters: ["memberid" : request.memberid], encoding: URLEncoding.queryString)
         case .readAllReceivedReply(let request):
             return .requestParameters(parameters: ["memberid" : request.memberid], encoding: URLEncoding.queryString)
-        case .readDetailReply:
-            return .requestPlain
+        case .readDetailReply(let request):
+            return .requestParameters(parameters: ["replyid" : request.replyid], encoding: URLEncoding.queryString)
         }
     }
     
