@@ -52,6 +52,7 @@ class ReadLetterViewController: UIViewController {
     
     // 편지 정보 가져오기 API
     private func getLetterInfo(letterId: Int64){
+        // type에 따라, switch - case로 ReadLetter - ReadReply 구분 필욜할듯 
         let request = ReadLetterRequest(letterId: letterId)
         // API 통신 후 성공하면 ReadLetterView config에 적용
         LetterRequest.shared.readLetter(request: request) {[weak self] result in

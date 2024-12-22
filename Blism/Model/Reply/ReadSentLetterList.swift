@@ -39,6 +39,7 @@ public struct ReadSentLetterListData: Codable {
     let receiverId: Int64
     let receiverName: String
     let createdDate : String
+    let font: Int
     
     enum CodingKeys: String, CodingKey {
         case letterId = "letter_id"
@@ -46,6 +47,7 @@ public struct ReadSentLetterListData: Codable {
         case receiverId = "receiver_id"
         case receiverName = "receiver_name"
         case createdDate = "created_at"
+        case font
     }
     
     public init(from decoder: any Decoder) throws {
@@ -54,7 +56,9 @@ public struct ReadSentLetterListData: Codable {
         self.content = try container.decode(String.self, forKey: .content)
         self.receiverId = try container.decode(Int64.self, forKey: .receiverId)
         self.receiverName = try container.decode(String.self, forKey: .receiverName)
+        self.font = try container.decode(Int.self, forKey: .font)
         let dateString = try container.decode(String.self, forKey: .createdDate)
+        
         
         let trimmedDateString = String(dateString.prefix(10)) // "2024-12-22"
 
@@ -78,3 +82,21 @@ public struct ReadSentLetterListData: Codable {
         }
     }
 }
+
+/*
+ {
+   "isSuccess": true,
+   "code": 0,
+   "message": "string",
+   "result": [
+     {
+       "letter_id": 0,
+       "content": "string",
+       "receiver_id": 0,
+       "receiver_name": "string",
+       "created_at": "2024-12-22T04:59:29.663Z",
+       "font": 0
+     }
+   ]
+ }
+ */

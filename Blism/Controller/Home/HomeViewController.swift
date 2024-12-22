@@ -148,6 +148,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                     }
                     
                     let viewController = ReadLetterViewController(type: .home, letterId: letterID)
+
                     viewController.modalPresentationStyle = .overFullScreen
                     present(viewController, animated: false)
                 }else{

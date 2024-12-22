@@ -67,6 +67,7 @@ class VisitorCheckViewController : UIViewController {
                             return // 적절하게 메서드를 종료하거나 에러 처리
                         }
                         let nextVC = VisiterHomeViewController(mailBoxId: dataResult.mailBoxId, memberId: dataResult.memberId, nickname: nicknameForChange)
+
                         self?.navigationController?.pushViewController(nextVC, animated: true)
                     } else {    // 확인 코드가 틀리면 -> 알림
                         self?.showWrongPasswordAlert()

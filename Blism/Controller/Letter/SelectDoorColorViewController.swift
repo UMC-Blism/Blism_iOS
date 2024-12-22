@@ -59,6 +59,9 @@ class SelectDoorColorViewController: UIViewController {
         // 선택된 셀의 태그 가져오기
         let selectedDoorColorTag = DoorDesignModel.doorDesigns()[selectedIndexPath.row].tag
         
+        // 데이터 저장
+        WriteLetterData.shared.colorDesign = selectedDoorColorTag
+        
         // 다음 화면에 문 색 정보 태그 전달
         let nextVC = SelectDoorOrnamentViewController()
         nextVC.selectedDoorDesignTag = selectedDoorDesignTag

@@ -88,8 +88,44 @@ class DoorDesignFinishViewController: UIViewController {
 
     @objc
     private func nextButtonAction() {
-        guard let navigationController = navigationController else { return }
+        writeLetterWithData()
+        //toNextView()
+    }
+    
+    private func writeLetterWithData() {
+        // 편지작성 api 보내기
+        let letterData = WriteLetterData.shared
+        guard let image = letterData.attachedImage else { return }
+        
+        let requestBody = WriteLetterRequest(
+            senderId: letterData.senderId,
+            receiverId: letterData.receiverId,
+            mailboxId: letterData.mailboxId,
+            doorDesign: letterData.doorDesign,
+            colorDesign: letterData.colorDesign,
+            decorationDesign: letterData.decorationDesign,
+            content: letterData.content,
+            font: letterData.font,
+            visibility: letterData.visibility
+        )
+        
+        print("requestBody: \(requestBody)")
 
+        LetterRequest.shared.writeLetter(image: image, request: requestBody) {[weak self] result in
+            switch result {
+            case .success(let data):
+                print("작성 성공")
+                print(data)
+            case .failure(let error):
+                let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                self?.present(alert, animated: true)
+            }
+        }
+    }
+
+    private func toNextView() {
+        guard let navigationController = navigationController else { return }
+        
         // VisiterHomeViewController를 스택에서 찾기
         if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is VisiterHomeViewController }) {
             // VisiterHomeViewController까지의 스택만 유지
@@ -102,7 +138,6 @@ class DoorDesignFinishViewController: UIViewController {
             }
         }
     }
-
 }
 
 /*

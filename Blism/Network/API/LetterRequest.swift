@@ -17,22 +17,25 @@ class LetterRequest {
     
     // MARK: - write Letter
     func writeLetter(image: UIImage, request: WriteLetterRequest, completion: @escaping (Result<WriteLetterResponse, NetworkError>) -> Void) {
-        provider.request(.writeLetter(image: image, request)) { result in
-            switch result {
-            case let .success(response):
-                print(result)
-                do {
-                    let decodingResult = try JSONDecoder().decode(WriteLetterResponse.self, from: response.data)
-                    if 200..<400 ~= decodingResult.code {
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+        provider.request(.writeLetter(image: image, request)) { response in
+            switch response {
+            case let .success(result):
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(WriteLetterResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
+                        }
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
@@ -55,20 +58,22 @@ class LetterRequest {
         provider.request(.readLetter(request)) { response in
             switch response {
             case let .success(result):
-                print(result)
-                print(response)
-                do {
-                    let decodingResult = try JSONDecoder().decode(ReadLetterResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code {
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(ReadLetterResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
+                        }
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
@@ -91,19 +96,22 @@ class LetterRequest {
         provider.request(.fetchSentLetters(request)) { response in
             switch response {
             case let .success(result):
-                print(result)
-                do {
-                    let decodingResult = try JSONDecoder().decode(FetchSentLettersResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code {
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(FetchSentLettersResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
+                        }
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
@@ -126,19 +134,22 @@ class LetterRequest {
         provider.request(.fetchReceivedLetters(request)) { response in
             switch response {
             case let .success(result):
-                print(result)
-                do {
-                    let decodingResult = try JSONDecoder().decode(FetchReceivedLettersResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code {
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(FetchReceivedLettersResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
+                        }
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")

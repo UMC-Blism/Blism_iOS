@@ -82,6 +82,8 @@ class SelectDoorOrnamentViewController: UIViewController {
             selectedDoorOrnamentTag =  DoorDesignModel.doorOrnaments()[selectedIndexPath.row].tag
         }
         
+        WriteLetterData.shared.decorationDesign = selectedDoorOrnamentTag
+        
         // 완성 화면에 문 정보 전부 전달
         let nextVC = DoorDesignFinishViewController()
         nextVC.selectedDoorDesignTag = selectedDoorDesignTag
