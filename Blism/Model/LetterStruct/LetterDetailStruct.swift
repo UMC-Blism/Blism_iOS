@@ -8,5 +8,9 @@
 import Foundation
 
 public struct LetterDetailData {
-    let imageURL: String
+    let photoURL: String
+    let senderNickname: String
+    let receiverNickname: String
+    let content: String
+    let font: Int
 }

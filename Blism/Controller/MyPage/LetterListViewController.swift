@@ -238,11 +238,11 @@ extension LetterListViewController : UITableViewDelegate {
         
         let lettedId = letterListData[indexPath.section].letterId
         let replyId = letterListData[indexPath.section].replyId
-        
         var nextVC = ReadLetterViewController(type: .receivedReply, letterId: lettedId)
         
         switch type {
-        case .receivedReply: nextVC = ReadLetterViewController(type: .receivedReply, letterId: lettedId, replyId: replyId)
+        case .receivedReply:
+            nextVC = ReadLetterViewController(type: .receivedReply, letterId: lettedId, replyId: replyId)
         case .sentReply: nextVC = ReadLetterViewController(type: .sentReply, letterId: lettedId, replyId: replyId)
         case .writingLetter: nextVC = ReadLetterViewController(type: .writingLetter, letterId: lettedId)
         default:
