@@ -1,66 +1,60 @@
 //
-//  ReadReceivedLetterList.swift
+//  ReadReplyDetail.swift
 //  Blism
 //
-//  Created by 이수현 on 12/21/24.
+//  Created by 이수현 on 12/22/24.
 //
 
 import Foundation
 
-public struct ReadReceivedLetterListRequest: Codable {
-    let memberid: Int64
+public struct ReadReplyDetailRequest: Codable {
+    let replyid: Int64
 }
 
-public struct ReadReceivedLetterListResponse: Codable {
+public struct ReadReplyDetailResponse: Codable {
     let isSuccess: Bool
     let code: Int
     let message: String
-    let result: [ReceivedLetterListData]?
-    
-    enum CodingKeys: CodingKey {
-        case isSuccess
-        case code
-        case message
-        case result
-    }
-    
-    public init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.isSuccess =  try container.decode(Bool.self, forKey: .isSuccess)
-        self.code = try container.decode(Int.self, forKey: .code)
-        self.message = try container.decode(String.self, forKey: .message)
-        self.result = try container.decodeIfPresent([ReceivedLetterListData].self, forKey: .result)
-    }
+    let result: [ReadReplyDetailData]
 }
 
-public struct ReceivedLetterListData: Codable {
-    let replyId: Int64
-    let letterId : Int64
+public struct ReadReplyDetailData: Codable {
+    let letterId: Int64
     let content: String
     let senderId: Int64
     let senderName: String
-    let createdDate : String
+    let receiverId: Int64
+    let receiverName: String
+    let createdDate: String
     let font: Int
+    let photoURL: String
+    
     
     enum CodingKeys: String, CodingKey {
-        case replyId = "reply_id"
         case letterId = "letter_id"
         case content
         case senderId = "sender_id"
         case senderName = "sender_name"
+        case receiverId = "receiver_id"
+        case receiverName = "receiver_name"
         case createdDate = "created_at"
         case font
+        case photoURL = "photo_url"
     }
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.replyId = try container.decode(Int64.self, forKey: .replyId)
         self.letterId = try container.decode(Int64.self, forKey: .letterId)
         self.content = try container.decode(String.self, forKey: .content)
         self.senderId = try container.decode(Int64.self, forKey: .senderId)
         self.senderName = try container.decode(String.self, forKey: .senderName)
+        self.receiverId = try container.decode(Int64.self, forKey: .receiverId)
+        self.receiverName = try container.decode(String.self, forKey: .receiverName)
+        self.photoURL = try container.decode(String.self, forKey: .photoURL)
         self.font = try container.decode(Int.self, forKey: .font)
+        
         let dateString = try container.decode(String.self, forKey: .createdDate)
+        
         
         let trimmedDateString = String(dateString.prefix(10)) // "2024-12-22"
 
@@ -84,21 +78,22 @@ public struct ReceivedLetterListData: Codable {
         }
     }
 }
+
 /*
  {
    "isSuccess": true,
    "code": 0,
    "message": "string",
-   "result": [
-     {
-       "reply_id": 0,
-       "letter_id": 0,
-       "content": "string",
-       "sender_id": 0,
-       "sender_name": "string",
-       "created_at": "2024-12-22T07:25:55.233Z",
-       "font": 0
-     }
-   ]
+   "result": {
+     "letter_id": 0,
+     "content": "string",
+     "sender_id": 0,
+     "sender_name": "string",
+     "receiver_id": 0,
+     "receiver_name": "string",
+     "created_at": "2024-12-22T08:15:28.182Z",
+     "font": 0,
+     "photo_url": "string"
+   }
  }
  */

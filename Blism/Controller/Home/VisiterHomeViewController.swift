@@ -51,8 +51,10 @@ class VisiterHomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
         self.tabBarController?.isTabBarHidden = false
-
+        let otherMemberId = String(memberId)
+        fetchOtherMailBoxInfo(userId: otherMemberId)
     }
     
     private func setNavigationBar(){
@@ -173,11 +175,11 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                     self.navigationController?.pushViewController(nextVC, animated: true)
                     print("편지작성 뷰로 이동")
                 }
-
             }
             
         } else {
             
         }
-    
+        
+    }
 }
