@@ -33,6 +33,7 @@ struct FetchSentLettersResponseData: Codable {
     let photoUrl: String
     let font: Int
     let visibility: Int
+    let createdAt: String
 }
 
 /**
