@@ -49,12 +49,14 @@ public struct  MailboxCheckingResponse: Codable {
 
 public struct MailboxCheckingResponseData: Codable {
     let memberId: Int64
+    let mailboxId: Int64
     let count: Int
     let visibility: Int?
     let letters: [LetterInfo]
     
     enum CodingKeys:  String, CodingKey {
         case memberId
+        case mailboxId
         case count
         case visibility
         case letters
@@ -63,6 +65,7 @@ public struct MailboxCheckingResponseData: Codable {
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.memberId = try container.decode(Int64.self, forKey: .memberId)
+        self.mailboxId = try container.decode(Int64.self, forKey: .mailboxId)
         self.count = try container.decode(Int.self, forKey: .count)
         self.visibility = try container.decodeIfPresent(Int.self, forKey: .visibility)
         self.letters = try container.decode([LetterInfo].self, forKey: .letters)

@@ -52,60 +52,85 @@ class LoginViewController: UIViewController {
     @objc   // 중복 확인 버튼 toupchUp
     private func touchUpInsideCheckIdButton(){
         guard let nickname = loginView.idTextField.text else {return}
-        let request = MemberNicknameCheckRequest(nickname: nickname)
         
-        MemberAPI.shared.getCheckNickname(request: request) {[weak self] result in
-            switch result {
-            case .success(let data):
-                print(data)
-                if data.result == nil { // 중복 없음
-                    self?.loginView.checkNicknameLabel.text = "사용 가능한 아아디입니다."
-                    self?.loginView.checkNicknameLabel.textColor = .blismBlue
-                    self?.loginView.createCodeButton.isUserInteractionEnabled = true
-                    self?.loginView.createCodeButton.backgroundColor = .blismBlue
-                } else {
-                    print("data isFailed")
-                    self?.loginView.checkNicknameLabel.text = "이미 존재하는 닉네임입니다."
-                    self?.loginView.checkNicknameLabel.textColor = .errorRed
+        
+        // 닉네임이 5글자 초과일 경우 경고 메시지를 표시하고 반환
+            if nickname.count > 5 {
+                self.loginView.checkNicknameLabel.text = "닉네임은 5자 이하여야 합니다."
+                self.loginView.checkNicknameLabel.textColor = .errorRed
+                self.loginView.checkNicknameLabel.isHidden = false
+                return
+            }else{
+                let request = MemberNicknameCheckRequest(nickname: nickname)
+                MemberAPI.shared.getCheckNickname(request: request) {[weak self] result in
+                    switch result {
+                    case .success(let data):
+                        print(data)
+                        if data.result == nil { // 중복 없음
+                            self?.loginView.checkNicknameLabel.text = "사용 가능한 아아디입니다."
+                            self?.loginView.checkNicknameLabel.textColor = .blismBlue
+                            self?.loginView.createCodeButton.isUserInteractionEnabled = true
+                            self?.loginView.createCodeButton.backgroundColor = .blismBlue
+                        } else {
+                            print("data isFailed")
+                            self?.loginView.checkNicknameLabel.text = "이미 존재하는 닉네임입니다."
+                            self?.loginView.checkNicknameLabel.textColor = .errorRed
+                        }
+                        self?.setLoginButton()
+                        self?.loginView.checkNicknameLabel.isHidden = false
+                    case .failure(let error):
+                        let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                        self?.present(alert, animated: true)
+                    }
                 }
-                self?.setLoginButton()
-                self?.loginView.checkNicknameLabel.isHidden = false
-            case .failure(let error):
-                let alert = NetworkAlert.shared.getAlertController(title: error.description)
-                self?.present(alert, animated: true)
-            }
-        }
 
-   
+           
+            }
     }
     
     @objc   // 확인 코드 생성 버튼
     private func touchUpInsideCreateCodeButton(){
-        loginView.passwordTextField.font = .customFont(font: .PretendardMedium, ofSize: 15)
-        let checkCode = String(Int.random(in: 1000 ... 9999))
-        loginView.passwordTextField.text = checkCode
-        
-        setLoginButton()
+        guard let nickname = loginView.idTextField.text else {return}
+        // 닉네임이 5글자 초과일 경우 경고 메시지를 표시하고 반환
+        if nickname.count > 5 {
+            self.loginView.checkNicknameLabel.text = "닉네임은 5자 이하여야 합니다."
+            self.loginView.checkNicknameLabel.textColor = .errorRed
+            self.loginView.checkNicknameLabel.isHidden = false
+            return
+        }else{
+            loginView.passwordTextField.font = .customFont(font: .PretendardMedium, ofSize: 15)
+            let checkCode = String(Int.random(in: 1000 ... 9999))
+            loginView.passwordTextField.text = checkCode
+            
+            setLoginButton()
+        }
     }
     
     @objc   // 로그인 버튼
     private func touchUpInsideLoginButton(){
-//        presentTabBarVC()
+        //        presentTabBarVC()
         
         if let nickname = loginView.idTextField.text, let checkCode = loginView.passwordTextField.text {
-            let signUpRequest = MemberSignUpRequest(nickname: nickname, checkCode: checkCode)
-            
-            MemberAPI.shared.postSignUp(request: signUpRequest) {[weak self] response in
-                switch response {
-                case .success(let result):
-                    if result.isSuccess {
-                        if let memberId = result.result { //회원 가입 성공
-                            self?.saveInfo(memberId: memberId, nickname: nickname, checkCode: checkCode)
+            if nickname.count > 5 {
+                self.loginView.checkNicknameLabel.text = "닉네임은 5자 이하여야 합니다."
+                self.loginView.checkNicknameLabel.textColor = .errorRed
+                self.loginView.checkNicknameLabel.isHidden = false
+                return
+            }else{
+                let signUpRequest = MemberSignUpRequest(nickname: nickname, checkCode: checkCode)
+                
+                MemberAPI.shared.postSignUp(request: signUpRequest) {[weak self] response in
+                    switch response {
+                    case .success(let result):
+                        if result.isSuccess {
+                            if let memberId = result.result { //회원 가입 성공
+                                self?.saveInfo(memberId: memberId, nickname: nickname, checkCode: checkCode)
+                            }
                         }
+                    case .failure(let error):
+                        let alert = NetworkAlert.shared.getAlertController(title: error.description)
+                        self?.present(alert, animated: true)
                     }
-                case .failure(let error):
-                    let alert = NetworkAlert.shared.getAlertController(title: error.description)
-                    self?.present(alert, animated: true)
                 }
             }
         } else {

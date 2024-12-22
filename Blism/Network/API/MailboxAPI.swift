@@ -21,21 +21,22 @@ class MailboxAPI {
         provider.request(.getMyMailBoxInfo(request)) { response in
             switch response {
             case let .success(result):
-                do {
-                    if let jsonString = String(data: result.data, encoding: .utf8) {
-                            print("서버 응답 데이터: \(jsonString)")
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(MailboxCheckingResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
                         }
-                    let decodingResult = try JSONDecoder().decode(MailboxCheckingResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code{
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
@@ -58,22 +59,22 @@ class MailboxAPI {
         provider.request(.getAllPastMail(request)) { response in
             switch response {
             case let .success(result):
-                do {
-                    if let jsonString = String(data: result.data, encoding: .utf8) {
-                            print("서버 응답 데이터: \(jsonString)")
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(PastMailboxCheckingResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
                         }
-                    let decodingResult = try JSONDecoder().decode(PastMailboxCheckingResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code{
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    print(response)
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
@@ -96,22 +97,22 @@ class MailboxAPI {
         provider.request(.getSpecificYearPastMail(request)) { response in
             switch response {
             case let .success(result):
-                do {
-                    if let jsonString = String(data: result.data, encoding: .utf8) {
-                            print("서버 응답 데이터: \(jsonString)")
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(SpecificPastMailboxCheckingResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
                         }
-                    let decodingResult = try JSONDecoder().decode(SpecificPastMailboxCheckingResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code{
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    print(response)
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
@@ -134,22 +135,22 @@ class MailboxAPI {
         provider.request(.patchvVisibilityPermission(request)) { response in
             switch response {
             case let .success(result):
-                do {
-                    if let jsonString = String(data: result.data, encoding: .utf8) {
-                            print("서버 응답 데이터: \(jsonString)")
+                if 200..<400 ~= result.statusCode {
+                    do {
+                        let decodingResult = try JSONDecoder().decode(VisibilityPermissionResponse.self, from: result.data)
+                        if decodingResult.isSuccess {
+                            completion(.success(decodingResult))
+                        } else {
+                            print("")
+                            completion(.failure(.invalidResponse))
                         }
-                    let decodingResult = try JSONDecoder().decode(VisibilityPermissionResponse.self, from: result.data)
-                    if 200..<400 ~= decodingResult.code{
-                        completion(.success(decodingResult))
-                    } else {
-                        print("서버 오류")
-                        print(decodingResult.message)
-                        completion(.failure(.serverError(decodingResult.code)))
+                    } catch {
+                        print("디코딩 에러")
+                        completion(.failure(.failToDecode(error.localizedDescription)))
                     }
-                } catch {
-                    print("디코딩 에러")
-                    print(response)
-                    completion(.failure(.failToDecode(error.localizedDescription)))
+                } else {
+                    print("서버 오류")
+                    completion(.failure(.serverError(result.statusCode)))
                 }
             case let .failure(error):
                 print("네트워크 오류")
