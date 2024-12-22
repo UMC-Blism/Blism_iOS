@@ -1,15 +1,15 @@
 //
-//  MailBoxCollectionViewCell.swift
+//  Untitled.swift
 //  Blism
 //
-//  Created by 송재곤 on 12/17/24.
+//  Created by 송재곤 on 12/22/24.
 //
 
 import UIKit
 import Kingfisher
 
-class MailBoxCollectionViewCell: UICollectionViewCell {
-    static let identifier = "doorCollectionView"
+class PastLetterCollectionViewCell: UICollectionViewCell {
+    static let identifier = "PastLetterCollectionViewCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,7 +20,7 @@ class MailBoxCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public let doorImage = UIImageView().then{
+    private let doorImage = UIImageView().then{
         $0.contentMode = .scaleAspectFill
     }
     

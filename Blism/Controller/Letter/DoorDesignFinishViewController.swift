@@ -127,13 +127,13 @@ class DoorDesignFinishViewController: UIViewController {
         guard let navigationController = navigationController else { return }
         
         // VisiterHomeViewController를 스택에서 찾기
-        if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is VisiterHomeViewController }) {
+        if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is VisitorCheckViewController }) {
             // VisiterHomeViewController까지의 스택만 유지
             let newStack = Array(navigationController.viewControllers[...targetIndex])
             navigationController.setViewControllers(newStack, animated: true)
             
             // VisitorHomeViewController에서 탭바 다시 보이도록
-            if let visitorHomeVC = navigationController.viewControllers.last as? VisiterHomeViewController {
+            if let visitorHomeVC = navigationController.viewControllers.last as? VisitorCheckViewController {
                 visitorHomeVC.tabBarController?.isTabBarHidden = false
             }
         }
