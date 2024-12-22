@@ -28,6 +28,11 @@ class PrevMailBoxDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = prevMailBoxDetailView
+        //1
+        prevMailBoxDetailView.collectionView.register(
+                PastLetterCollectionViewCell.self,
+                forCellWithReuseIdentifier: PastLetterCollectionViewCell.identifier
+            )
         
         setProtocol()
         setNavigationBar()
@@ -37,6 +42,7 @@ class PrevMailBoxDetailViewController: UIViewController {
     
     private func setProtocol(){
         prevMailBoxDetailView.collectionView.dataSource = self
+        prevMailBoxDetailView.collectionView.delegate = self
     }
     
     private func setNavigationBar(){
@@ -93,40 +99,62 @@ class PrevMailBoxDetailViewController: UIViewController {
 }
 
 
-extension PrevMailBoxDetailViewController: UICollectionViewDataSource {
+extension PrevMailBoxDetailViewController: UICollectionViewDataSource,UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let specificPastLetterCount = specificPastMailboxInfo?.result?.count {
-            return specificPastLetterCount
-        } else {
-            print("과거에 받은 편지 개수를 가져오지 못했습니다.")
-            return 0
-        }
+//        if let specificPastLetterCount = specificPastMailboxInfo?.result?.count {
+//            return specificPastLetterCount
+//        } else {
+//            print("과거에 받은 편지 개수를 가져오지 못했습니다.")
+//            return 0
+//        }
+        return 25
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MailBoxCollectionViewCell.identifier, for: indexPath) as? MailBoxCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PastLetterCollectionViewCell.identifier, for: indexPath) as? PastLetterCollectionViewCell else {
             return UICollectionViewCell()
         }
         
         let letterData = specificPastMailboxInfo?.result?.letters
         
         if let letters = letterData {
-            // letters 배열에서 id가 indexPath.row와 동일한 요소를 찾기
-            if let matchingLetter = letters.first(where: { $0.letterId == indexPath.row }) {
-                // 해당 letter의 doorImageUrl을 가져오기
-                let imageUrl = matchingLetter.doorImageUrl
-                // 이미지 설정
-                cell.config(imageUrl: imageUrl)
-                print("letterData다.")
+            let index = indexPath.row
+            if index < letters.count { // 배열 범위 초과 방지
+                let doorImageUrl = letters[index].doorImageUrl // 비옵셔널(String)이라면 바로 사용 가능
+                cell.config(imageUrl: doorImageUrl)
+                print("doorImageUrl 설정 완료: \(doorImageUrl)")
             } else {
-                // id가 일치하는 letter가 없을 경우 처리
-                print("해당 id를 가진 letter가 존재하지 않습니다.")
+//                print("indexPath.row가 letters 배열 범위를 벗어났습니다.")
                 cell.config(imageUrl: "emptyDoor")
             }
-        } else {
-            // letterData가 nil일 경우 처리
-            print("letterData가 nil입니다.")
         }
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
+        
+        let letterData = specificPastMailboxInfo?.result?.letters
+
+
+        if let letters = letterData {
+            let index = indexPath.row
+            if index < letters.count {
+                    
+                    guard let letterID = letterData?[indexPath.row].letterId else {
+                        print("letterId를 가져오는데 실패했습니다 301")
+                        return
+                    }
+                    
+                    let viewController = ReadLetterViewController(type: .home, letterId: letterID)
+
+                    viewController.modalPresentationStyle = .overFullScreen
+                    present(viewController, animated: false)
+                
+            } else {
+                print("편지가 없어서 편지를 읽는 view로 이동할 수 없습니다")
+            }
+        }
+        
+        
+    }
+    
 }
