@@ -72,6 +72,8 @@ class ReadLetterViewController: UIViewController {
             case .success(let response):
                 if response.isSuccess {
                     self?.rootView.config(letterInfo: response.result)
+                    ReplyLetterData.shared.letter_id = self?.letterId ?? Int64(0)
+                    ReplyLetterData.shared.receiver_id = response.result.senderId
                     self?.textSetting()
                 } else {
                     print("getLetterInfo - isSuccess == false")

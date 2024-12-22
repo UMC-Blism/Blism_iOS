@@ -74,6 +74,7 @@ class HomeViewController: UIViewController {
                     let mailboxId = String(self?.homeInfoResponse?.result?.mailboxId ?? 0)
                     KeychainService.shared.save(account: .userInfo, service: .mailboxId, value: mailboxId)
                     self?.rootView.doorCollectionView.reloadData()
+                    ReplyLetterData.shared.mailbox_id = self?.homeInfoResponse?.result?.mailboxId ?? Int64(0)
                 } else {
                     print("data isFailed")
                 }
