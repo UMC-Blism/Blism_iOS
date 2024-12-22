@@ -139,10 +139,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-
-        
         let letterData = otherHomeInfoResponse?.result?.letters
-        
         
         if let letters = letterData {
             let index = indexPath.row
@@ -176,12 +173,11 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                     self.navigationController?.pushViewController(nextVC, animated: true)
                     print("편지작성 뷰로 이동")
                 }
+
             }
             
         } else {
-           
+            
         }
-    }
-    
     
 }
