@@ -34,6 +34,10 @@ class MyPageViewController : UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
+        
+        // 닉네임, 날짜 데이터 적용
+        self.setUserInfo()
+        
     }
     
     private func setProtocol(){
@@ -45,6 +49,41 @@ class MyPageViewController : UIViewController {
         // 타이틀
         self.navigationItem.titleView = NavigationTitleView(title: "마이페이지", titleColor: .blismBlack)
     }
+    
+    // 닉네임, 날짜 데이터 적용
+    private func setUserInfo(){
+        let myNickname = KeychainService.shared.load(account: .userInfo, service: .nickname) ?? "---"    
+        let dDayString = daysUntilDecemberFirst()
+    
+        myPageView.setUserInfo(nickname: myNickname, dDay: dDayString)
+    }
+    
+    // D-Day 계산 함수
+    private func daysUntilDecemberFirst() -> String {
+        let calendar = Calendar.current
+        let today = Date()
+
+        // 현재 연도의 12월 1일 설정
+        let currentYear = calendar.component(.year, from: today)
+        var dateComponents = DateComponents()
+        dateComponents.year = currentYear
+        dateComponents.month = 12
+        dateComponents.day = 1
+
+        // 목표 날짜 생성
+        guard let targetDate = calendar.date(from: dateComponents) else {
+            return "날짜 계산 오류"
+        }
+
+        // 오늘과 목표 날짜 간의 차이 계산 (남은 날짜)
+        let remainingDays = calendar.dateComponents([.day], from: today, to: targetDate).day ?? 0
+        
+        // 오늘과 목표 날짜 간의 차이 계산 (지난 날짜)
+        let afterDays = calendar.dateComponents([.day], from: targetDate, to: today).day ?? 0
+
+        return remainingDays >= 0 ? "D-\(remainingDays)일" : "D+\(afterDays)일"
+    }
+
 }
 
 extension MyPageViewController : UITableViewDataSource {
