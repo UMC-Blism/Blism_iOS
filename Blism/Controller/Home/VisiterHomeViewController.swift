@@ -165,11 +165,11 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                 }
                 
             }else{
+
                 let nextVC = WriteLetterViewController(receiverId: memberId, mailboxId: mailBoxId)
                 WriteLetterData.shared.receiverNickname = rootView.mailboxOwner.text ?? "아진"
                 WriteLetterData.shared.receiverNickname = self.nickname
                 self.navigationController?.pushViewController(nextVC, animated: true)
-                print("편지작성 뷰로 이동")
             }
             
         } else {

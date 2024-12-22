@@ -28,14 +28,13 @@ class LetterListViewController : UIViewController {
     
     private func loadTableViewData(){
         switch type {
-        case .receivedLetter:
-            self.getReceivedLetterList()
-        case .sentReplyLetter:
-            self.getSentLetterList()
+        case .receivedReply:
+            self.getReceivedReplyList()
+        case .sentReply:
+            self.getSentReplyList()
         case .writingLetter:
-            self.getReceivedLetterList()
-        case .home:
-            self.getReceivedLetterList()
+            self.getWritingLetterList()
+        default: return
         }
     }
     
@@ -51,11 +50,11 @@ class LetterListViewController : UIViewController {
     private func setNavigationBar(){
         // 뒤로 가기 버튼
         let leftBarButton = UIBarButtonItem(image: .popIcon, style: .plain, target: self, action: #selector(popAction))
-        leftBarButton.tintColor = type == .receivedLetter ? .base2 : .blismBlack
+        leftBarButton.tintColor = type == .receivedReply ? .base2 : .blismBlack
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
         
         // 타이틀
-        self.navigationItem.titleView = NavigationTitleView(title: type.rawValue, titleColor: type == .receivedLetter ? .base2 : .blismBlack)
+        self.navigationItem.titleView = NavigationTitleView(title: type.rawValue, titleColor: type == .receivedReply ? .base2 : .blismBlack)
     }
     
     @objc
@@ -66,8 +65,8 @@ class LetterListViewController : UIViewController {
 
 // API 함수
 extension LetterListViewController {
-    // 보낸 편지 리스트 가져오기
-    private func getSentLetterList(){
+    // 보낸 답장 리스트 가져오기
+    private func getSentReplyList(){
         guard let myNickname = KeychainService.shared.load(account: .userInfo, service: .nickname) else {return}
         guard let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId) else {
             print("getSentLetterList - 키체인 read 오류")
@@ -80,7 +79,7 @@ extension LetterListViewController {
             case .success(let responseData):
                 if responseData.isSuccess {
                     if let data = responseData.result {
-                        self?.letterListData = data.map{LetterData(type: .sentReplyLetter, dateString: $0.createdDate, content: $0.content, receiver: $0.receiverName, sender: myNickname, letterId: $0.letterId, font: $0.font)}
+                        self?.letterListData = data.map{LetterData(type: .sentReply, replyId: $0.receiverId, letterId: $0.letterId, dateString: $0.createdDate, content: $0.content, receiver: $0.receiverName, sender: myNickname, font: $0.font)}
                         
                         self?.letterListView.tableView.reloadData()
                         
@@ -99,8 +98,8 @@ extension LetterListViewController {
         }
     }
     
-    // 받은 편지 리스트 가져오기
-    private func getReceivedLetterList(){
+    // 받은 답장 리스트 가져오기
+    private func getReceivedReplyList(){
         guard let myNickname = KeychainService.shared.load(account: .userInfo, service: .nickname) else {return}
         guard let memberId = KeychainService.shared.load(account: .userInfo, service: .memberId) else {
             print("getReceivedLetterList - 키체인 read 오류")
@@ -113,7 +112,7 @@ extension LetterListViewController {
             case .success(let responseData):
                 if responseData.isSuccess {
                     if let data = responseData.result {
-                        self?.letterListData = data.map{LetterData(type: .receivedLetter, dateString: $0.createdDate, content: $0.content, receiver: myNickname, sender: $0.senderName, letterId: $0.letterId, font: $0.font)}
+                        self?.letterListData = data.map{LetterData(type: .receivedReply, replyId: $0.replyId, letterId: $0.letterId, dateString: $0.createdDate, content: $0.content, receiver: myNickname, sender: $0.senderName, font: $0.font)}
                         self?.letterListView.tableView.reloadData()
                     } else {
 //                        데이터 없음
@@ -128,6 +127,11 @@ extension LetterListViewController {
                 self?.present(alert, animated: true)
             }
         }
+    }
+    
+    // 쓴 편지 리스트 가져오기
+    private func getWritingLetterList(){
+        
     }
 }
 
@@ -172,19 +176,19 @@ extension LetterListViewController : UITableViewDelegate {
         // 인덱스에 따라 연결
         
         let lettedId = letterListData[indexPath.section].letterId
+        let replyId = letterListData[indexPath.section].replyId
         
-        var nextVC = ReadLetterViewController(type: .receivedLetter, letterId: lettedId)
+        var nextVC = ReadLetterViewController(type: .receivedReply, letterId: lettedId)
         
         switch type {
-        case .receivedLetter: nextVC = ReadLetterViewController(type: .receivedLetter, letterId: lettedId)
-        case .sentReplyLetter: nextVC = ReadLetterViewController(type: .sentReplyLetter, letterId: lettedId)
+        case .receivedReply: nextVC = ReadLetterViewController(type: .receivedReply, letterId: lettedId, replyId: replyId)
+        case .sentReply: nextVC = ReadLetterViewController(type: .sentReply, letterId: lettedId, replyId: replyId)
         case .writingLetter: nextVC = ReadLetterViewController(type: .writingLetter, letterId: lettedId)
         default:
             return
         }
         nextVC.modalPresentationStyle = .overFullScreen
-        present(nextVC, animated: false)
-        
+        present(nextVC, animated: false)   
     }
 }
 

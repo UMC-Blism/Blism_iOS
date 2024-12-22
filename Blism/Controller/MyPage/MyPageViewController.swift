@@ -181,8 +181,8 @@ extension MyPageViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var nextVC = UIViewController()
         switch indexPath.section {
-        case 0: nextVC = LetterListViewController(type: .receivedLetter)    // 내가 받은 답장
-        case 1: nextVC = LetterListViewController(type: .sentReplyLetter)        // 내가 보낸 답장
+        case 0: nextVC = LetterListViewController(type: .receivedReply)    // 내가 받은 답장
+        case 1: nextVC = LetterListViewController(type: .sentReply)        // 내가 보낸 답장
         case 2: nextVC = LetterListViewController(type: .writingLetter)           // 내가 보낸 편지
         case 3: nextVC = PrevMailBoxViewController()     // 이전 메일함
         case 4: nextVC = CheckNicknameViewController()    // 닉네임 변경

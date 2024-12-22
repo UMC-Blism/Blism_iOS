@@ -121,8 +121,8 @@ class LetterListTableViewCell : UITableViewCell {
     
     // 여기에 
     public func config(listInfo: LetterData) {
-        dateLabel.textColor = listInfo.type == .receivedLetter ? .base2 : .blismBlack
         dateLabel.text = listInfo.dateString
+        dateLabel.textColor = listInfo.type == .receivedReply ? .base2 : .blismBlack
         receivedNicknameLabel.text = "From. \(listInfo.receiver)"
         sentNicknameLabel.text = "To. \(listInfo.sender)"
         
@@ -140,15 +140,4 @@ class LetterListTableViewCell : UITableViewCell {
         }
         contentLabel.text = listInfo.content
     }
-}
-
-// 편지 리스트 구조체
-public struct LetterData {
-    let type: LetterListType
-    let dateString: String
-    let content: String
-    let receiver: String
-    let sender: String
-    let letterId: Int64
-    let font: Int
 }
