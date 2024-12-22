@@ -87,7 +87,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
             return UICollectionViewCell()
         }
         
-        mailBoxCell.config(image: dummy[indexPath.row].doorImage)
+        mailBoxCell.confige(image: dummy[indexPath.row].doorImage)
         
         return mailBoxCell
     }

@@ -11,4 +11,5 @@ public enum KeychainServiceType : String {
     case memberId = "memberId"
     case nickname = "nickname"
     case checkCode = "checkCode"
+    case visibilityPermission = "visibilityPermission"
 }
