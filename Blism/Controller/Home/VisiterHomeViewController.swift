@@ -13,9 +13,11 @@ class VisiterHomeViewController: UIViewController {
     let navTitle = NavTitleStackView()
     private let dummy = MailBoxCollectionViewModel.Dummy()
     private let mailBoxId : Int64     // viewDidLoad()에서 우체통 조회 API에서 사용
+    private let memberId: Int64 // 우체통 조회 API의 Request로 활용
     
-    init(mailBoxId: Int64) {
+    init(mailBoxId: Int64, memberId: Int64) {
         self.mailBoxId = mailBoxId
+        self.memberId = memberId
         super.init(nibName: nil, bundle: nil)
     }
     
