@@ -51,8 +51,10 @@ class VisiterHomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
         self.tabBarController?.isTabBarHidden = false
-
+        let otherMemberId = String(memberId)
+        fetchOtherMailBoxInfo(userId: otherMemberId)
     }
     
     private func setNavigationBar(){
@@ -167,7 +169,6 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
             }else{
 
                 let nextVC = WriteLetterViewController(receiverId: memberId, mailboxId: mailBoxId)
-                WriteLetterData.shared.receiverNickname = rootView.mailboxOwner.text ?? "아진"
                 WriteLetterData.shared.receiverNickname = self.nickname
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
@@ -175,5 +176,6 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
         } else {
             
         }
-    
+        
+    }
 }
