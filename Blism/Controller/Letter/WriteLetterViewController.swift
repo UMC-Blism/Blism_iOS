@@ -16,10 +16,10 @@ class WriteLetterViewController: UIViewController {
     private let receiverId: Int64
     private let mailboxId: Int64
     
+    
     init(receiverId: Int64, mailboxId: Int64) {
         self.receiverId = receiverId
         self.mailboxId = mailboxId
-        
         super.init(nibName: nil, bundle: nil)
     }
     

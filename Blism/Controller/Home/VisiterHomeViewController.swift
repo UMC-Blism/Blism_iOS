@@ -131,9 +131,9 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
             if index < letters.count { // 배열 범위 초과 방지
                 let doorImageUrl = letters[index].doorImageUrl // 비옵셔널(String)이라면 바로 사용 가능
                 mailBoxCell.config(imageUrl: doorImageUrl)
-                print("doorImageUrl 설정 완료: \(doorImageUrl)")
+//                print("doorImageUrl 설정 완료: \(doorImageUrl)")
             } else {
-                print("indexPath.row가 letters 배열 범위를 벗어났습니다.")
+//                print("indexPath.row가 letters 배열 범위를 벗어났습니다.")
                 mailBoxCell.config(imageUrl: "emptyDoor")
             }
         }
@@ -171,6 +171,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                 if let letterData = letter{
                     let receiverId = letterData.memberId
                     let receivermailboxId = letterData.mailboxId
+                    WriteLetterData.shared.receiverNickname = nickname
                     let nextVC = WriteLetterViewController(receiverId: receiverId, mailboxId: receivermailboxId)
                     self.navigationController?.pushViewController(nextVC, animated: true)
                     print("편지작성 뷰로 이동")

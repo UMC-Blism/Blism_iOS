@@ -13,4 +13,5 @@ public struct LetterDetailData {
     let receiverNickname: String
     let content: String
     let font: Int
+    
 }

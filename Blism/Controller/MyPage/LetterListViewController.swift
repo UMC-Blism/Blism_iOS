@@ -73,7 +73,7 @@ extension LetterListViewController {
             return
         }
         guard let id = Int64(memberId) else {return}
-        let request = ReadSentLetterListRequest(memberid: 8)
+        let request = ReadSentLetterListRequest(memberid: id)
         ReplyAPI.shared.getSentLetterList(request: request) {[weak self] result in
             switch result {
             case .success(let responseData):
@@ -106,7 +106,7 @@ extension LetterListViewController {
             return
         }
         guard let id = Int64(memberId) else {return}
-        let request = ReadReceivedLetterListRequest(memberid: 7)
+        let request = ReadReceivedLetterListRequest(memberid: id)
         ReplyAPI.shared.getReceivedLetterList(request: request) {[weak self] result in
             switch result {
             case .success(let responseData):
