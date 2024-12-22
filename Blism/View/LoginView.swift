@@ -168,7 +168,7 @@ class LoginView : UIView {
         
         // 로고 그룹
         logoGroupView.snp.makeConstraints { make in
-            print(UIScreen.main.bounds.height) // 874, 667
+//            print(UIScreen.main.bounds.height) // 874, 667
             let inset = UIScreen.main.bounds.height > 700 ? 65 : 30 // 16pro height : 874, se : 667
             make.top.equalTo(safeAreaLayoutGuide).inset(inset)
             make.centerX.equalToSuperview()

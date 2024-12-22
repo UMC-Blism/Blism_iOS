@@ -96,13 +96,13 @@ class EditLetterViewController: UIViewController {
             visibility: letterData.visibility
         )
         
-        print("reply requestBody: \(requestBody)")
+//        print("reply requestBody: \(requestBody)")
         
         LetterRequest.shared.editWrittenLetter(letterId: String(letterData.letterId), image: image, request: requestBody) {[weak self] result in
             switch result {
             case .success(let data):
                 print("작성 성공")
-                print(data)
+//                print(data)
             case .failure(let error):
                 let alert = NetworkAlert.shared.getAlertController(title: error.description)
                 self?.present(alert, animated: true)

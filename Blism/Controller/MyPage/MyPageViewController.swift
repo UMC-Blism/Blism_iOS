@@ -20,8 +20,8 @@ class MyPageViewController : UIViewController {
     var permissionChangedResponse : VisibilityPermissionResponse?
     
     private let tableViewData : [MyPageCellType] = [
-        .receivedLetter,
         .sentReplyLetter,
+        .receivedLetter,
         .writingLetter,
         .prevMailBox,
         .changeNickName
@@ -84,7 +84,7 @@ class MyPageViewController : UIViewController {
         MailboxAPI.shared.VisibilityPermission(request: request) {[weak self] result in
             switch result {
             case .success(let data):
-                print("%%%%%permission\(data)")
+//                print("%%%%%permission\(data)")
                 if data.isSuccess {
                     self?.permissionChangedResponse = data
                 } else {

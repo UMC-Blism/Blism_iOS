@@ -54,7 +54,7 @@ class PrevMailBoxViewController: UIViewController {
         MailboxAPI.shared.pastMailboxCheck(request: request) {[weak self] result in
             switch result {
             case .success(let data):
-                print(data)
+//                print(data)
                 if data.isSuccess {
                     self?.pastMailboxInfo = data
                     self?.prevMailBoxView.collectionView.reloadData()

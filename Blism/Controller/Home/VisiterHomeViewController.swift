@@ -34,7 +34,7 @@ class VisiterHomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("VisiterHomeViewController viewDidLoad - mailBoxId \(mailBoxId) ")
+//        print("VisiterHomeViewController viewDidLoad - mailBoxId \(mailBoxId) ")
         view = rootView
         rootView.doorCollectionView.dataSource = self
         rootView.doorCollectionView.delegate = self
@@ -51,7 +51,7 @@ class VisiterHomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("viewWillAppear")
+//        print("viewWillAppear")
         self.tabBarController?.isTabBarHidden = false
         let otherMemberId = String(memberId)
         fetchOtherMailBoxInfo(userId: otherMemberId)
@@ -97,7 +97,7 @@ class VisiterHomeViewController: UIViewController {
         MailboxAPI.shared.mailboxCheck(request: request) {[weak self] result in
             switch result {
             case .success(let data):
-                print("\(data)**")
+//                print("\(data)**")
                 if data.isSuccess {
                     self?.otherHomeInfoResponse = data
                     
@@ -150,7 +150,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                 let letterData = otherHomeInfoResponse?.result
                 
                 if let letters = letterData {
-                    if letters.visibility == 1 {
+                    if letters.visibility == 1{
                         guard let letterID = letterData?.letters[indexPath.row].letterId else {
                             print("letterId를 가져오는데 실패했습니다 301")
                             return
@@ -162,7 +162,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                         //비공개 우편함입니다 띄우기
                         viewController.modalPresentationStyle = .overFullScreen
                         present(viewController, animated: false)
-                        print("편지를 조회할 수 없습니다")
+//                        print("편지를 조회할 수 없습니다")
                     }
                 }
                 
@@ -174,7 +174,7 @@ extension VisiterHomeViewController: UICollectionViewDataSource, UICollectionVie
                     WriteLetterData.shared.receiverNickname = nickname
                     let nextVC = WriteLetterViewController(receiverId: receiverId, mailboxId: receivermailboxId)
                     self.navigationController?.pushViewController(nextVC, animated: true)
-                    print("편지작성 뷰로 이동")
+//                    print("편지작성 뷰로 이동")
                 }
             }
             

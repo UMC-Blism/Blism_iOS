@@ -55,7 +55,7 @@ class ChangeNicknameViewController: UIViewController{
         MemberAPI.shared.getCheckNickname(request: request) {[weak self] result in
             switch result {
             case .success(let data):
-                print(data)
+//                print(data)
                 if data.isSuccess {
                     self?.setNicknameGroupView(isDuplication: data.result != nil)
                     
@@ -85,7 +85,7 @@ class ChangeNicknameViewController: UIViewController{
         let alert = UIAlertController(title: "닉네임 변경", message: "\(newNickname)님으로 닉네임을 변경하시곘습니까?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "변경", style: .default, handler: { _ in
             // API 연결
-            print("닉네임 변경")
+//            print("닉네임 변경")
             guard let originalNickname = KeychainService.shared.load(account: .userInfo, service: .nickname) else {
                 print("touchUpInsideNextButton - 키체인 오류")
                 return
